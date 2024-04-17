@@ -15,8 +15,9 @@ import logo from './../../../assets/images/logo.png';
 import ToggleColorMode from './ToggleColorMode';
 
 const logoStyle = {
-  width: '140px',
-  height: 'auto',
+  width: '40px',
+  marginLeft:'10px',
+  height: '40px',
   cursor: 'pointer',
 };
 

@@ -15,8 +15,9 @@ import TwitterIcon from '@mui/icons-material/X';
 import logo from './../../../assets/images/logo.png';
 
 const logoStyle = {
-  width: '140px',
-  height: 'auto',
+  width: '40px',
+  height: '40px',
+  marginLeft:'15px',
 };
 
 function Copyright() {
