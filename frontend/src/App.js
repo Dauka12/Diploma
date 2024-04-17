@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 import Dashboard from "./pages/DoctorPage/Dashboard";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import ProfilePage from './pages/ProfilePage/ProfilePage.tsx';
 import SignIn from './pages/SignInPage';
 import SignUp from './pages/SignUpPage';
 
@@ -13,6 +14,7 @@ function App() {
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route path="/profile" element={<ProfilePage />}></Route>
           <Route path="/" element={<LandingPage />}></Route>
         </Routes>
       </BrowserRouter>
