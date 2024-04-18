@@ -2,9 +2,9 @@ import Box from '@mui/joy/Box';
 import CssBaseline from '@mui/joy/CssBaseline';
 import { CssVarsProvider } from '@mui/joy/styles';
 import * as React from 'react';
-import Header from './components/Header.tsx';
+import Header from '../common/Header/Header.tsx';
+import Sidebar from '../common/Sidebar/Sidebar.tsx';
 import MyProfile from './components/MyProfile.tsx';
-import Sidebar from './components/Sidebar.tsx';
 
 export default function JoyOrderDashboardTemplate() {
   return (

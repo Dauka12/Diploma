@@ -30,8 +30,8 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import * as React from 'react';
 
-import { closeSidebar } from '../utils.tsx';
 import ColorSchemeToggle from './ColorSchemeToggle.tsx';
+import { closeSidebar } from './utils.tsx';
 
 function Toggler({
   defaultExpanded = false,

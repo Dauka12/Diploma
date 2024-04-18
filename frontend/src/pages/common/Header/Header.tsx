@@ -1,9 +1,10 @@
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import MenuIcon from '@mui/icons-material/Menu';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import IconButton from '@mui/joy/IconButton';
 import Sheet from '@mui/joy/Sheet';
 import * as React from 'react';
-import { toggleSidebar } from '../utils.tsx';
+
+import { toggleSidebar } from '../Sidebar/utils.tsx';
 
 export default function Header() {
   return (
@@ -16,7 +17,7 @@ export default function Header() {
         top: 0,
         width: '100vw',
         height: 'var(--Header-height)',
-        zIndex: 9998,
+        zIndex: 9995,
         p: 2,
         gap: 1,
         borderBottom: '1px solid',
@@ -40,7 +41,7 @@ export default function Header() {
         color="neutral"
         size="sm"
       >
-        <MenuRoundedIcon />
+        <MenuIcon />
       </IconButton>
     </Sheet>
   );
