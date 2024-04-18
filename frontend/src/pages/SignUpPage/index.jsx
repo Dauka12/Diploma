@@ -35,7 +35,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
@@ -44,11 +44,12 @@ export default function SignUp() {
         email: data.get('email'),
         password: data.get('password')
       }
-      let registerResponse = createUser(accaunt.email, accaunt.password);
+      let registerResponse = await createUser(accaunt.email, accaunt.password);
       startSession(registerResponse.user);
       navigate("/profile");
     } catch (error) {
       console.error(error.message);
+      await alert(error)
     }
   };
 

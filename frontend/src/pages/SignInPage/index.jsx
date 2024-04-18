@@ -35,7 +35,7 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
@@ -43,7 +43,7 @@ export default function SignIn() {
         email: data.get('email'),
         password: data.get('password')
       }
-      let loginResponse = signInUser(accaunt.email, accaunt.password);
+      let loginResponse = await signInUser(accaunt.email, accaunt.password);
       startSession(loginResponse.user);
       navigate("/profile");
     } catch (error) {

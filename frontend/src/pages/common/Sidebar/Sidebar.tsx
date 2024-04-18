@@ -79,12 +79,11 @@ export default function Sidebar() {
     }
   
     let session = getSession();
-    setEmail(session.email);
   
     console.log("Your access token is: " + session.accessToken);
   }, [navigate]);
-  const onLogout = () => {
-    endSession();
+  const onLogout = async () => {
+    await endSession();
     navigate("/sign-in");
   }
 
@@ -331,7 +330,7 @@ export default function Sidebar() {
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography level="title-sm">Siriwat K.</Typography>
-          <Typography level="body-xs">siriwatk@test.com</Typography>
+          <Typography level="body-xs">{ sessionStorage.email }</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
           <LogoutRoundedIcon onClick={ onLogout} />
