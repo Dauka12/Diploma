@@ -29,6 +29,7 @@ import Sheet from '@mui/joy/Sheet';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import * as React from 'react';
+import { Link } from "react-router-dom";
 
 import ColorSchemeToggle from './ColorSchemeToggle.tsx';
 import { closeSidebar } from './utils.tsx';
@@ -312,7 +313,7 @@ export default function Sidebar() {
           <Typography level="body-xs">siriwatk@test.com</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
-          <LogoutRoundedIcon />
+          <Link to="/sign-in"><LogoutRoundedIcon /></Link>
         </IconButton>
       </Box>
     </Sheet>

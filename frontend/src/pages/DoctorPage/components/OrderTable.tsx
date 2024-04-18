@@ -39,7 +39,7 @@ const rows = [
   {
     id: 'INV-1234',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
+    status: 'Pending',
     customer: {
       initial: 'O',
       name: 'Olivia Ryhe',
@@ -59,7 +59,7 @@ const rows = [
   {
     id: 'INV-1232',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
+    status: 'Pending',
     customer: {
       initial: 'C',
       name: 'Ciaran Murray',
@@ -69,7 +69,7 @@ const rows = [
   {
     id: 'INV-1231',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
+    status: 'Pending',
     customer: {
       initial: 'M',
       name: 'Maria Macdonald',
@@ -99,7 +99,7 @@ const rows = [
   {
     id: 'INV-1228',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
+    status: 'Pending',
     customer: {
       initial: 'K',
       name: 'Krystal Stevens',
@@ -159,7 +159,7 @@ const rows = [
   {
     id: 'INV-1221',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
+    status: 'Pending',
     customer: {
       initial: 'M',
       name: 'Maria Macdonald',
@@ -291,9 +291,8 @@ export default function OrderTable() {
           placeholder="Filter by status"
           slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
         >
-          <Option value="paid">Paid</Option>
-          <Option value="pending">Pending</Option>
-          <Option value="refunded">Refunded</Option>
+          <Option value="appointed">Appointed</Option>
+          <Option value="refunded">Pending</Option>
           <Option value="cancelled">Cancelled</Option>
         </Select>
       </FormControl>
