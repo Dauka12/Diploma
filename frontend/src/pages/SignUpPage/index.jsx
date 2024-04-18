@@ -12,6 +12,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createUser } from "../../firebase";
+import { startSession } from "../../session";
 
 function Copyright(props) {
   return (
@@ -31,13 +34,22 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    try {
+      // eslint-disable-next-line no-undef
+      const accaunt = {
+        email: data.get('email'),
+        password: data.get('password')
+      }
+      let registerResponse = createUser(accaunt.email, accaunt.password);
+      startSession(registerResponse.user);
+      navigate("/profile");
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (

@@ -29,7 +29,9 @@ import Sheet from '@mui/joy/Sheet';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import * as React from 'react';
-import { Link } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { endSession, getSession, isLoggedIn } from "../../../session.js";
 
 import ColorSchemeToggle from './ColorSchemeToggle.tsx';
 import { closeSidebar } from './utils.tsx';
@@ -67,6 +69,25 @@ function Toggler({
 }
 
 export default function Sidebar() {
+
+  const [email, setEmail] = useState(null);
+
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (!isLoggedIn()) {
+      navigate("/sign-in");
+    }
+  
+    let session = getSession();
+    setEmail(session.email);
+  
+    console.log("Your access token is: " + session.accessToken);
+  }, [navigate]);
+  const onLogout = () => {
+    endSession();
+    navigate("/sign-in");
+  }
+
   return (
     <Sheet
       className="Sidebar"
@@ -313,7 +334,7 @@ export default function Sidebar() {
           <Typography level="body-xs">siriwatk@test.com</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
-          <Link to="/sign-in"><LogoutRoundedIcon /></Link>
+          <LogoutRoundedIcon onClick={ onLogout} />
         </IconButton>
       </Box>
     </Sheet>
