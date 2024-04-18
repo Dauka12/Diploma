@@ -45,7 +45,7 @@ export default function JoyOrderDashboardTemplate() {
             <Breadcrumbs
               size="sm"
               aria-label="breadcrumbs"
-              separator={<ChevronRightRoundedIcon fontSize="sm" />}
+              separator={<ChevronRightRoundedIcon style={{fontSize:"sm"}} />}
               sx={{ pl: 0 }}
             >
               <Link
