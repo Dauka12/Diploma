@@ -147,7 +147,11 @@ export default function Sidebar() {
           }}
         >
           <ListItem>
-            <ListItemButton>
+            <ListItemButton
+              role="menuitem"
+              component="a"
+              href="/profile"
+            >
               <HomeRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Home</Typography>
@@ -156,7 +160,11 @@ export default function Sidebar() {
           </ListItem>
 
           <ListItem>
-            <ListItemButton>
+            <ListItemButton
+             role="menuitem"
+             component="a"
+             href="/dashboard"
+            >
               <DashboardRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Dashboard</Typography>
@@ -168,7 +176,7 @@ export default function Sidebar() {
             <ListItemButton
               role="menuitem"
               component="a"
-              href="/joy-ui/getting-started/templates/order-dashboard/"
+              href="/joy-ui/getting-started/templates/order-dashboard"
             >
               <ShoppingCartRoundedIcon />
               <ListItemContent>
@@ -237,14 +245,11 @@ export default function Sidebar() {
               )}
             >
               <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton selected>My profile</ListItemButton>
-                </ListItem>
                 <ListItem>
                   <ListItemButton>Create a new user</ListItemButton>
                 </ListItem>
                 <ListItem>
-                  <ListItemButton>Roles & permission</ListItemButton>
+                  <ListItemButton>Patients</ListItemButton>
                 </ListItem>
               </List>
             </Toggler>
