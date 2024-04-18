@@ -11,9 +11,10 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { addDoc, collection } from "firebase/firestore";
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUser } from "../../firebase";
+import { createUser, db } from "../../firebase";
 import { startSession } from "../../session";
 
 function Copyright(props) {
@@ -42,10 +43,17 @@ export default function SignUp() {
       // eslint-disable-next-line no-undef
       const accaunt = {
         email: data.get('email'),
-        password: data.get('password')
+        password: data.get('password'),
+        fullName: data.get('fullName'),
       }
+      console.log(accaunt);
       let registerResponse = await createUser(accaunt.email, accaunt.password);
       startSession(registerResponse.user);
+      const userData = await addDoc(collection(db, "users"), {
+        email: accaunt.email,
+        fullName: accaunt.fullName
+      });
+      console.log(userData.id);
       navigate("/profile");
     } catch (error) {
       console.error(error.message);
@@ -73,27 +81,18 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="fullName"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="fullName"
+                  label="Full Name"
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
+              
               <Grid item xs={12}>
                 <TextField
                   required

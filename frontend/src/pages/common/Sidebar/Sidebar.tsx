@@ -79,7 +79,8 @@ export default function Sidebar() {
     }
   
     let session = getSession();
-  
+    console.log(session);
+    
     console.log("Your access token is: " + session.accessToken);
   }, [navigate]);
   const onLogout = async () => {
@@ -329,11 +330,11 @@ export default function Sidebar() {
           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">Siriwat K.</Typography>
+          <Typography level="title-sm">{ sessionStorage.fullName}</Typography>
           <Typography level="body-xs">{ sessionStorage.email }</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
-          <LogoutRoundedIcon onClick={ onLogout} />
+          <LogoutRoundedIcon onClick={onLogout} />
         </IconButton>
       </Box>
     </Sheet>
