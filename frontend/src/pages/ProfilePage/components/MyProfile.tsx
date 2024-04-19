@@ -194,7 +194,7 @@ export default function MyProfile() {
                     type="email"
                     startDecorator={<EmailRoundedIcon />}
                     placeholder="email"
-                    defaultValue={sessionStorage.email}
+                    defaultValue={localStorage.email}
                     sx={{ flexGrow: 1 }}
                   />
                 </FormControl>
@@ -291,7 +291,7 @@ export default function MyProfile() {
                 type="email"
                 startDecorator={<EmailRoundedIcon />}
                 placeholder="email"
-                defaultValue={sessionStorage.email}
+                defaultValue={localStorage.email}
                 sx={{ flexGrow: 1 }}
               />
             </FormControl>

@@ -15,7 +15,7 @@ import { addDoc, collection } from "firebase/firestore";
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUser, db } from "../../firebase";
-import { startSession } from "../../session";
+import { isLoggedIn, startSession } from "../../session";
 
 function Copyright(props) {
   return (
@@ -36,6 +36,11 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
+  React.useEffect(() => {
+    if (isLoggedIn()) {
+      navigate("/profile");
+    }
+  }, [navigate]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

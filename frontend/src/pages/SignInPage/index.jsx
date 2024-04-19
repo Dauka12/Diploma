@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInUser } from "../../firebase";
-import { startSession } from "../../session";
+import { isLoggedIn, startSession } from "../../session";
 
 function Copyright(props) {
   return (
@@ -33,6 +33,11 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
+  React.useEffect(() => {
+    if (isLoggedIn()) {
+      navigate("/profile");
+    }
+  }, [navigate]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -123,7 +128,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/sign-up" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

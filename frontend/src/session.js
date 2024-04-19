@@ -1,17 +1,17 @@
 export const startSession = (user) => {
-    sessionStorage.setItem("email", user.email);
-    sessionStorage.setItem("accessToken", user.accessToken);
+    localStorage.setItem("email", user.email);
+    localStorage.setItem("accessToken", user.accessToken);
   }
   
   export const getSession = () => {
     return {
-      email: sessionStorage.getItem("email"),
-      accessToken: sessionStorage.getItem("accessToken"),
+      email: localStorage.getItem("email"),
+      accessToken: localStorage.getItem("accessToken"),
     }
   }
   
   export const endSession = () => {
-    sessionStorage.clear();
+    localStorage.clear();
   }
   
   export const isLoggedIn = () => {

@@ -24,7 +24,6 @@ import ListItemContent from '@mui/joy/ListItemContent';
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
 import * as React from 'react';
-import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { endSession, getSession, isLoggedIn } from "../../../session.js";
 
@@ -64,8 +63,6 @@ function Toggler({
 }
 
 export default function Sidebar() {
-
-  const [email, setEmail] = useState(null);
 
   const navigate = useNavigate();
   React.useEffect(() => {
@@ -304,8 +301,8 @@ export default function Sidebar() {
           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">{ sessionStorage.fullName}</Typography>
-          <Typography level="body-xs">{ sessionStorage.email }</Typography>
+          <Typography level="title-sm">{ localStorage.fullName}</Typography>
+          <Typography level="body-xs">{ localStorage.email }</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
           <LogoutRoundedIcon onClick={onLogout} />
