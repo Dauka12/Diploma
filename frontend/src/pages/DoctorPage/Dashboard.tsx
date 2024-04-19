@@ -66,7 +66,7 @@ export default function JoyOrderDashboardTemplate() {
                 Dashboard
               </Link>
               <Typography color="primary" fontWeight={500} fontSize={12}>
-                Orders
+                Prescriptions
               </Typography>
             </Breadcrumbs>
           </Box>
@@ -82,7 +82,7 @@ export default function JoyOrderDashboardTemplate() {
             }}
           >
             <Typography level="h2" component="h1">
-              Orders
+              Prescriptions
             </Typography>
             <Button
               color="primary"

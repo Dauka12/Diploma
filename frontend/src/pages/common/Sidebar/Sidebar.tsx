@@ -197,7 +197,7 @@ export default function Sidebar() {
             >
               <ShoppingCartRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Orders</Typography>
+                <Typography level="title-sm">Prescriptions</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
