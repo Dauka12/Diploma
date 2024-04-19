@@ -28,13 +28,9 @@ import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
-import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
 
 import CountrySelector from './CountrySelector.tsx';
-import DropZone from './DropZone.tsx';
 import EditorToolbar from './EditorToolbar.tsx';
-import FileUpload from './FileUpload.tsx';
 
 export default function MyProfile() {
   React.useEffect(() => {
@@ -138,9 +134,6 @@ export default function MyProfile() {
         <Card>
           <Box sx={{ mb: 1 }}>
             <Typography level="title-md">Personal info</Typography>
-            <Typography level="body-sm">
-              Customize how your profile information will apper to the networks.
-            </Typography>
           </Box>
           <Divider />
           <Stack
@@ -192,7 +185,7 @@ export default function MyProfile() {
               <Stack direction="row" spacing={2}>
                 <FormControl>
                   <FormLabel>Role</FormLabel>
-                  <Input size="sm" defaultValue="UI Developer" />
+                  <Input size="sm" defaultValue="Humanistic Therapist" />
                 </FormControl>
                 <FormControl sx={{ flexGrow: 1 }}>
                   <FormLabel>Email</FormLabel>
@@ -218,15 +211,15 @@ export default function MyProfile() {
                     defaultValue="1"
                   >
                     <Option value="1">
-                      Indochina Time (Bangkok){' '}
+                      Kazakhstan Time (Astana){' '}
                       <Typography textColor="text.tertiary" ml={0.5}>
-                        — GMT+07:00
+                        — GMT+05:00
                       </Typography>
                     </Option>
                     <Option value="2">
                       Indochina Time (Ho Chi Minh City){' '}
                       <Typography textColor="text.tertiary" ml={0.5}>
-                        — GMT+07:00
+                        — GMT+05:00
                       </Typography>
                     </Option>
                   </Select>
@@ -289,7 +282,7 @@ export default function MyProfile() {
             </Stack>
             <FormControl>
               <FormLabel>Role</FormLabel>
-              <Input size="sm" defaultValue="UI Developer" />
+              <Input size="sm" defaultValue="Humanistic Therapist" />
             </FormControl>
             <FormControl sx={{ flexGrow: 1 }}>
               <FormLabel>Email</FormLabel>
@@ -354,45 +347,11 @@ export default function MyProfile() {
               size="sm"
               minRows={4}
               sx={{ mt: 1.5 }}
-              defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
+              defaultValue="I'm a medical professional specializing in surgery, based in Astana, Kazakhstan. My objective is to address surgical challenges with precise techniques while minimizing reliance on extensive pharmaceutical interventions."
             />
             <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
               275 characters left
             </FormHelperText>
-          </Stack>
-          <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-            <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-              <Button size="sm" variant="outlined" color="neutral">
-                Cancel
-              </Button>
-              <Button size="sm" variant="solid">
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
-        </Card>
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Portfolio projects</Typography>
-            <Typography level="body-sm">
-              Share a few snippets of your work.
-            </Typography>
-          </Box>
-          <Divider />
-          <Stack spacing={2} sx={{ my: 1 }}>
-            <DropZone />
-            <FileUpload
-              icon={<InsertDriveFileRoundedIcon />}
-              fileName="Tech design requirements.pdf"
-              fileSize="200 kB"
-              progress={100}
-            />
-            <FileUpload
-              icon={<VideocamRoundedIcon />}
-              fileName="Dashboard prototype recording.mp4"
-              fileSize="16 MB"
-              progress={40}
-            />
           </Stack>
           <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
             <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>

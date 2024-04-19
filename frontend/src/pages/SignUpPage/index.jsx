@@ -44,14 +44,17 @@ export default function SignUp() {
       const account = {
         email: data.get('email'),
         password: data.get('password'),
-        fullName: data.get('fullName'),
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName')
+
       }
       console.log(account);
       let registerResponse = await createUser(account.email, account.password);
       startSession(registerResponse.user);
       const userData = await addDoc(collection(db, "users"), {
         email: account.email,
-        fullName: account.fullName
+        firstName: account.firstName,
+        lastName: account.lastName
       });
       console.log(userData.id);
       navigate("/profile");
@@ -81,15 +84,25 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
+            <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="fullName"
+                  name="firstName"
                   required
                   fullWidth
-                  id="fullName"
-                  label="Full Name"
+                  id="firstName"
+                  label="First Name"
                   autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="family-name"
                 />
               </Grid>
               
