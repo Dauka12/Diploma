@@ -41,17 +41,17 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
     try {
       // eslint-disable-next-line no-undef
-      const accaunt = {
+      const account = {
         email: data.get('email'),
         password: data.get('password'),
         fullName: data.get('fullName'),
       }
-      console.log(accaunt);
-      let registerResponse = await createUser(accaunt.email, accaunt.password);
+      console.log(account);
+      let registerResponse = await createUser(account.email, account.password);
       startSession(registerResponse.user);
       const userData = await addDoc(collection(db, "users"), {
-        email: accaunt.email,
-        fullName: accaunt.fullName
+        email: account.email,
+        fullName: account.fullName
       });
       console.log(userData.id);
       navigate("/profile");
