@@ -8,7 +8,6 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 import SupportRoundedIcon from '@mui/icons-material/SupportRounded';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
@@ -180,19 +179,6 @@ export default function Sidebar() {
              href="/dashboard"
             >
               <DashboardRoundedIcon />
-              <ListItemContent>
-                <Typography level="title-sm">Dashboard</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton
-              role="menuitem"
-              component="a"
-              href="/joy-ui/getting-started/templates/order-dashboard"
-            >
-              <ShoppingCartRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Prescriptions</Typography>
               </ListItemContent>
