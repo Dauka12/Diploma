@@ -222,7 +222,7 @@ export default function Sidebar() {
             >
               <QuestionAnswerRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Messages</Typography>
+                <Typography level="title-sm">Сообщения</Typography>
               </ListItemContent>
               <Chip size="sm" color="primary" variant="solid">
                 4
@@ -246,10 +246,10 @@ export default function Sidebar() {
             >
               <List sx={{ gap: 0.5 }}>
                 <ListItem>
-                  <ListItemButton>Create a new user</ListItemButton>
+                  <ListItemButton>Создать пациента</ListItemButton>
                 </ListItem>
                 <ListItem>
-                  <ListItemButton>Patients</ListItemButton>
+                  <ListItemButton>Мои пациенты</ListItemButton>
                 </ListItem>
               </List>
             </Toggler>
@@ -268,13 +268,13 @@ export default function Sidebar() {
           <ListItem>
             <ListItemButton>
               <SupportRoundedIcon />
-              Support
+              Служба поддержки
             </ListItemButton>
           </ListItem>
           <ListItem>
             <ListItemButton>
               <SettingsRoundedIcon />
-              Settings
+              Настройки
             </ListItemButton>
           </ListItem>
         </List>
