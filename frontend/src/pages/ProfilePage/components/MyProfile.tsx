@@ -265,7 +265,7 @@ export default function MyProfile() {
                 </IconButton>
               </Stack>
               <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Имя</FormLabel>
                 <FormControl
                   sx={{
                     display: {
@@ -281,7 +281,7 @@ export default function MyProfile() {
               </Stack>
             </Stack>
             <FormControl>
-              <FormLabel>Role</FormLabel>
+              <FormLabel>Должность</FormLabel>
               <Input size="sm" defaultValue="Humanistic Therapist" />
             </FormControl>
             <FormControl sx={{ flexGrow: 1 }}>
@@ -325,10 +325,10 @@ export default function MyProfile() {
           <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
             <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
               <Button size="sm" variant="outlined" color="neutral">
-                Cancel
+                Отмена
               </Button>
               <Button size="sm" variant="solid">
-                Save
+                Сохранить
               </Button>
             </CardActions>
           </CardOverflow>
