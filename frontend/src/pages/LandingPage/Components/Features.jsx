@@ -12,14 +12,15 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-
+import phoneLogo from './../../../assets/images/phoneLogo.png';
+import prescriptionsLogo from './../../../assets/images/prescriptionsLogo.png';
 const items = [
   {
     icon: <ViewQuiltRoundedIcon />,
     title: 'Dashboard',
     description:
       'This item could provide a snapshot of the most important metrics or data points related to the product.',
-    imageLight: 'url("/static/images/templates/templates-images/dash-light.png")',
+    imageLight: `url(${prescriptionsLogo})`,
     imageDark: 'url("/static/images/templates/templates-images/dash-dark.png")',
   },
   {
@@ -27,7 +28,7 @@ const items = [
     title: 'Mobile integration',
     description:
       'This item could provide information about the mobile app version of the product.',
-    imageLight: 'url("/static/images/templates/templates-images/mobile-light.png")',
+    imageLight: `url(${phoneLogo})`,
     imageDark: 'url("/static/images/templates/templates-images/mobile-dark.png")',
   },
   {
@@ -255,7 +256,7 @@ export default function Features() {
             <Box
               sx={{
                 m: 'auto',
-                width: 420,
+                width: 245,
                 height: 500,
                 backgroundSize: 'contain',
                 backgroundImage: (theme) =>

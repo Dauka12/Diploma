@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import landingLogo from "./../../../assets/images/landingLogo.png";
 
 export default function Hero() {
   return (
@@ -104,8 +105,8 @@ export default function Hero() {
             width: '100%',
             backgroundImage:
               theme.palette.mode === 'light'
-                ? 'url("/static/images/templates/templates-images/hero-light.png")'
-                : 'url("/static/images/templates/templates-images/hero-dark.png")',
+                ? `url(${landingLogo})`
+                : 'url("https://static.tildacdn.com/tild3934-3164-4136-a562-653930666365/main.png")',
             backgroundSize: 'cover',
             borderRadius: '10px',
             outline: '1px solid',
