@@ -176,7 +176,7 @@ export default function Sidebar() {
             <ListItemButton
              role="menuitem"
              component="a"
-             href="/dashboard"
+             href="/prescriptions"
             >
               <DashboardRoundedIcon />
               <ListItemContent>
