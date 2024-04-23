@@ -73,7 +73,7 @@ export default function Hero() {
             backgroundImage:
               theme.palette.mode === 'light'
                 ? `url(${landingLogo})`
-                : 'url("https://static.tildacdn.com/tild3934-3164-4136-a562-653930666365/main.png")',
+                : `url(${landingLogo})`,
             backgroundSize: 'cover',
             borderRadius: '10px',
             outline: '1px solid',

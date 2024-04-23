@@ -1,5 +1,3 @@
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -16,6 +14,7 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUser, db } from "../../firebase";
 import { isLoggedIn, startSession } from "../../session";
+import logo from './../../assets/images/logo.png';
 
 function Copyright(props) {
   return (
@@ -69,6 +68,12 @@ export default function SignUp() {
     }
   };
 
+  const logoStyle = {
+    width: '100px',
+    height: '100px',
+    cursor: 'pointer',
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -81,9 +86,13 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <img
+                src={
+                  logo
+                }
+                style={logoStyle}
+                alt="logo of sitemark"
+              />
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
