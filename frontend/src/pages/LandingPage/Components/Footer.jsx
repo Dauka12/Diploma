@@ -84,7 +84,7 @@ export default function Footer() {
                   logo
                 }
                 style={logoStyle}
-                alt="logo of sitemark"
+                alt="logo of ePrescription"
               />
             </Box>
             <Typography variant="body2" fontWeight={600} gutterBottom>

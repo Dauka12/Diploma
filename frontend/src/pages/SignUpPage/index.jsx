@@ -20,9 +20,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
+      <Link href="http://localhost:3000/">ePrescription KZ&nbsp;</Link>
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -91,7 +89,7 @@ export default function SignUp() {
                   logo
                 }
                 style={logoStyle}
-                alt="logo of sitemark"
+                alt="logo of ePrescription"
               />
           <Typography component="h1" variant="h5">
             Sign up

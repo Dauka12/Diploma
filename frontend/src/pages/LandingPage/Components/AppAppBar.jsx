@@ -90,7 +90,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                   logo
                 }
                 style={logoStyle}
-                alt="logo of sitemark"
+                alt="logo of ePrescription"
               />
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem
