@@ -1,9 +1,9 @@
-import AutoFixHighRoundedIcon from '@mui/icons-material/AutoFixHighRounded';
-import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
+import HealingIcon from '@mui/icons-material/Healing';
 import QueryStatsRoundedIcon from '@mui/icons-material/QueryStatsRounded';
-import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
-import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
+import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded';
+import WifiIcon from '@mui/icons-material/Wifi';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
@@ -14,13 +14,13 @@ import * as React from 'react';
 
 const items = [
   {
-    icon: <SettingsSuggestRoundedIcon />,
+    icon: <WifiIcon />,
     title: 'Remote renewal',
     description:
       "You don't have to see a doctor to renew a prescription, you can submit a request through the app (available for people with a chronic condition)",
   },
   {
-    icon: <ConstructionRoundedIcon />,
+    icon: <SmartphoneIcon />,
     title: 'Recipes are always with you',
     description:
       'Get a history of prescriptions from private and public clinics. Now your prescriptions will always be at your fingertips and will never be lost.',
@@ -32,13 +32,13 @@ const items = [
       'No problems with incomprehensible handwriting and keeping prescription slips. The electronic prescription is issued in a clear and convenient form and is always with you.',
   },
   {
-    icon: <AutoFixHighRoundedIcon />,
+    icon: <Diversity3Icon />,
     title: "Relatives' recipes",
     description:
       'It is possible to connect children and grandparents to electronic prescriptions and find out what they have been prescribed and keep track of their medication intake.',
   },
   {
-    icon: <SupportAgentRoundedIcon />,
+    icon: <HealingIcon />,
     title: 'Conveniently book',
     description:
       'The app already picks up the right medicines and can be booked at a bargain price.',
@@ -58,8 +58,8 @@ export default function Highlights() {
       sx={{
         pt: { xs: 4, sm: 12 },
         pb: { xs: 8, sm: 16 },
-        color: 'white',
-        bgcolor: '#06090a',
+        color: 'black',
+        bgcolor: '#29d2b5',
       }}
     >
       <Container
@@ -78,12 +78,7 @@ export default function Highlights() {
           }}
         >
           <Typography component="h2" variant="h4">
-            Highlights
-          </Typography>
-          <Typography variant="body1" sx={{ color: 'grey.400' }}>
-            Explore why our product stands out: adaptability, durability,
-            user-friendly design, and innovation. Enjoy reliable customer support and
-            precision in every detail.
+          Why do you need to install the e-Prescription app?
           </Typography>
         </Box>
         <Grid container spacing={2.5}>
@@ -101,7 +96,7 @@ export default function Highlights() {
                   border: '1px solid',
                   borderColor: 'grey.800',
                   background: 'transparent',
-                  backgroundColor: 'grey.900',
+                  backgroundColor: '#ffffff',
                 }}
               >
                 <Box sx={{ opacity: '50%' }}>{item.icon}</Box>
