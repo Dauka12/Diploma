@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,3 +27,16 @@ export const signInUser = async (email, password) => {
     return signInWithEmailAndPassword(getAuth(app), email, password);
 }
 export const db = getFirestore(app);
+
+export const saveEmailToFirestore = async (email) => {
+  try {
+    const docRef = await addDoc(collection(db, "emails"), {
+      email: email
+    });
+    console.log("Email added with ID: ", docRef.id);
+    return docRef;
+  } catch (e) {
+    console.error("Error adding email: ", e);
+    throw e;
+  }
+};

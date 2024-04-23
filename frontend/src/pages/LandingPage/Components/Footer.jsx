@@ -7,6 +7,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import { useState } from 'react';
+import { saveEmailToFirestore } from '../../../firebase';
 
 import FacebookIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -31,6 +33,23 @@ function Copyright() {
 }
 
 export default function Footer() {
+
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await saveEmailToFirestore(email);
+      setEmail(''); // Clear the email field after submission
+      alert('Email submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting email:', error);
+    }
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
   return (
     <Container
       sx={{
@@ -80,6 +99,8 @@ export default function Footer() {
                 hiddenLabel
                 size="small"
                 variant="outlined"
+                value={email}
+                onChange={handleEmailChange}
                 fullWidth
                 aria-label="Enter your email address"
                 placeholder="Your email address"
@@ -88,7 +109,7 @@ export default function Footer() {
                   ariaLabel: 'Enter your email address',
                 }}
               />
-              <Button variant="contained" color="primary" sx={{ flexShrink: 0 }}>
+              <Button variant="contained" color="primary" sx={{ flexShrink: 0 }} onClick={handleSubmit}>
                 Subscribe
               </Button>
             </Stack>
