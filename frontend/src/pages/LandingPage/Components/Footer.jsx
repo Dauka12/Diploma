@@ -10,7 +10,7 @@ import * as React from 'react';
 
 import FacebookIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/X';
+import TelegramIcon from '@mui/icons-material/Telegram';
 
 import logo from './../../../assets/images/logo.png';
 
@@ -24,7 +24,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" mt={1}>
       {'Copyright © '}
-      <Link href="https://mui.com/">Sitemark&nbsp;</Link>
+      <Link href="http://localhost:3000/">ePrescription KZ&nbsp;</Link>
       {new Date().getFullYear()}
     </Typography>
   );
@@ -194,7 +194,7 @@ export default function Footer() {
         >
           <IconButton
             color="inherit"
-            href="https://github.com/mui"
+            href="https://github.com/Dauka12/Diploma"
             aria-label="GitHub"
             sx={{ alignSelf: 'center' }}
           >
@@ -202,15 +202,15 @@ export default function Footer() {
           </IconButton>
           <IconButton
             color="inherit"
-            href="https://twitter.com/MaterialUI"
+            href="https://t.me/+kFX5KizDIUIxN2Vi"
             aria-label="X"
             sx={{ alignSelf: 'center' }}
           >
-            <TwitterIcon />
+            <TelegramIcon />
           </IconButton>
           <IconButton
             color="inherit"
-            href="https://www.linkedin.com/company/mui/"
+            href="https://www.linkedin.com/in/akhythandaulet/"
             aria-label="LinkedIn"
             sx={{ alignSelf: 'center' }}
           >

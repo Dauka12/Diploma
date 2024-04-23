@@ -10,7 +10,6 @@ import Features from './components/Features';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Highlights from './components/Highlights';
-import LogoCollection from './components/LogoCollection';
 import Testimonials from './components/Testimonials';
 import getLPTheme from './getLPTheme';
 
@@ -31,7 +30,7 @@ export default function LandingPage() {
       <Hero />
       
       <Box sx={{ bgcolor: 'background.default' }}>
-        <LogoCollection />
+        <Divider />
         <Features />
         <Divider />
         <Testimonials />
