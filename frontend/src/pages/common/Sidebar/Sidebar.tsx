@@ -67,12 +67,8 @@ export default function Sidebar() {
   React.useEffect(() => {
     if (!isLoggedIn()) {
       navigate("/sign-in");
+      let session = getSession();
     }
-  
-    let session = getSession();
-    console.log(session);
-    
-    console.log("Your access token is: " + session.accessToken);
   }, [navigate]);
   const onLogout = async () => {
     await endSession();

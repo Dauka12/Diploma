@@ -35,7 +35,6 @@ import EditorToolbar from './EditorToolbar.tsx';
 export default function MyProfile() {
   React.useEffect(() => {
     let session = getSession();
-    console.log(session);
   }, []);
   return (
     <Box sx={{ flex: 1, width: '100%' }}>

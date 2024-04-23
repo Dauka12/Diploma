@@ -9,7 +9,7 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUser, db } from "../../firebase";
@@ -48,17 +48,22 @@ export default function SignUp() {
         password: data.get('password'),
         firstName: data.get('firstName'),
         lastName: data.get('lastName')
-
       }
       console.log(account);
       let registerResponse = await createUser(account.email, account.password);
       startSession(registerResponse.user);
-      const userData = await addDoc(collection(db, "users"), {
+
+      const userDocRef = doc(db, "users", registerResponse.user.uid);
+
+      await setDoc(userDocRef, {
         email: account.email,
         firstName: account.firstName,
-        lastName: account.lastName
+        lastName: account.lastName,
       });
-      console.log(userData.id);
+  
+      console.log("Пользователь успешно создан:", registerResponse.user.uid);
+      
+      
       navigate("/profile");
     } catch (error) {
       console.error(error.message);

@@ -77,7 +77,7 @@ export default function Highlights() {
             textAlign: { sm: 'left', md: 'center' },
           }}
         >
-          <Typography component="h2" variant="h4">
+          <Typography component="h2" variant="h4" style={{color:"white"}}>
           Why do you need to install the e-Prescription app?
           </Typography>
         </Box>
