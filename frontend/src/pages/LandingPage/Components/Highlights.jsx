@@ -15,39 +15,39 @@ import * as React from 'react';
 const items = [
   {
     icon: <SettingsSuggestRoundedIcon />,
-    title: 'Adaptable performance',
+    title: 'Remote renewal',
     description:
-      'Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks.',
+      "You don't have to see a doctor to renew a prescription, you can submit a request through the app (available for people with a chronic condition)",
   },
   {
     icon: <ConstructionRoundedIcon />,
-    title: 'Built to last',
+    title: 'Recipes are always with you',
     description:
-      'Experience unmatched durability that goes above and beyond with lasting investment.',
+      'Get a history of prescriptions from private and public clinics. Now your prescriptions will always be at your fingertips and will never be lost.',
   },
   {
     icon: <ThumbUpAltRoundedIcon />,
-    title: 'Great user experience',
+    title: "It's understandable",
     description:
-      'Integrate our product into your routine with an intuitive and easy-to-use interface.',
+      'No problems with incomprehensible handwriting and keeping prescription slips. The electronic prescription is issued in a clear and convenient form and is always with you.',
   },
   {
     icon: <AutoFixHighRoundedIcon />,
-    title: 'Innovative functionality',
+    title: "Relatives' recipes",
     description:
-      'Stay ahead with features that set new standards, addressing your evolving needs better than the rest.',
+      'It is possible to connect children and grandparents to electronic prescriptions and find out what they have been prescribed and keep track of their medication intake.',
   },
   {
     icon: <SupportAgentRoundedIcon />,
-    title: 'Reliable support',
+    title: 'Conveniently book',
     description:
-      'Count on our responsive customer support, offering assistance that goes beyond the purchase.',
+      'The app already picks up the right medicines and can be booked at a bargain price.',
   },
   {
     icon: <QueryStatsRoundedIcon />,
-    title: 'Precision in every detail',
+    title: 'Price comparison',
     description:
-      'Enjoy a meticulously crafted product where small touches make a significant impact on your overall experience.',
+      'You can find out where to buy medicines more favourably: compare prices, location of pharmacies and different medicines with the same active ingredient.',
   },
 ];
 

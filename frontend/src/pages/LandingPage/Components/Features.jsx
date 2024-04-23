@@ -13,14 +13,14 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import phoneLogo from './../../../assets/images/phoneLogo.png';
-import prescriptionsLogo from './../../../assets/images/prescriptionsLogo.png';
+import phoneMap from './../../../assets/images/phoneMap.png';
 const items = [
   {
     icon: <ViewQuiltRoundedIcon />,
-    title: 'Dashboard',
+    title: 'Map in phone',
     description:
       'This item could provide a snapshot of the most important metrics or data points related to the product.',
-    imageLight: `url(${prescriptionsLogo})`,
+    imageLight: `url(${phoneMap})`,
     imageDark: 'url("/static/images/templates/templates-images/dash-dark.png")',
   },
   {
