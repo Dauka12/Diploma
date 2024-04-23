@@ -11,48 +11,49 @@ import * as React from 'react';
 
 const userTestimonials = [
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
-    name: 'Remy Sharp',
-    occupation: 'Senior Engineer',
+    avatar: <Avatar alt="Elena Patel" src="/static/images/avatar/1.jpg" />,
+    name: 'Elena Patel',
+    occupation: 'Neurologist',
     testimonial:
-      "I absolutely love how versatile this product is! Whether I'm tackling work projects or indulging in my favorite hobbies, it seamlessly adapts to my changing needs. Its intuitive design has truly enhanced my daily routine, making tasks more efficient and enjoyable.",
+      "I'm impressed by the adaptability of this product in medical settings. Whether I'm handling patient records or conducting research, it seamlessly adjusts to my needs. Its intuitive interface has truly enhanced my daily workflow, making tasks more efficient and enjoyable.",
   },
   {
-    avatar: <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />,
-    name: 'Travis Howard',
-    occupation: 'Lead Product Designer',
+    avatar: <Avatar alt="Brandon Nguyen" src="/static/images/avatar/2.jpg" />,
+    name: 'Brandon Nguyen',
+    occupation: 'Cardiologist',
     testimonial:
-      "One of the standout features of this product is the exceptional customer support. In my experience, the team behind this product has been quick to respond and incredibly helpful. It's reassuring to know that they stand firmly behind their product.",
+      "The exceptional customer support provided for this product is outstanding. The team behind it has been prompt and immensely helpful. It's reassuring to know that they are dedicated to assisting medical professionals.",
   },
   {
-    avatar: <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />,
-    name: 'Cindy Baker',
-    occupation: 'CTO',
+    avatar: <Avatar alt="Olivia Kim" src="/static/images/avatar/3.jpg" />,
+    name: 'Olivia Kim',
+    occupation: 'Pediatrician',
     testimonial:
-      'The level of simplicity and user-friendliness in this product has significantly simplified my life. I appreciate the creators for delivering a solution that not only meets but exceeds user expectations.',
+      'The simplicity and user-friendliness of this product have greatly simplified my medical practice. I commend the developers for delivering a solution that not only meets but exceeds the expectations of healthcare providers.',
   },
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/4.jpg" />,
-    name: 'Julia Stewart',
-    occupation: 'Senior Engineer',
+    avatar: <Avatar alt="Santiago Rodriguez" src="/static/images/avatar/4.jpg" />,
+    name: 'Santiago Rodriguez',
+    occupation: 'Orthopedic Surgeon',
     testimonial:
-      "I appreciate the attention to detail in the design of this product. The small touches make a big difference, and it's evident that the creators focused on delivering a premium experience.",
+      "I appreciate the meticulous attention to detail in the design of this product. The thoughtful enhancements make a significant impact, and it's evident that the developers prioritized delivering a premium tool for medical professionals.",
   },
   {
-    avatar: <Avatar alt="Travis Howard" src="/static/images/avatar/5.jpg" />,
-    name: 'John Smith',
-    occupation: 'Product Designer',
+    avatar: <Avatar alt="Amelia Wong" src="/static/images/avatar/5.jpg" />,
+    name: 'Amelia Wong',
+    occupation: 'Oncologist',
     testimonial:
-      "I've tried other similar products, but this one stands out for its innovative features. It's clear that the makers put a lot of thought into creating a solution that truly addresses user needs.",
+      "Having explored various medical software solutions, this one stands out for its innovative features tailored to healthcare needs. It's evident that the creators put considerable thought into crafting a solution that addresses the unique challenges faced by medical practitioners.",
   },
   {
-    avatar: <Avatar alt="Cindy Baker" src="/static/images/avatar/6.jpg" />,
-    name: 'Daniel Wolf',
-    occupation: 'CDO',
+    avatar: <Avatar alt="Lucas Martinez" src="/static/images/avatar/6.jpg" />,
+    name: 'Lucas Martinez',
+    occupation: 'Radiologist',
     testimonial:
-      "The quality of this product exceeded my expectations. It's durable, well-designed, and built to last. Definitely worth the investment!",
+      "The quality of this product surpassed my expectations. It's robust, well-designed, and engineered to endure the demands of medical environments. Without a doubt, it's a worthwhile investment for healthcare professionals.",
   },
 ];
+
 
 const whiteLogos = [
   'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/6560628e8573c43893fe0ace_Sydney-white.svg',
@@ -103,10 +104,11 @@ export default function Testimonials() {
         <Typography component="h2" variant="h4" color="text.primary">
           Testimonials
         </Typography>
+        <br />
         <Typography variant="body1" color="text.secondary">
-          See what our customers love about our products. Discover how we excel in
-          efficiency, durability, and satisfaction. Join us for quality, innovation,
-          and reliable support.
+          Explore the aspects our clients appreciate in our product line on our e-prescribing web platform.
+          Witness our prowess in streamlining processes, ensuring longevity,
+          and fulfilling customer needs. Engage with us for superior quality, groundbreaking innovation, and steadfast assistance.
         </Typography>
       </Box>
       <Grid container spacing={2}>
