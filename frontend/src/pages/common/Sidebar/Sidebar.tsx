@@ -248,11 +248,11 @@ export default function Sidebar() {
             <ListItemButton
               role="menuitem"
               component="a"
-              href="/joy-ui/getting-started/templates/messages/"
+              href="/messages"
             >
               <QuestionAnswerRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Сообщения</Typography>
+                <Typography level="title-sm">Messages</Typography>
               </ListItemContent>
               <Chip size="sm" color="primary" variant="solid">
                 4
