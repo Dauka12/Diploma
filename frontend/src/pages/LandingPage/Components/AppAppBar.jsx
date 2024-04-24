@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
 
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -8,11 +9,16 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from "react-router-dom";
+import { endSession, isLoggedIn } from '../../../session';
 import logo from './../../../assets/images/logo.png';
 import ToggleColorMode from './ToggleColorMode';
+
+import { useSelector } from 'react-redux';
 
 const logoStyle = {
   width: '40px',
@@ -23,12 +29,13 @@ const logoStyle = {
 
 function AppAppBar({ mode, toggleColorMode }) {
   const [open, setOpen] = React.useState(false);
-
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+  const user = useSelector(state => state.user.user);
 
   const scrollToSection = (sectionId) => {
+    
     const sectionElement = document.getElementById(sectionId);
     const offset = 128;
     if (sectionElement) {
@@ -41,6 +48,14 @@ function AppAppBar({ mode, toggleColorMode }) {
       setOpen(false);
     }
   };
+  const navigate = useNavigate();
+  
+  
+
+  const onLogout = async () => {
+    await endSession();
+    navigate("/sign-in");
+  }
 
   return (
     <div>
@@ -135,6 +150,19 @@ function AppAppBar({ mode, toggleColorMode }) {
               }}
             >
               <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+              {isLoggedIn ?
+                <>
+                  <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                  <Box sx={{ minWidth: 0, flex: 1 }}>
+                    <Typography variant="body2" color="text.primary">  {user ? `${user.firstName} ${user.lastName}` : ''}</Typography>
+                    {/* <Typography level="body-xs">{ localStorage.email }</Typography> */}
+                  </Box>
+                  <IconButton variant="contained" onClick={onLogout}>
+                    <LogoutRoundedIcon />
+                  </IconButton>
+                </Box>
+              </> :
+                <>
               <Button
                 color="primary"
                 variant="text"
@@ -155,6 +183,7 @@ function AppAppBar({ mode, toggleColorMode }) {
               >
                 Sign up
               </Button>
+              </>}
             </Box>
             <Box sx={{ display: { sm: '', md: 'none' } }}>
               <Button

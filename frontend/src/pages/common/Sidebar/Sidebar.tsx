@@ -160,7 +160,7 @@ export default function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <IconButton variant="soft" color="primary" size="sm">
+        <IconButton variant="soft" color="primary" size="sm" onClick={()=>{navigate("/")}}>
           <BrightnessAutoRoundedIcon />
         </IconButton>
         <Typography level="title-lg">ePrescription</Typography>
