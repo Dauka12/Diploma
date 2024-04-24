@@ -21,7 +21,6 @@ import Tabs from '@mui/joy/Tabs';
 import Textarea from '@mui/joy/Textarea';
 import Typography from '@mui/joy/Typography';
 import * as React from 'react';
-import { getSession } from "../../../session.js";
 
 import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
@@ -35,9 +34,7 @@ import EditorToolbar from './EditorToolbar.tsx';
 
 export default function MyProfile() {
   const user = useSelector(state => state.user.user);
-  React.useEffect(() => {
-    let session = getSession();
-  }, []);
+  
   return (
     <Box sx={{ flex: 1, width: '100%' }}>
       <Box

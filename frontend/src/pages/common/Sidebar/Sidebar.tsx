@@ -28,7 +28,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { db } from '../../../firebase.js';
-import { endSession, getSession, isLoggedIn } from "../../../session.js";
+import { endSession, isLoggedIn } from "../../../session.js";
 
 
 import ColorSchemeToggle from './ColorSchemeToggle.tsx';
@@ -81,7 +81,6 @@ export default function Sidebar() {
   useEffect(() => {
     if (!isLoggedIn()) {
       navigate("/sign-in");
-      let session = getSession();
     } else {
       const uid = localStorage.getItem("uid");
       if (uid) {
@@ -277,10 +276,10 @@ export default function Sidebar() {
             >
               <List sx={{ gap: 0.5 }}>
                 <ListItem>
-                  <ListItemButton>Создать пациента</ListItemButton>
+                  <ListItemButton>Add patient</ListItemButton>
                 </ListItem>
                 <ListItem>
-                  <ListItemButton>Мои пациенты</ListItemButton>
+                  <ListItemButton>My patients</ListItemButton>
                 </ListItem>
               </List>
             </Toggler>
@@ -299,13 +298,13 @@ export default function Sidebar() {
           <ListItem>
             <ListItemButton>
               <SupportRoundedIcon />
-              Служба поддержки
+              Support service
             </ListItemButton>
           </ListItem>
           <ListItem>
             <ListItemButton>
               <SettingsRoundedIcon />
-              Настройки
+              Settings
             </ListItemButton>
           </ListItem>
         </List>
