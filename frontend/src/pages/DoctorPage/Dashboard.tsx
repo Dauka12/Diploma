@@ -1,6 +1,5 @@
 import Box from '@mui/joy/Box';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
-import Button from '@mui/joy/Button';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
@@ -8,12 +7,12 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import * as React from 'react';
 
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import Header from '../common/Header/Header.tsx';
 import Sidebar from '../common/Sidebar/Sidebar.tsx';
 import OrderList from './components/OrderList.tsx';
 import OrderTable from './components/OrderTable.tsx';
+import PrescribingModal from './components/PrescribingModal.tsx';
 
 export default function JoyOrderDashboardTemplate() {
   return (
@@ -84,13 +83,7 @@ export default function JoyOrderDashboardTemplate() {
             <Typography level="h2" component="h1">
               Prescriptions
             </Typography>
-            <Button
-              color="primary"
-              startDecorator={<DownloadRoundedIcon />}
-              size="sm"
-            >
-              Download PDF
-            </Button>
+            <PrescribingModal />
           </Box>
           <OrderTable />
           <OrderList />
