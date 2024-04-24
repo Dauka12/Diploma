@@ -18,7 +18,6 @@ import { endSession, isLoggedIn } from '../../../session';
 import logo from './../../../assets/images/logo.png';
 import ToggleColorMode from './ToggleColorMode';
 
-import { useSelector } from 'react-redux';
 
 const logoStyle = {
   width: '40px',
@@ -32,7 +31,6 @@ function AppAppBar({ mode, toggleColorMode }) {
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
-  const user = useSelector(state => state.user.user);
 
   const scrollToSection = (sectionId) => {
     
@@ -154,7 +152,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 <>
                   <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                   <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography variant="body2" color="text.primary">  {user ? `${user.firstName} ${user.lastName}` : ''}</Typography>
+                    <Typography variant="body2" color="text.primary">  { `${localStorage.firstName} ${localStorage.lastName}`}</Typography>
                     {/* <Typography level="body-xs">{ localStorage.email }</Typography> */}
                   </Box>
                   <IconButton variant="contained" onClick={onLogout}>
