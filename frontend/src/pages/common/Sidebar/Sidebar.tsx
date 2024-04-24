@@ -197,7 +197,7 @@ export default function Sidebar() {
             >
               <HomeRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Home</Typography>
+                <Typography level="title-sm">My Profile</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
