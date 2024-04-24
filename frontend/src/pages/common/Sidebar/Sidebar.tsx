@@ -318,7 +318,7 @@ export default function Sidebar() {
           src="https://i.guim.co.uk/img/media/ce9c149506881191caa4b1f838575d0dbb07e520/734_381_6827_4098/master/6827.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=c38e5e77b9f3882e14b633932e18cea5"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">{user?.firstName} {user?.lastName}</Typography>
+          <Typography level="title-sm">  {user ? `${user.firstName} ${user.lastName}` : ''}</Typography>
           {/* <Typography level="body-xs">{ localStorage.email }</Typography> */}
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">

@@ -179,8 +179,8 @@ export default function MyProfile() {
                 <FormControl
                   sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
                 >
-                  <Input size="sm" placeholder={user.firstName} />
-                  <Input size="sm" placeholder={user.lastName} sx={{ flexGrow: 1 }} />
+                  <Input size="sm" placeholder={user?.firstName || "First Name"} />
+                  <Input size="sm" placeholder={user?.lastName  || "Last Name"} sx={{ flexGrow: 1 }} />
                 </FormControl>
               </Stack>
               <Stack direction="row" spacing={2}>
@@ -194,7 +194,7 @@ export default function MyProfile() {
                     size="sm"
                     type="email"
                     startDecorator={<EmailRoundedIcon />}
-                    placeholder={user.email}
+                    placeholder={user?.email || "Email"}
                     defaultValue={localStorage.email}
                     sx={{ flexGrow: 1 }}
                   />
