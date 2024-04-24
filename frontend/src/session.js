@@ -1,6 +1,7 @@
 export const startSession = (user) => {
-    localStorage.setItem("email", user.email);
-    localStorage.setItem("accessToken", user.accessToken);
+  localStorage.setItem("email", user.email);
+  localStorage.setItem("accessToken", user.accessToken);
+  localStorage.setItem("uid", user.uid)
   }
   
   export const getSession = () => {

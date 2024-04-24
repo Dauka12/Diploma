@@ -22,12 +22,24 @@ import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
 import ListItemContent from '@mui/joy/ListItemContent';
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
+import { doc, getDoc } from 'firebase/firestore';
 import * as React from 'react';
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { db } from '../../../firebase.js';
 import { endSession, getSession, isLoggedIn } from "../../../session.js";
+
 
 import ColorSchemeToggle from './ColorSchemeToggle.tsx';
 import { closeSidebar } from './utils.tsx';
+
+export type User = {
+  firstName: string;
+  lastName: string;
+  uid: string;
+  email: string;
+};
 
 function Toggler({
   defaultExpanded = false,
@@ -62,14 +74,37 @@ function Toggler({
 }
 
 export default function Sidebar() {
-
   const navigate = useNavigate();
-  React.useEffect(() => {
+  const [user, setUser] = useState<User | null>(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
     if (!isLoggedIn()) {
       navigate("/sign-in");
       let session = getSession();
+    } else {
+      const uid = localStorage.getItem("uid");
+      if (uid) {
+        const getUser = async () => {
+          try {
+            const userDocRef = doc(db, "users", uid);
+            const userDocSnapshot = await getDoc(userDocRef);
+            if (userDocSnapshot.exists()) {
+              setUser(userDocSnapshot.data() as User);
+              dispatch({ type: 'SET_USER', payload: userDocSnapshot.data() });
+              console.log(userDocSnapshot.data());
+              
+            } else {
+              console.log("Документ с UID пользователя не найден.");
+            }
+          } catch (error) {
+            console.error("Ошибка при получении пользователя:", error.message);
+          }
+        };
+        getUser();
+      }
     }
-  }, [navigate]);
+  }, [navigate, dispatch]);
   const onLogout = async () => {
     await endSession();
     navigate("/sign-in");
@@ -283,8 +318,8 @@ export default function Sidebar() {
           src="https://i.guim.co.uk/img/media/ce9c149506881191caa4b1f838575d0dbb07e520/734_381_6827_4098/master/6827.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=c38e5e77b9f3882e14b633932e18cea5"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">{ localStorage.fullName}</Typography>
-          <Typography level="body-xs">{ localStorage.email }</Typography>
+          <Typography level="title-sm">{user?.firstName} {user?.lastName}</Typography>
+          {/* <Typography level="body-xs">{ localStorage.email }</Typography> */}
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
           <LogoutRoundedIcon onClick={onLogout} />

@@ -29,10 +29,12 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
+import { useSelector } from 'react-redux';
 import CountrySelector from './CountrySelector.tsx';
 import EditorToolbar from './EditorToolbar.tsx';
 
 export default function MyProfile() {
+  const user = useSelector(state => state.user.user);
   React.useEffect(() => {
     let session = getSession();
   }, []);
@@ -177,8 +179,8 @@ export default function MyProfile() {
                 <FormControl
                   sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
                 >
-                  <Input size="sm" placeholder="First name" />
-                  <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} />
+                  <Input size="sm" placeholder={user.firstName} />
+                  <Input size="sm" placeholder={user.lastName} sx={{ flexGrow: 1 }} />
                 </FormControl>
               </Stack>
               <Stack direction="row" spacing={2}>
@@ -192,7 +194,7 @@ export default function MyProfile() {
                     size="sm"
                     type="email"
                     startDecorator={<EmailRoundedIcon />}
-                    placeholder="email"
+                    placeholder={user.email}
                     defaultValue={localStorage.email}
                     sx={{ flexGrow: 1 }}
                   />
