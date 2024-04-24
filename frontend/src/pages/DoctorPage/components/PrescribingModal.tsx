@@ -9,9 +9,34 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import * as React from 'react';
+import { savePrescriptionToFirestore } from '../../../firebase';
+
 
 export default function BasicModalDialog() {
   const [open, setOpen] = React.useState<boolean>(false);
+  const [name, setName] = React.useState<string>('');
+  const [description, setDescription] = React.useState<string>('');
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(event.target.value);
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      await savePrescriptionToFirestore({ name, description });
+      setOpen(false);
+      setName('');
+      setDescription('');
+    } catch (error) {
+      console.error('Error saving prescription:', error);
+    }
+  };
+
   return (
     <React.Fragment>
       <Button
@@ -25,21 +50,16 @@ export default function BasicModalDialog() {
       <Modal open={open} onClose={() => setOpen(false)}>
         <ModalDialog>
           <DialogTitle>Create new project</DialogTitle>
-          <DialogContent>Fill in the information of the project.</DialogContent>
-          <form
-            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              setOpen(false);
-            }}
-          >
+          <DialogContent>Name of drugs</DialogContent>
+          <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <FormControl>
                 <FormLabel>Name</FormLabel>
-                <Input autoFocus required />
+                <Input autoFocus required value={name} onChange={handleNameChange} />
               </FormControl>
               <FormControl>
                 <FormLabel>Description</FormLabel>
-                <Input required />
+                <Input required value={description} onChange={handleDescriptionChange} />
               </FormControl>
               <Button type="submit">Submit</Button>
             </Stack>

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -37,6 +37,19 @@ export const saveEmailToFirestore = async (email) => {
     return docRef;
   } catch (e) {
     console.error("Error adding email: ", e);
+    throw e;
+  }
+};
+
+export const savePrescriptionToFirestore = async (prescription) => {
+  try {
+    const { name, description } = prescription;
+    const prescriptionRef = doc(db, "Prescription", name); // Используем значение Name в качестве идентификатора документа
+    await setDoc(prescriptionRef, { name, description }); // Установить документ с идентификатором Name и полями name и description
+    console.log("Prescription added with name: ", name);
+    return prescriptionRef;
+  } catch (e) {
+    console.error("Error adding prescription: ", e);
     throw e;
   }
 };
