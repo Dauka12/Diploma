@@ -91,8 +91,6 @@ export default function Sidebar() {
             if (userDocSnapshot.exists()) {
               setUser(userDocSnapshot.data() as User);
               dispatch({ type: 'SET_USER', payload: userDocSnapshot.data() });
-              console.log(userDocSnapshot.data());
-              
             } else {
               console.log("Документ с UID пользователя не найден.");
             }

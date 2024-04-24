@@ -1,7 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, push, ref, set } from 'firebase/database';
 import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import { isLoggedIn } from "./session";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,8 +19,8 @@ const firebaseConfig = {
   measurementId: "G-VF5YC9TVP1"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
 export const createUser = async (email, password) => {
     return createUserWithEmailAndPassword(getAuth(app), email, password);
   }
@@ -51,5 +53,48 @@ export const savePrescriptionToFirestore = async (prescription) => {
   } catch (e) {
     console.error("Error adding prescription: ", e);
     throw e;
+  }
+};
+const chatDatabase = getDatabase(app);
+const chatRef = ref(chatDatabase, 'chats/general');
+
+if (isLoggedIn()) {
+  set(chatRef, {
+    message: 'Hello, world!'
+  });
+  
+  const userRef = ref(chatDatabase, `users/${localStorage.uid}`);
+  const userData = {
+    username: `${localStorage.email}`,
+    email: `${localStorage.email}`,
+  };
+  
+  set(userRef, userData)
+    .then(() => {
+      console.log('New node created successfully!');
+    })
+    .catch((error) => {
+      console.error('Error creating new node:', error);
+    });
+} else {
+  console.log("User is not logged in.");
+}
+export const sendMessageToUser = async (senderId, recipientId, message) => {
+  try {
+    // Определите путь к узлу сообщений для этой пары отправитель-получатель в вашей базе данных
+    const messagesRef = ref(chatDatabase, `messages/${senderId}_${recipientId}`);
+    
+    // Добавьте новое сообщение в базу данных
+    await push(messagesRef, {
+      senderId,
+      recipientId,
+      message,
+      timestamp: new Date().toISOString() // Добавьте метку времени для сообщения
+    });
+
+    console.log("Message sent successfully!");
+  } catch (error) {
+    console.error("Error sending message:", error);
+    throw error;
   }
 };

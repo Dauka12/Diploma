@@ -16,6 +16,7 @@ export default function MessagesPane(props: MessagesPaneProps) {
   const { chat } = props;
   const [chatMessages, setChatMessages] = React.useState(chat.messages);
   const [textAreaValue, setTextAreaValue] = React.useState('');
+  const [recipient, setRecipient] = React.useState('9umLzZWFyVSAagEU2xLcNikCqef1');
 
   React.useEffect(() => {
     setChatMessages(chat.messages);
@@ -80,6 +81,7 @@ export default function MessagesPane(props: MessagesPaneProps) {
             },
           ]);
         }}
+        recipient={recipient}
       />
     </Sheet>
   );
