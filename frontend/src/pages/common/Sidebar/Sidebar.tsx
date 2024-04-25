@@ -193,7 +193,7 @@ export default function Sidebar() {
             <ListItemButton
               role="menuitem"
               component="a"
-              href="/profile"
+              onClick={()=>{navigate('/profile')}}
             >
               <HomeRoundedIcon />
               <ListItemContent>
@@ -205,8 +205,8 @@ export default function Sidebar() {
           <ListItem>
             <ListItemButton
              role="menuitem"
-             component="a"
-             href="/prescriptions"
+              component="a"
+              onClick={() => {navigate("/prescriptions") }}
             >
               <DashboardRoundedIcon />
               <ListItemContent>
@@ -248,11 +248,11 @@ export default function Sidebar() {
             <ListItemButton
               role="menuitem"
               component="a"
-              href="/messages"
-            >
+              onClick={()=>{navigate("/messages")}}
+              >     
               <QuestionAnswerRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Messages</Typography>
+                  <Typography level="title-sm">Messages</Typography>
               </ListItemContent>
               <Chip size="sm" color="primary" variant="solid">
                 4

@@ -25,7 +25,7 @@ export default function MessageInput(props: MessageInputProps) {
   const textAreaRef = React.useRef<HTMLDivElement>(null);
   const handleClick = () => {
     if (textAreaValue.trim() !== '') {
-      sendMessageToUser(localStorage.uid, '9umLzZWFyVSAagEU2xLcNikCqef1', textAreaValue);
+      sendMessageToUser('WA5XCZTrJBR0Gb04bUOqnGyAeBo2', textAreaValue);
       onSubmit();
       setTextAreaValue('');
     }

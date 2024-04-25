@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, push, ref, set } from 'firebase/database';
+import { child, getDatabase, ref, set } from 'firebase/database';
 import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { isLoggedIn } from "./session";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -55,7 +55,7 @@ export const savePrescriptionToFirestore = async (prescription) => {
     throw e;
   }
 };
-const chatDatabase = getDatabase(app);
+export const chatDatabase = getDatabase(app);
 const chatRef = ref(chatDatabase, 'chats/general');
 
 if (isLoggedIn()) {
@@ -79,19 +79,26 @@ if (isLoggedIn()) {
 } else {
   console.log("User is not logged in.");
 }
-export const sendMessageToUser = async (senderId, recipientId, message) => {
-  try {
-    // Определите путь к узлу сообщений для этой пары отправитель-получатель в вашей базе данных
-    const messagesRef = ref(chatDatabase, `messages/${senderId}_${recipientId}`);
-    
-    // Добавьте новое сообщение в базу данных
-    await push(messagesRef, {
-      senderId,
-      recipientId,
-      message,
-      timestamp: new Date().toISOString() // Добавьте метку времени для сообщения
-    });
+const generateChatId = (userId1, userId2) => {
+  // Сортируем идентификаторы пользователей лексикографически
+  const sortedIds = [userId1, userId2].sort();
+  // Объединяем их в одну строку
+  return sortedIds.join('_');
+};
 
+export const sendMessageToUser = async (recipientId, message) => {
+  try {
+    const auth = getAuth();
+    const senderId = auth.currentUser.uid;
+    const chatId = generateChatId(senderId, recipientId);;
+    const messagesRef = ref(chatDatabase, `chats/${chatId}`);
+    const newMessageRef = child(messagesRef, senderId);
+    await set(newMessageRef, { // Используем set для установки сообщения
+      content: message,
+      senderId: senderId,
+      recipientId: recipientId,
+      timestamp: new Date().toISOString()
+    });
     console.log("Message sent successfully!");
   } catch (error) {
     console.error("Error sending message:", error);
