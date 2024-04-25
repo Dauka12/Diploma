@@ -1,7 +1,7 @@
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
-import BrightnessAutoRoundedIcon from '@mui/icons-material/BrightnessAutoRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
+import HomeIcon from '@mui/icons-material/Home';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
@@ -163,7 +163,7 @@ export default function Sidebar() {
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
         <IconButton variant="soft" color="primary" size="sm" onClick={()=>{navigate("/")}}>
-          <BrightnessAutoRoundedIcon />
+          <HomeIcon />
         </IconButton>
         <Typography level="title-lg">ePrescription</Typography>
         <ColorSchemeToggle sx={{ ml: 'auto' }} />
