@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { child, getDatabase, ref, set } from 'firebase/database';
+import { child, get, getDatabase, ref, set } from 'firebase/database';
 import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { isLoggedIn } from "./session";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -9,7 +9,7 @@ import { isLoggedIn } from "./session";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyBrb0UjPZn57hkhgnYJ1XcKkGkPKuIEt0Y",
   authDomain: "eprescriptionback.firebaseapp.com",
   projectId: "eprescriptionback",
@@ -19,7 +19,7 @@ const firebaseConfig = {
   measurementId: "G-VF5YC9TVP1"
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 export const createUser = async (email, password) => {
     return createUserWithEmailAndPassword(getAuth(app), email, password);
@@ -105,3 +105,40 @@ export const sendMessageToUser = async (recipientId, message) => {
     throw error;
   }
 };
+
+export const getChats = async () => {
+  try {
+    const database = getDatabase(app);
+    const chatsRef = ref(database, 'chats');
+    const snapshot = await get(chatsRef);
+    const data = snapshot.val();
+    if (data) {
+      const chatsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+      return chatsArray;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error('Error fetching chats:', error);
+    throw error;
+  }
+};
+export const getUsers = async () => {
+  try {
+    const database = getDatabase(app);
+    const chatsRef = ref(database, 'users');
+    const snapshot = await get(chatsRef);
+    const data = snapshot.val();
+    if (data) {
+      const chatsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+      return chatsArray;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error('Error fetching chats:', error);
+    throw error;
+  }
+};
+
+
