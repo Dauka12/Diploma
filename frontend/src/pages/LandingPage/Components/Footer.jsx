@@ -134,14 +134,14 @@ export default function Footer() {
           <Link color="text.secondary" href="#">
             Highlights
           </Link>
-          <Link color="text.secondary" href="#">
+          {/* <Link color="text.secondary" href="#">
             Pricing
-          </Link>
+          </Link> */}
           <Link color="text.secondary" href="#">
             FAQs
           </Link>
         </Box>
-        <Box
+        {/* <Box
           sx={{
             display: { xs: 'none', sm: 'flex' },
             flexDirection: 'column',
@@ -160,7 +160,7 @@ export default function Footer() {
           <Link color="text.secondary" href="#">
             Press
           </Link>
-        </Box>
+        </Box> */}
         <Box
           sx={{
             display: { xs: 'none', sm: 'flex' },
