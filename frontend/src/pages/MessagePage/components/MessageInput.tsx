@@ -41,7 +41,7 @@ export default function MessageInput(props: MessageInputProps) {
             setTextAreaValue(e.target.value);
           }}
           value={textAreaValue}
-          minRows={3}
+          minRows={4}
           maxRows={10}
           endDecorator={
             <Stack
