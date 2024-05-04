@@ -206,7 +206,7 @@ export default function Sidebar() {
             <ListItemButton
              role="menuitem"
               component="a"
-              onClick={() => {navigate("/prescriptions") }}
+              onClick={() => {navigate("/prescription") }}
             >
               <DashboardRoundedIcon />
               <ListItemContent>
