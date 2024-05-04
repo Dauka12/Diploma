@@ -58,7 +58,7 @@ export default function ChatListItem(props: ChatListItemProps) {
                 display={{ xs: 'none', md: 'block' }}
                 noWrap
               >
-                5 mins ago
+                11 mins ago
               </Typography>
             </Box>
           </Stack>
