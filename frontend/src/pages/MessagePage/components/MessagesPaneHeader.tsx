@@ -93,7 +93,7 @@ export default function MessagesPaneHeader(props: MessagesPaneHeaderProps) {
             display: { xs: 'none', md: 'inline-flex' },
           }}
         >
-          View profile
+          Profile
         </Button>
         <IconButton size="sm" variant="plain" color="neutral">
           <MoreVertRoundedIcon />
