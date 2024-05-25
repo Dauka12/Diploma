@@ -26,7 +26,7 @@ const logoStyle = {
   cursor: 'pointer',
 };
 
-const  AppAppBar = ({ mode, toggleColorMode }) => {
+function AppAppBar  ({ mode, toggleColorMode }) {
   const [open, setOpen] = React.useState(false);
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
