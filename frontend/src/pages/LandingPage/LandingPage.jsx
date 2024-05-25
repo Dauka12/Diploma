@@ -4,13 +4,13 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import AppAppBar from './components/AppAppBar.jsx';
-import FAQ from './components/FAQ.jsx';
-import Features from './components/Features.jsx';
-import Footer from './components/Footer.jsx';
-import Hero from './components/Hero.jsx';
-import Highlights from './components/Highlights.jsx';
-import Testimonials from './components/Testimonials.jsx';
+import AppAppBar from './Components/AppAppBar.jsx';
+import FAQ from './Components/FAQ.jsx';
+import Features from './Components/Features.jsx';
+import Footer from './Components/Footer.jsx';
+import Hero from './Components/Hero.jsx';
+import Highlights from './Components/Highlights.jsx';
+import Testimonials from './Components/Testimonials.jsx';
 import getLPTheme from './getLPTheme';
 
 export default function LandingPage() {
