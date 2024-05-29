@@ -186,13 +186,13 @@ export default function MyProfile() {
                   <Input size="sm" defaultValue="Humanistic Therapist" />
                 </FormControl>
                 <FormControl sx={{ flexGrow: 1 }}>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>username</FormLabel>
                   <Input
                     size="sm"
-                    type="email"
+                    type="username"
                     startDecorator={<EmailRoundedIcon />}
-                    placeholder={user?.email || "Email"}
-                    defaultValue={localStorage.email}
+                    placeholder={user?.username || "username"}
+                    defaultValue={localStorage.username}
                     sx={{ flexGrow: 1 }}
                   />
                 </FormControl>
@@ -283,13 +283,13 @@ export default function MyProfile() {
               <Input size="sm" defaultValue="Humanistic Therapist" />
             </FormControl>
             <FormControl sx={{ flexGrow: 1 }}>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>username</FormLabel>
               <Input
                 size="sm"
-                type="email"
+                type="username"
                 startDecorator={<EmailRoundedIcon />}
-                placeholder="email"
-                defaultValue={localStorage.email}
+                placeholder="username"
+                defaultValue={localStorage.username}
                 sx={{ flexGrow: 1 }}
               />
             </FormControl>

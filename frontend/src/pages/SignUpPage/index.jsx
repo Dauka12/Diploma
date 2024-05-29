@@ -44,19 +44,19 @@ export default function SignUp() {
     try {
       // eslint-disable-next-line no-undef
       const account = {
-        email: data.get('email'),
+        username: data.get('username'),
         password: data.get('password'),
         firstName: data.get('firstName'),
         lastName: data.get('lastName')
       }
       console.log(account);
-      let registerResponse = await createUser(account.email, account.password);
+      let registerResponse = await createUser(account.username, account.password);
       startSession(registerResponse.user);
 
       const userDocRef = doc(db, "users", registerResponse.user.uid);
 
       await setDoc(userDocRef, {
-        email: account.email,
+        username: account.username,
         firstName: account.firstName,
         lastName: account.lastName,
       });
@@ -127,10 +127,10 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="username"
+                  label="username Address"
+                  name="username"
+                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -147,7 +147,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label="I want to receive inspiration, marketing promotions and updates via username."
                 />
               </Grid>
             </Grid>

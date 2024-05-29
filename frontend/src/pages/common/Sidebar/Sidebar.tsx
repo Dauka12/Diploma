@@ -38,7 +38,7 @@ export type User = {
   firstName: string;
   lastName: string;
   uid: string;
-  email: string;
+  username: string;
 };
 
 function Toggler({
@@ -318,7 +318,7 @@ export default function Sidebar() {
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography level="title-sm">  {user ? `${user.firstName} ${user.lastName}` : ''}</Typography>
-          {/* <Typography level="body-xs">{ localStorage.email }</Typography> */}
+          {/* <Typography level="body-xs">{ localStorage.username }</Typography> */}
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
           <LogoutRoundedIcon onClick={onLogout} />

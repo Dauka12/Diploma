@@ -43,7 +43,7 @@ const rows = [
     customer: {
       initial: 'O',
       name: 'Olivia Ryhe',
-      email: 'olivia@email.com',
+      username: 'olivia@username.com',
     },
   },
   {
@@ -53,7 +53,7 @@ const rows = [
     customer: {
       initial: 'S',
       name: 'Steve Hampton',
-      email: 'steve.hamp@email.com',
+      username: 'steve.hamp@username.com',
     },
   },
   {
@@ -63,7 +63,7 @@ const rows = [
     customer: {
       initial: 'C',
       name: 'Ciaran Murray',
-      email: 'ciaran.murray@email.com',
+      username: 'ciaran.murray@username.com',
     },
   },
   {
@@ -73,7 +73,7 @@ const rows = [
     customer: {
       initial: 'M',
       name: 'Maria Macdonald',
-      email: 'maria.mc@email.com',
+      username: 'maria.mc@username.com',
     },
   },
   {
@@ -83,7 +83,7 @@ const rows = [
     customer: {
       initial: 'C',
       name: 'Charles Fulton',
-      email: 'fulton@email.com',
+      username: 'fulton@username.com',
     },
   },
   {
@@ -93,7 +93,7 @@ const rows = [
     customer: {
       initial: 'J',
       name: 'Jay Hooper',
-      email: 'hooper@email.com',
+      username: 'hooper@username.com',
     },
   },
   {
@@ -103,7 +103,7 @@ const rows = [
     customer: {
       initial: 'K',
       name: 'Krystal Stevens',
-      email: 'k.stevens@email.com',
+      username: 'k.stevens@username.com',
     },
   },
   {
@@ -113,7 +113,7 @@ const rows = [
     customer: {
       initial: 'S',
       name: 'Sachin Flynn',
-      email: 's.flyn@email.com',
+      username: 's.flyn@username.com',
     },
   },
   {
@@ -123,7 +123,7 @@ const rows = [
     customer: {
       initial: 'B',
       name: 'Bradley Rosales',
-      email: 'brad123@email.com',
+      username: 'brad123@username.com',
     },
   },
   {
@@ -133,7 +133,7 @@ const rows = [
     customer: {
       initial: 'O',
       name: 'Olivia Ryhe',
-      email: 'olivia@email.com',
+      username: 'olivia@username.com',
     },
   },
   {
@@ -143,7 +143,7 @@ const rows = [
     customer: {
       initial: 'S',
       name: 'Steve Hampton',
-      email: 'steve.hamp@email.com',
+      username: 'steve.hamp@username.com',
     },
   },
   {
@@ -153,7 +153,7 @@ const rows = [
     customer: {
       initial: 'C',
       name: 'Ciaran Murray',
-      email: 'ciaran.murray@email.com',
+      username: 'ciaran.murray@username.com',
     },
   },
   {
@@ -163,7 +163,7 @@ const rows = [
     customer: {
       initial: 'M',
       name: 'Maria Macdonald',
-      email: 'maria.mc@email.com',
+      username: 'maria.mc@username.com',
     },
   },
   {
@@ -173,7 +173,7 @@ const rows = [
     customer: {
       initial: 'C',
       name: 'Charles Fulton',
-      email: 'fulton@email.com',
+      username: 'fulton@username.com',
     },
   },
   {
@@ -183,7 +183,7 @@ const rows = [
     customer: {
       initial: 'J',
       name: 'Jay Hooper',
-      email: 'hooper@email.com',
+      username: 'hooper@username.com',
     },
   },
   {
@@ -193,7 +193,7 @@ const rows = [
     customer: {
       initial: 'K',
       name: 'Krystal Stevens',
-      email: 'k.stevens@email.com',
+      username: 'k.stevens@username.com',
     },
   },
   {
@@ -203,7 +203,7 @@ const rows = [
     customer: {
       initial: 'S',
       name: 'Sachin Flynn',
-      email: 's.flyn@email.com',
+      username: 's.flyn@username.com',
     },
   },
   {
@@ -213,7 +213,7 @@ const rows = [
     customer: {
       initial: 'B',
       name: 'Bradley Rosales',
-      email: 'brad123@email.com',
+      username: 'brad123@username.com',
     },
   },
 ];
@@ -501,7 +501,7 @@ export default function OrderTable() {
                     <Avatar size="sm">{row.customer.initial}</Avatar>
                     <div>
                       <Typography level="body-xs">{row.customer.name}</Typography>
-                      <Typography level="body-xs">{row.customer.email}</Typography>
+                      <Typography level="body-xs">{row.customer.username}</Typography>
                     </div>
                   </Box>
                 </td>

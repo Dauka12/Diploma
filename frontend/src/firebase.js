@@ -21,24 +21,24 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-export const createUser = async (email, password) => {
-    return createUserWithEmailAndPassword(getAuth(app), email, password);
+export const createUser = async (username, password) => {
+    return createUserWithEmailAndPassword(getAuth(app), username, password);
   }
   
-export const signInUser = async (email, password) => {
-    return signInWithEmailAndPassword(getAuth(app), email, password);
+export const signInUser = async (username, password) => {
+    return signInWithEmailAndPassword(getAuth(app), username, password);
 }
 export const db = getFirestore(app);
 
-export const saveEmailToFirestore = async (email) => {
+export const saveEmailToFirestore = async (username) => {
   try {
     const docRef = await addDoc(collection(db, "emails"), {
-      email: email
+      username: username
     });
-    console.log("Email added with ID: ", docRef.id);
+    console.log("username added with ID: ", docRef.id);
     return docRef;
   } catch (e) {
-    console.error("Error adding email: ", e);
+    console.error("Error adding username: ", e);
     throw e;
   }
 };
@@ -65,8 +65,8 @@ if (isLoggedIn()) {
   
   const userRef = ref(chatDatabase, `users/${localStorage.uid}`);
   const userData = {
-    username: `${localStorage.email}`,
-    email: `${localStorage.email}`,
+    username: `${localStorage.username}`,
+    username: `${localStorage.username}`,
   };
   
   set(userRef, userData)

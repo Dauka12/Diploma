@@ -1,12 +1,13 @@
 export const startSession = (user) => {
-  localStorage.setItem("email", user.email);
-  localStorage.setItem("accessToken", user.accessToken);
-  localStorage.setItem("uid", user.uid)
+  localStorage.setItem("username", user.username);
+  localStorage.setItem("accessToken", user.token);
+  localStorage.setItem("uid", user.id)
+  console.log(user);
   }
   
   export const getSession = () => {
     return {
-      email: localStorage.getItem("email"),
+      username: localStorage.getItem("username"),
       accessToken: localStorage.getItem("accessToken"),
     }
   }

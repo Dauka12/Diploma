@@ -33,7 +33,7 @@ const listItems = [
     customer: {
       initial: 'O',
       name: 'Olivia Ryhe',
-      email: 'olivia@email.com',
+      username: 'olivia@username.com',
     },
   },
   {
@@ -43,7 +43,7 @@ const listItems = [
     customer: {
       initial: 'S',
       name: 'Steve Hampton',
-      email: 'steve.hamp@email.com',
+      username: 'steve.hamp@username.com',
     },
   },
   {
@@ -53,7 +53,7 @@ const listItems = [
     customer: {
       initial: 'C',
       name: 'Ciaran Murray',
-      email: 'ciaran.murray@email.com',
+      username: 'ciaran.murray@username.com',
     },
   },
   {
@@ -63,7 +63,7 @@ const listItems = [
     customer: {
       initial: 'M',
       name: 'Maria Macdonald',
-      email: 'maria.mc@email.com',
+      username: 'maria.mc@username.com',
     },
   },
   {
@@ -73,7 +73,7 @@ const listItems = [
     customer: {
       initial: 'C',
       name: 'Charles Fulton',
-      email: 'fulton@email.com',
+      username: 'fulton@username.com',
     },
   },
   {
@@ -83,7 +83,7 @@ const listItems = [
     customer: {
       initial: 'J',
       name: 'Jay Hooper',
-      email: 'hooper@email.com',
+      username: 'hooper@username.com',
     },
   },
 ];
@@ -135,7 +135,7 @@ export default function OrderList() {
                   {listItem.customer.name}
                 </Typography>
                 <Typography level="body-xs" gutterBottom>
-                  {listItem.customer.email}
+                  {listItem.customer.username}
                 </Typography>
                 <Box
                   sx={{
