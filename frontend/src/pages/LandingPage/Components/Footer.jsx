@@ -34,16 +34,16 @@ function Copyright() {
 
 export default function Footer() {
 
-  const [email, setEmail] = useState('');
+  const [username, setEmail] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await saveEmailToFirestore(email);
-      setEmail(''); // Clear the email field after submission
-      alert('Email submitted successfully!');
+      await saveEmailToFirestore(username);
+      setEmail(''); // Clear the username field after submission
+      alert('username submitted successfully!');
     } catch (error) {
-      console.error('Error submitting email:', error);
+      console.error('Error submitting username:', error);
     }
   };
 
@@ -99,14 +99,14 @@ export default function Footer() {
                 hiddenLabel
                 size="small"
                 variant="outlined"
-                value={email}
+                value={username}
                 onChange={handleEmailChange}
                 fullWidth
-                aria-label="Enter your email address"
-                placeholder="Your email address"
+                aria-label="Enter your username address"
+                placeholder="Your username address"
                 inputProps={{
                   autocomplete: 'off',
-                  ariaLabel: 'Enter your email address',
+                  ariaLabel: 'Enter your username address',
                 }}
               />
               <Button variant="contained" color="primary" sx={{ flexShrink: 0 }} onClick={handleSubmit}>

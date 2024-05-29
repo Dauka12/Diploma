@@ -6,6 +6,8 @@ import Typography from '@mui/joy/Typography';
 import { CssVarsProvider } from '@mui/joy/styles';
 import * as React from 'react';
 
+
+
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import Header from '../common/Header/Header.tsx';
@@ -15,6 +17,7 @@ import OrderTable from './components/OrderTable.tsx';
 import PrescribingModal from './components/PrescribingModal.tsx';
 
 export default function JoyOrderDashboardTemplate() {
+  
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />

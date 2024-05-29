@@ -153,7 +153,7 @@ function AppAppBar  ({ mode, toggleColorMode }) {
                   <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                   <Button sx={{ minWidth: 0, flex: 1 }} onClick={()=>{navigate("/profile")}}>
                     <Typography variant="body2" color="text.primary" fontWeight={600}>  { `${localStorage.firstName} ${localStorage.lastName}`}</Typography>
-                    {/* <Typography level="body-xs">{ localStorage.email }</Typography> */}
+                    {/* <Typography level="body-xs">{ localStorage.username }</Typography> */}
                   </Button>
                   <IconButton variant="contained" onClick={onLogout}>
                     <LogoutRoundedIcon />
