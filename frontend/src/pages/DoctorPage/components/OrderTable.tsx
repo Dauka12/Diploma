@@ -141,16 +141,16 @@ export default function OrderTable() {
           placeholder="Filter by status"
           slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
         >
-          <Option value="appointed">Appointed</Option>
-          <Option value="refunded">Pending</Option>
-          <Option value="cancelled">Cancelled</Option>
+          <Option value="appointed">Active</Option>
+          <Option value="refunded">Inactive</Option>
+          <Option value="cancelled">Expired</Option>
         </Select>
       </FormControl>
       <FormControl size="sm">
         <FormLabel>Category</FormLabel>
         <Select size="sm" placeholder="All">
           <Option value="all">All</Option>
-          <Option value="refund">Pending</Option>
+          <Option value="refund">Inactive</Option>
           <Option value="purchase">Active</Option>
           <Option value="debit">Expired</Option>
         </Select>
@@ -284,7 +284,8 @@ export default function OrderTable() {
                     '& svg': {
                       transition: '0.2s',
                       display: "flex",
-                      justifyContent:"center",
+                      justifyContent: "center",
+                      textAlign:"center",
                       transform:
                         order === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
                     },
@@ -300,18 +301,18 @@ export default function OrderTable() {
             </tr>
           </thead>
           <tbody>
-            {stableSort(prescriptions, getComparator(order, 'id')).map((prescribe) => (
-              <tr key={prescribe.id}>
+            {stableSort(prescriptions, getComparator(order, 'id')).map((prescription) => (
+              <tr key={prescription.id}>
                 <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox
                     size="sm"
-                    checked={selected.includes(prescribe.id)}
-                    color={selected.includes(prescribe.id) ? 'primary' : undefined}
+                    checked={selected.includes(prescription.id)}
+                    color={selected.includes(prescription.id) ? 'primary' : undefined}
                     onChange={(event) => {
                       setSelected((ids) =>
                         event.target.checked
-                          ? ids.concat(prescribe.id)
-                          : ids.filter((itemId) => itemId !== prescribe.id),
+                          ? ids.concat(prescription.id)
+                          : ids.filter((itemId) => itemId !== prescription.id),
                       );
                     }}
                     slotProps={{ checkbox: { sx: { textAlign: 'left' } } }}
@@ -319,10 +320,10 @@ export default function OrderTable() {
                   />
                 </td>
                 <td>
-                  <Typography level="body-xs">{prescribe.id}</Typography>
+                  <Typography level="body-xs">{prescription.id}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{formatDate(prescribe.createdDate)}</Typography>
+                  <Typography level="body-xs">{formatDate(prescription.createdDate)}</Typography>
                 </td>
                 <td>
                   <Chip
@@ -330,26 +331,26 @@ export default function OrderTable() {
                     size="sm"
                     startDecorator={
                       {
-                        Paid: <CheckRoundedIcon />,
-                        Refunded: <AutorenewRoundedIcon />,
-                        Cancelled: <BlockIcon />,
-                      }[prescribe.status]
+                        "ACTIVE": <CheckRoundedIcon />,
+                        "INACTIVE": <AutorenewRoundedIcon />,
+                        "EXPIRED": <BlockIcon />,
+                      }[prescription.status]
                     }
                     color={
                       {
-                        Paid: 'success',
-                        Refunded: 'neutral',
-                        Cancelled: 'danger',
-                      }[prescribe.status] as ColorPaletteProp
+                        "ACTIVE": 'success',
+                        "INACTIVE": 'neutral',
+                        "EXPIRED": 'danger',
+                      }[prescription.status] as ColorPaletteProp
                     }
                   >
-                    {prescribe.status}
+                    {prescription.status}
                   </Chip>
                 </td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                     <div>
-                      <Typography level="body-xs">{prescribe.patientId.username}</Typography>
+                      <Typography level="body-xs">{prescription.patientId.username}</Typography>
                     </div>
                   </Box>
                 </td>

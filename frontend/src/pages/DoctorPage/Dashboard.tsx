@@ -44,7 +44,7 @@ function InputFormProps() {
   return (
     <form onSubmit={handleSubmit}>
       <Stack spacing={1} direction="row">
-        <Input placeholder="Add Medicaments to prescribe" name="tagName" required />
+        <Input placeholder="Add Medicaments" name="tagName" required />
         <Button type="submit">Submit</Button>
       </Stack>
     </form>

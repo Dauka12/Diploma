@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Chip from '@mui/joy/Chip';
 import Divider from '@mui/joy/Divider';
@@ -10,12 +9,12 @@ import List from '@mui/joy/List';
 import ListDivider from '@mui/joy/ListDivider';
 import ListItem from '@mui/joy/ListItem';
 import ListItemContent from '@mui/joy/ListItemContent';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import Menu from '@mui/joy/Menu';
 import MenuButton from '@mui/joy/MenuButton';
 import MenuItem from '@mui/joy/MenuItem';
 import Typography from '@mui/joy/Typography';
 import { ColorPaletteProp } from '@mui/joy/styles';
+import axios from "axios";
 import * as React from 'react';
 
 import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
@@ -24,69 +23,6 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-
-const listItems = [
-  {
-    id: 'INV-1234',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'O',
-      name: 'Olivia Ryhe',
-      username: 'olivia@username.com',
-    },
-  },
-  {
-    id: 'INV-1233',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      username: 'steve.hamp@username.com',
-    },
-  },
-  {
-    id: 'INV-1232',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'C',
-      name: 'Ciaran Murray',
-      username: 'ciaran.murray@username.com',
-    },
-  },
-  {
-    id: 'INV-1231',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'M',
-      name: 'Maria Macdonald',
-      username: 'maria.mc@username.com',
-    },
-  },
-  {
-    id: 'INV-1230',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      username: 'fulton@username.com',
-    },
-  },
-  {
-    id: 'INV-1229',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'J',
-      name: 'Jay Hooper',
-      username: 'hooper@username.com',
-    },
-  },
-];
 
 function RowMenu() {
   return (
@@ -109,11 +45,40 @@ function RowMenu() {
 }
 
 export default function OrderList() {
+
+  const [patients, setPatients] = React.useState<any[]>([]);
+  const [prescriptions, setPrescriptions] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+
+        // Fetch patients
+        const patientsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/user/getPatients`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const prescriptionsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/prescription/findAllPresByDoctor`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setPatients(patientsResponse.data);
+        setPrescriptions(prescriptionsResponse.data);
+        console.log(patientsResponse.data);
+        console.log(prescriptionsResponse.data);
+        
+        
+      } catch (error) {
+        console.error('Error fetching patients or tags:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-      {listItems.map((listItem) => (
+      {prescriptions.map((prescription) => (
         <List
-          key={listItem.id}
+          key={prescription.id}
           size="sm"
           sx={{
             '--ListItem-paddingX': 0,
@@ -127,15 +92,9 @@ export default function OrderList() {
             }}
           >
             <ListItemContent sx={{ display: 'flex', gap: 2, alignItems: 'start' }}>
-              <ListItemDecorator>
-                <Avatar size="sm">{listItem.customer.initial}</Avatar>
-              </ListItemDecorator>
               <div>
                 <Typography fontWeight={600} gutterBottom>
-                  {listItem.customer.name}
-                </Typography>
-                <Typography level="body-xs" gutterBottom>
-                  {listItem.customer.username}
+                  , {prescription.patientId.phoneNumber}
                 </Typography>
                 <Box
                   sx={{
@@ -146,9 +105,8 @@ export default function OrderList() {
                     mb: 1,
                   }}
                 >
-                  <Typography level="body-xs">{listItem.date}</Typography>
                   <Typography level="body-xs">&bull;</Typography>
-                  <Typography level="body-xs">{listItem.id}</Typography>
+                  <Typography level="body-xs">{prescription.patientId.id}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                   <Link level="body-sm" component="button">
@@ -163,20 +121,20 @@ export default function OrderList() {
               size="sm"
               startDecorator={
                 {
-                  Paid: <CheckRoundedIcon />,
-                  Refunded: <AutorenewRoundedIcon />,
-                  Cancelled: <BlockIcon />,
-                }[listItem.status]
+                  "ACTIVE": <CheckRoundedIcon />,
+                  "INACTIVE": <AutorenewRoundedIcon />,
+                  "EXPIRED": <BlockIcon />,
+                }[prescription.status]
               }
               color={
                 {
-                  Paid: 'success',
-                  Refunded: 'neutral',
-                  Cancelled: 'danger',
-                }[listItem.status] as ColorPaletteProp
+                  "ACTIVE": 'success',
+                  "INACTIVE": 'neutral',
+                  "EXPIRED": 'danger',
+                }[prescription.status] as ColorPaletteProp
               }
             >
-              {listItem.status}
+              {prescription.status}
             </Chip>
           </ListItem>
           <ListDivider />

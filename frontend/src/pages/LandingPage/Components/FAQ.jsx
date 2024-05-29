@@ -61,7 +61,7 @@ export default function FAQ() {
               sx={{ maxWidth: { sm: '100%', md: '70%' } }}
             >
               You can reach our e-prescribing support team by emailing
-              <Link> support@eprescribe.com </Link>
+              <Link> support@eprescription.com </Link>
               or calling our toll-free number. We're dedicated to assisting you promptly with any e-prescribing inquiries.
             </Typography>
           </AccordionDetails>

@@ -35,7 +35,7 @@ const items = [
     icon: <Diversity3Icon />,
     title: "Relatives' recipes",
     description:
-      'It is possible to connect children and grandparents to electronic prescriptions and find out what they have been prescribed and keep track of their medication intake.',
+      'It is possible to connect children and grandparents to electronic prescriptions and find out what they have been prescriptiond and keep track of their medication intake.',
   },
   {
     icon: <HealingIcon />,
