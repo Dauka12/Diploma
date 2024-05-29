@@ -1,4 +1,5 @@
 import Add from '@mui/icons-material/Add';
+import { Box, Chip } from '@mui/joy';
 import Button from '@mui/joy/Button';
 import DialogTitle from '@mui/joy/DialogTitle';
 import Modal from '@mui/joy/Modal';
@@ -22,6 +23,15 @@ function SelectMultiple({ tags, setSelectedTags }) {
       defaultValue={['0']}
       multiple
       placeholder="Select a drugs"
+      renderValue={(selected) => (
+        <Box sx={{ display: 'flex', gap: '0.25rem' }}>
+          {selected.map((selectedOption) => (
+            <Chip variant="soft" color="primary">
+              {selectedOption.label}
+            </Chip>
+          ))}
+        </Box>
+      )}
       onChange={handleChange}
       sx={{
         minWidth: '13rem',

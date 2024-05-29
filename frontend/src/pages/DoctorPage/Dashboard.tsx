@@ -1,9 +1,13 @@
 import Box from '@mui/joy/Box';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
+import Button from '@mui/joy/Button';
 import CssBaseline from '@mui/joy/CssBaseline';
+import Input from '@mui/joy/Input';
 import Link from '@mui/joy/Link';
+import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import { CssVarsProvider } from '@mui/joy/styles';
+import axios from "axios";
 import * as React from 'react';
 
 
@@ -15,6 +19,37 @@ import Sidebar from '../common/Sidebar/Sidebar.tsx';
 import OrderList from './components/OrderList.tsx';
 import OrderTable from './components/OrderTable.tsx';
 import PrescribingModal from './components/PrescribingModal.tsx';
+
+function InputFormProps() {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries(formData.entries());
+    const token = localStorage.getItem('accessToken');
+
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/tag/create`, JSON.stringify(formJson), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      alert(`Response: ${JSON.stringify(response.data)}`);
+    } catch (error) {
+      console.error('Error saving data:', error);
+      alert('Error saving data');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Stack spacing={1} direction="row">
+        <Input placeholder="Add Medicaments to prescribe" name="tagName" required />
+        <Button type="submit">Submit</Button>
+      </Stack>
+    </form>
+  );
+}
 
 export default function JoyOrderDashboardTemplate() {
   
@@ -86,6 +121,7 @@ export default function JoyOrderDashboardTemplate() {
             <Typography level="h2" component="h1">
               Prescriptions
             </Typography>
+            <InputFormProps/>
             <PrescribingModal />
           </Box>
           <OrderTable />

@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Checkbox from '@mui/joy/Checkbox';
@@ -23,6 +22,8 @@ import Sheet from '@mui/joy/Sheet';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
 import { ColorPaletteProp } from '@mui/joy/styles';
+import axios from 'axios';
+import { format } from 'date-fns';
 import * as React from 'react';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -34,189 +35,6 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import SearchIcon from '@mui/icons-material/Search';
-
-const rows = [
-  {
-    id: 'INV-1234',
-    date: 'Feb 3, 2023',
-    status: 'Pending',
-    customer: {
-      initial: 'O',
-      name: 'Olivia Ryhe',
-      username: 'olivia@username.com',
-    },
-  },
-  {
-    id: 'INV-1233',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      username: 'steve.hamp@username.com',
-    },
-  },
-  {
-    id: 'INV-1232',
-    date: 'Feb 3, 2023',
-    status: 'Pending',
-    customer: {
-      initial: 'C',
-      name: 'Ciaran Murray',
-      username: 'ciaran.murray@username.com',
-    },
-  },
-  {
-    id: 'INV-1231',
-    date: 'Feb 3, 2023',
-    status: 'Pending',
-    customer: {
-      initial: 'M',
-      name: 'Maria Macdonald',
-      username: 'maria.mc@username.com',
-    },
-  },
-  {
-    id: 'INV-1230',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      username: 'fulton@username.com',
-    },
-  },
-  {
-    id: 'INV-1229',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'J',
-      name: 'Jay Hooper',
-      username: 'hooper@username.com',
-    },
-  },
-  {
-    id: 'INV-1228',
-    date: 'Feb 3, 2023',
-    status: 'Pending',
-    customer: {
-      initial: 'K',
-      name: 'Krystal Stevens',
-      username: 'k.stevens@username.com',
-    },
-  },
-  {
-    id: 'INV-1227',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'S',
-      name: 'Sachin Flynn',
-      username: 's.flyn@username.com',
-    },
-  },
-  {
-    id: 'INV-1226',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'B',
-      name: 'Bradley Rosales',
-      username: 'brad123@username.com',
-    },
-  },
-  {
-    id: 'INV-1225',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'O',
-      name: 'Olivia Ryhe',
-      username: 'olivia@username.com',
-    },
-  },
-  {
-    id: 'INV-1224',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      username: 'steve.hamp@username.com',
-    },
-  },
-  {
-    id: 'INV-1223',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'C',
-      name: 'Ciaran Murray',
-      username: 'ciaran.murray@username.com',
-    },
-  },
-  {
-    id: 'INV-1221',
-    date: 'Feb 3, 2023',
-    status: 'Pending',
-    customer: {
-      initial: 'M',
-      name: 'Maria Macdonald',
-      username: 'maria.mc@username.com',
-    },
-  },
-  {
-    id: 'INV-1220',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      username: 'fulton@username.com',
-    },
-  },
-  {
-    id: 'INV-1219',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'J',
-      name: 'Jay Hooper',
-      username: 'hooper@username.com',
-    },
-  },
-  {
-    id: 'INV-1218',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'K',
-      name: 'Krystal Stevens',
-      username: 'k.stevens@username.com',
-    },
-  },
-  {
-    id: 'INV-1217',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'S',
-      name: 'Sachin Flynn',
-      username: 's.flyn@username.com',
-    },
-  },
-  {
-    id: 'INV-1216',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'B',
-      name: 'Bradley Rosales',
-      username: 'brad123@username.com',
-    },
-  },
-];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -282,6 +100,38 @@ export default function OrderTable() {
   const [order, setOrder] = React.useState<Order>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
+  const [patients, setPatients] = React.useState<any[]>([]);
+  const [prescriptions, setPrescriptions] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+
+        // Fetch patients
+        const patientsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/user/getPatients`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const prescriptionsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/prescription/findAllPresByDoctor`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setPatients(patientsResponse.data);
+        setPrescriptions(prescriptionsResponse.data);
+        console.log(patientsResponse.data);
+        console.log(prescriptionsResponse.data);
+        
+        
+      } catch (error) {
+        console.error('Error fetching patients or tags:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  function formatDate(dateString) {
+    return format(new Date(dateString), 'dd-MM-yyyy HH:mm');
+  }
+
   const renderFilters = () => (
     <React.Fragment>
       <FormControl size="sm">
@@ -300,21 +150,19 @@ export default function OrderTable() {
         <FormLabel>Category</FormLabel>
         <Select size="sm" placeholder="All">
           <Option value="all">All</Option>
-          <Option value="refund">Refund</Option>
-          <Option value="purchase">Purchase</Option>
-          <Option value="debit">Debit</Option>
+          <Option value="refund">Pending</Option>
+          <Option value="purchase">Active</Option>
+          <Option value="debit">Expired</Option>
         </Select>
       </FormControl>
       <FormControl size="sm">
         <FormLabel>Patient</FormLabel>
         <Select size="sm" placeholder="All">
-          <Option value="all">All</Option>
-          <Option value="olivia">Olivia Rhye</Option>
-          <Option value="steve">Steve Hampton</Option>
-          <Option value="ciaran">Ciaran Murray</Option>
-          <Option value="marina">Marina Macdonald</Option>
-          <Option value="charles">Charles Fulton</Option>
-          <Option value="jay">Jay Hoper</Option>
+        {patients.map((patient) => (
+                <Option key={patient.id} value={patient.id} >
+                  {patient.username}
+                </Option>
+              ))}
         </Select>
       </FormControl>
     </React.Fragment>
@@ -408,16 +256,16 @@ export default function OrderTable() {
                 <Checkbox
                   size="sm"
                   indeterminate={
-                    selected.length > 0 && selected.length !== rows.length
+                    selected.length > 0 && selected.length !== prescriptions.length
                   }
-                  checked={selected.length === rows.length}
+                  checked={selected.length === prescriptions.length}
                   onChange={(event) => {
                     setSelected(
-                      event.target.checked ? rows.map((row) => row.id) : [],
+                      event.target.checked ? prescriptions.map((row) => row.id) : [],
                     );
                   }}
                   color={
-                    selected.length > 0 || selected.length === rows.length
+                    selected.length > 0 || selected.length === prescriptions.length
                       ? 'primary'
                       : undefined
                   }
@@ -435,33 +283,35 @@ export default function OrderTable() {
                   sx={{
                     '& svg': {
                       transition: '0.2s',
+                      display: "flex",
+                      justifyContent:"center",
                       transform:
                         order === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
                     },
                   }}
                 >
-                  Invoice
+                  ID
                 </Link>
               </th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Date</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Status</th>
-              <th style={{ width: 240, padding: '12px 6px' }}>Patient</th>
-              <th style={{ width: 140, padding: '12px 6px' }}> </th>
+              <th style={{ width: 140, padding: '12px 6px', textAlign:"center" }}>Date</th>
+              <th style={{ width: 140, padding: '12px 6px', textAlign:"center" }}>Status</th>
+              <th style={{ width: 240, padding: '12px 6px', }}>Patient</th>
+              <th style={{ width: 140, padding: '12px 6px', textAlign:"center" }}> </th>
             </tr>
           </thead>
           <tbody>
-            {stableSort(rows, getComparator(order, 'id')).map((row) => (
-              <tr key={row.id}>
+            {stableSort(prescriptions, getComparator(order, 'id')).map((prescribe) => (
+              <tr key={prescribe.id}>
                 <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox
                     size="sm"
-                    checked={selected.includes(row.id)}
-                    color={selected.includes(row.id) ? 'primary' : undefined}
+                    checked={selected.includes(prescribe.id)}
+                    color={selected.includes(prescribe.id) ? 'primary' : undefined}
                     onChange={(event) => {
                       setSelected((ids) =>
                         event.target.checked
-                          ? ids.concat(row.id)
-                          : ids.filter((itemId) => itemId !== row.id),
+                          ? ids.concat(prescribe.id)
+                          : ids.filter((itemId) => itemId !== prescribe.id),
                       );
                     }}
                     slotProps={{ checkbox: { sx: { textAlign: 'left' } } }}
@@ -469,10 +319,10 @@ export default function OrderTable() {
                   />
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.id}</Typography>
+                  <Typography level="body-xs">{prescribe.id}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.date}</Typography>
+                  <Typography level="body-xs">{formatDate(prescribe.createdDate)}</Typography>
                 </td>
                 <td>
                   <Chip
@@ -483,25 +333,23 @@ export default function OrderTable() {
                         Paid: <CheckRoundedIcon />,
                         Refunded: <AutorenewRoundedIcon />,
                         Cancelled: <BlockIcon />,
-                      }[row.status]
+                      }[prescribe.status]
                     }
                     color={
                       {
                         Paid: 'success',
                         Refunded: 'neutral',
                         Cancelled: 'danger',
-                      }[row.status] as ColorPaletteProp
+                      }[prescribe.status] as ColorPaletteProp
                     }
                   >
-                    {row.status}
+                    {prescribe.status}
                   </Chip>
                 </td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <Avatar size="sm">{row.customer.initial}</Avatar>
                     <div>
-                      <Typography level="body-xs">{row.customer.name}</Typography>
-                      <Typography level="body-xs">{row.customer.username}</Typography>
+                      <Typography level="body-xs">{prescribe.patientId.username}</Typography>
                     </div>
                   </Box>
                 </td>
