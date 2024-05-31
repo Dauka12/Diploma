@@ -8,7 +8,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useState } from 'react';
-import { saveEmailToFirestore } from '../../../firebase';
 
 import FacebookIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -39,7 +38,6 @@ export default function Footer() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await saveEmailToFirestore(username);
       setEmail(''); // Clear the username field after submission
       alert('username submitted successfully!');
     } catch (error) {

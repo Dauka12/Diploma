@@ -22,12 +22,10 @@ import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
 import ListItemContent from '@mui/joy/ListItemContent';
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
-import { doc, getDoc } from 'firebase/firestore';
 import * as React from 'react';
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { db } from '../../../firebase.js';
 import { endSession, isLoggedIn } from "../../../session.js";
 
 
@@ -86,16 +84,8 @@ export default function Sidebar() {
       if (uid) {
         const getUser = async () => {
           try {
-            const userDocRef = doc(db, "users", uid);
-            const userDocSnapshot = await getDoc(userDocRef);
-            if (userDocSnapshot.exists()) {
-              setUser(userDocSnapshot.data() as User);
-              dispatch({ type: 'SET_USER', payload: userDocSnapshot.data() });
-              localStorage.setItem("firstName", userDocSnapshot.data().firstName );
-              localStorage.setItem("lastName", userDocSnapshot.data().lastName)
-            } else {
-              console.log("Документ с UID пользователя не найден.");
-            }
+            
+            
           } catch (error) {
             console.error("Ошибка при получении пользователя:", error.message);
           }

@@ -36,6 +36,28 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import SearchIcon from '@mui/icons-material/Search';
 
+interface Patient {
+  id: number;
+  username: string;
+}
+
+interface Prescription {
+  id: number;
+  createdDate: Date;
+  status: 'ACTIVE' | 'INACTIVE' | 'EXPIRED';
+  patientId: Patient;
+}
+
+
+
+interface Props {
+  prescriptions: Prescription[];
+  selected: number[];
+  setSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  order: Order;
+}
+
+
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -100,8 +122,8 @@ export default function OrderTable() {
   const [order, setOrder] = React.useState<Order>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
-  const [patients, setPatients] = React.useState<any[]>([]);
-  const [prescriptions, setPrescriptions] = React.useState<any[]>([]);
+  const [patients, setPatients] = React.useState<Patient[]>([]);
+  const [prescriptions, setPrescriptions] = React.useState<Prescription[]>([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -261,7 +283,7 @@ export default function OrderTable() {
                   checked={selected.length === prescriptions.length}
                   onChange={(event) => {
                     setSelected(
-                      event.target.checked ? prescriptions.map((row) => row.id) : [],
+                      event.target.checked ? prescriptions.map((prescription) => prescription.id) : [],
                     );
                   }}
                   color={
@@ -301,7 +323,7 @@ export default function OrderTable() {
             </tr>
           </thead>
           <tbody>
-            {stableSort(prescriptions, getComparator(order, 'id')).map((prescription) => (
+            {stableSort(prescriptions, getComparator(order, 'id')).map(( prescription ) => (
               <tr key={prescription.id}>
                 <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox

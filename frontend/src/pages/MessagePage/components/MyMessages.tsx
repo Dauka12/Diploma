@@ -2,7 +2,6 @@ import Sheet from '@mui/joy/Sheet';
 import * as React from 'react';
 
 import { useEffect, useState } from 'react';
-import { getChats, getUsers } from '../../../firebase.js';
 import { chats } from '../data.tsx';
 import { ChatProps } from '../types';
 import ChatsPane from './ChatsPane.tsx';
@@ -14,10 +13,6 @@ export default function MyProfile() {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const chatsArray = await getChats();
-        const usersArray = await getUsers();
-        console.log(chatsArray);
-        console.log(usersArray);
         // setChats(chatsArray);
       } catch (error) {
         console.error('Error fetching chats:', error);

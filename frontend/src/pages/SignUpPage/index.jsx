@@ -9,11 +9,9 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { doc, setDoc } from "firebase/firestore";
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUser, db } from "../../firebase";
-import { isLoggedIn, startSession } from "../../session";
+import { isLoggedIn } from "../../session";
 import logo from './../../assets/images/logo.png';
 
 function Copyright(props) {
@@ -50,18 +48,7 @@ export default function SignUp() {
         lastName: data.get('lastName')
       }
       console.log(account);
-      let registerResponse = await createUser(account.username, account.password);
-      startSession(registerResponse.user);
 
-      const userDocRef = doc(db, "users", registerResponse.user.uid);
-
-      await setDoc(userDocRef, {
-        username: account.username,
-        firstName: account.firstName,
-        lastName: account.lastName,
-      });
-  
-      console.log("Пользователь успешно создан:", registerResponse.user.uid);
       
       
       navigate("/profile");
