@@ -120,7 +120,7 @@ function RowMenu() {
 
 export default function OrderTable() {
   const [order, setOrder] = React.useState<Order>('desc');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const [selected, setSelected] = React.useState<number[]>([]);
   const [open, setOpen] = React.useState(false);
   const [patients, setPatients] = React.useState<Patient[]>([]);
   const [prescriptions, setPrescriptions] = React.useState<Prescription[]>([]);
