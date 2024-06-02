@@ -23,6 +23,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
+import base_url from '../../../base-url';
 
 function RowMenu() {
   return (
@@ -55,13 +56,15 @@ export default function OrderList() {
         const token = localStorage.getItem('accessToken');
 
         // Fetch patients
-        const patientsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/user/getPatients`, {
+        const patientsResponse = await axios.get(`${base_url}/user/getPatients`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        const prescriptionsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/prescription/findAllPresByDoctor`, {
+        const prescriptionsResponse = await axios.get(`${base_url}/prescription/findAllPresByDoctor`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setPatients(patientsResponse.data);
+        console.log(patients);
+        
         setPrescriptions(prescriptionsResponse.data);
         console.log(patientsResponse.data);
         console.log(prescriptionsResponse.data);

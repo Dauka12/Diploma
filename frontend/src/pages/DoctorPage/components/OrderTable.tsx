@@ -35,6 +35,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import SearchIcon from '@mui/icons-material/Search';
+import base_url from '../../../base-url';
 
 interface Patient {
   id: number;
@@ -47,16 +48,6 @@ interface Prescription {
   status: 'ACTIVE' | 'INACTIVE' | 'EXPIRED';
   patientId: Patient;
 }
-
-
-
-interface Props {
-  prescriptions: Prescription[];
-  selected: number[];
-  setSelected: React.Dispatch<React.SetStateAction<number[]>>;
-  order: Order;
-}
-
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -131,10 +122,10 @@ export default function OrderTable() {
         const token = localStorage.getItem('accessToken');
 
         // Fetch patients
-        const patientsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/user/getPatients`, {
+        const patientsResponse = await axios.get(`${base_url}/user/getPatients`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        const prescriptionsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/prescription/findAllPresByDoctor`, {
+        const prescriptionsResponse = await axios.get(`${base_url}/prescription/findAllPresByDoctor`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setPatients(patientsResponse.data);
