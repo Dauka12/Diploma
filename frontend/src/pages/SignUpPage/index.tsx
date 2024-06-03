@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from "../../session";
 import logo from './../../assets/images/logo.png';
 
-function Copyright(props) {
+function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -36,7 +36,7 @@ export default function SignUp() {
       navigate("/profile");
     }
   }, [navigate]);
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
@@ -54,7 +54,7 @@ export default function SignUp() {
       navigate("/profile");
     } catch (error) {
       console.error(error.message);
-      await alert(error)
+      alert(error)
     }
   };
 

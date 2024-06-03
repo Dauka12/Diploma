@@ -12,10 +12,11 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import base_url from '../../base-url';
 import { isLoggedIn, startSession } from "../../session";
 import logo from './../../assets/images/logo.png';
 
-function Copyright(props) {
+function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -36,7 +37,7 @@ export default function SignIn() {
     }
   }, [navigate]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const account = {
@@ -45,7 +46,7 @@ export default function SignIn() {
     };
     try {
       console.log(typeof account.password);
-      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth`, account);
+      const response = await axios.post(`${base_url}/auth`, account);
       console.log(response.data);
       startSession(response.data);
       navigate("/profile");
