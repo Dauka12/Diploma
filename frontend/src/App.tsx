@@ -1,11 +1,12 @@
+import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 import Dashboard from "./pages/DoctorPage/Dashboard.tsx";
-import LandingPage from "./pages/LandingPage/LandingPage";
+import LandingPage from "./pages/LandingPage/LandingPage.jsx";
 import MessagesPage from './pages/MessagePage/MessagesPage.tsx';
 import ProfilePage from './pages/ProfilePage/ProfilePage.tsx';
-import SignIn from './pages/SignInPage';
-import SignUp from './pages/SignUpPage';
+import SignIn from './pages/SignInPage/index.jsx';
+import SignUp from './pages/SignUpPage/index.jsx';
 
 function App() {
   return (
