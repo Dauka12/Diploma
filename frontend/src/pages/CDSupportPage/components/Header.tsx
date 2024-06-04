@@ -22,6 +22,7 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import AvatarImg from '../../../assets/images/logo.png';
 
 import TeamNav from './Navigation.tsx';
 
@@ -117,8 +118,8 @@ export default function Header() {
             sx={{ maxWidth: '32px', maxHeight: '32px', borderRadius: '9999999px' }}
           >
             <Avatar
-              src="https://i.pravatar.cc/40?img=2"
-              srcSet="https://i.pravatar.cc/80?img=2"
+              src={AvatarImg}
+              srcSet={AvatarImg}
               sx={{ maxWidth: '32px', maxHeight: '32px' }}
             />
           </MenuButton>
@@ -140,8 +141,8 @@ export default function Header() {
                 }}
               >
                 <Avatar
-                  src="https://i.pravatar.cc/40?img=2"
-                  srcSet="https://i.pravatar.cc/80?img=2"
+                  src={AvatarImg}
+                  srcSet={AvatarImg}
                   sx={{ borderRadius: '50%' }}
                 />
                 <Box sx={{ ml: 1.5 }}>

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 import CDSupportPage from './pages/CDSupportPage/App.tsx';
+import { default as CDSupportMedicamentsManagementPage, default as CDSupportUsersManagementPage } from './pages/CDSupportPage/ManagementPage.tsx';
 import Dashboard from "./pages/DoctorPage/Dashboard.tsx";
 import LandingPage from "./pages/LandingPage/LandingPage.jsx";
 import MessagesPage from './pages/MessagePage/MessagesPage.tsx';
@@ -18,7 +19,9 @@ function App() {
           <Route path="/sign-up" element={<SignUp />}></Route>
           <Route path="/prescription" element={<Dashboard />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
-          <Route path="/clinical-decision-support" element={<CDSupportPage />}></Route>
+          <Route path="/clinical-decision-support/prescriptions-management" element={<CDSupportPage />}></Route>
+          <Route path="/clinical-decision-support/medicaments-management" element={<CDSupportMedicamentsManagementPage />}></Route>
+          <Route path="/clinical-decision-support/users-management" element={<CDSupportUsersManagementPage />}></Route>
           <Route path="/messages" element={<MessagesPage />}></Route>
           <Route path="/" element={<LandingPage />}></Route>
         </Routes>

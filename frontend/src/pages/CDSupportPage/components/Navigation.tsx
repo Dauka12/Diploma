@@ -6,12 +6,31 @@ import ListItemContent from '@mui/joy/ListItemContent';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListSubheader from '@mui/joy/ListSubheader';
 import * as React from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
 
 import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded';
 import AssignmentIndRoundedIcon from '@mui/icons-material/AssignmentIndRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 
+
+const paths = [
+    "/clinical-decision-support/prescriptions-management",
+    "/clinical-decision-support/medicaments-management",
+    "/clinical-decision-support/users-management",
+  ];
+  
+
 export default function Navigation() {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const selectedIndex = React.useMemo(() => {
+        return paths.indexOf(location.pathname);
+    }, [location.pathname]);
+
+    const handleListItemClick = (index: number, path: string) => {
+        navigate(path);
+    };
   return (
     <List
       size="sm"
@@ -28,27 +47,27 @@ export default function Navigation() {
           }}
         >
           <ListItem>
-            <ListItemButton selected>
+            <ListItemButton onClick={() => handleListItemClick(0, paths[0])} selected={selectedIndex === 0}>
               <ListItemDecorator>
-                <PeopleRoundedIcon fontSize="small" />
+                <ArticleRoundedIcon fontSize="small" />
               </ListItemDecorator>
-              <ListItemContent>People</ListItemContent>
+              <ListItemContent>Managing Prescriptions</ListItemContent>
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+            <ListItemButton onClick={() => handleListItemClick(1, paths[1])} selected={selectedIndex === 1}>
               <ListItemDecorator sx={{ color: 'neutral.500' }}>
                 <AssignmentIndRoundedIcon fontSize="small" />
               </ListItemDecorator>
-              <ListItemContent>Managing accounts</ListItemContent>
+              <ListItemContent>Managing Medicaments</ListItemContent>
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+            <ListItemButton onClick={() => handleListItemClick(2, paths[2])} selected={selectedIndex === 2}>
               <ListItemDecorator sx={{ color: 'neutral.500' }}>
-                <ArticleRoundedIcon fontSize="small" />
+                <PeopleRoundedIcon fontSize="small" />
               </ListItemDecorator>
-              <ListItemContent>Policies</ListItemContent>
+              <ListItemContent>Managing users</ListItemContent>
               <Chip variant="soft" color="warning" size="sm">
                 2
               </Chip>

@@ -14,6 +14,7 @@ import * as React from 'react';
 
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import base_url from '../../base-url.js';
 import Header from '../common/Header/Header.tsx';
 import Sidebar from '../common/Sidebar/Sidebar.tsx';
 import OrderList from './components/OrderList.tsx';
@@ -28,7 +29,7 @@ function InputFormProps() {
     const token = localStorage.getItem('accessToken');
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/tag/create`, JSON.stringify(formJson), {
+      const response = await axios.post(`${base_url}/tag/create`, JSON.stringify(formJson), {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
