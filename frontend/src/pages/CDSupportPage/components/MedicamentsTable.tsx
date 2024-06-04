@@ -142,7 +142,7 @@ export default function MedicationTable() {
               borderBottom: 0,
             },
             padding: "2px",
-            border: "1px gray solid",
+            border: "1px #e2e2e9 solid",
             borderRadius: "8px"
         }}
       >
