@@ -31,9 +31,15 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const role = localStorage.getItem('role');
   React.useEffect(() => {
-    if (isLoggedIn()) {
+    if (isLoggedIn() && role === 'ROLE_DOCTOR') {
       navigate("/profile");
+    } else
+    if(isLoggedIn() && role === 'ROLE_ADMIN'){
+      navigate("/clinical-decision-support/prescriptions-management")
+    } else {
+      navigate('/sign-in')
     }
   }, [navigate]);
 
@@ -41,15 +47,20 @@ export default function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const account = {
-      username: data.get('username'),
+      iin: data.get('iin'),
       password: data.get('password')
     };
     try {
       console.log(typeof account.password);
       const response = await axios.post(`${base_url}/auth`, account);
       console.log(response.data);
+      
       startSession(response.data);
-      navigate("/profile");
+      if (response.data.roles[0].name === "ROLE_ADMIN") {
+        navigate("/clinical-decision-support/prescriptions-management");
+      } else {
+        navigate("/profile");
+      }
     } catch (error) {
       console.error(error.message);
     }
@@ -102,10 +113,10 @@ export default function SignIn() {
                 margin="normal"
                 required
                 fullWidth
-                id="username"
+                id="iin"
                 label="User name"
-                name="username"
-                autoComplete="username"
+                name="iin"
+                autoComplete="iin"
                 autoFocus
               />
               <TextField

@@ -7,39 +7,170 @@ import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
+import Option from '@mui/joy/Option';
+import Select from '@mui/joy/Select';
 import Typography from '@mui/joy/Typography';
+import axios from "axios";
 import * as React from 'react';
+import base_url from '../../../base-url';
 
 interface Medication {
-    name: string;
-    dosage: number;
-    frequency: string;
-    sideEffects: string;
-    price: number;
-    history: History[];
-  }
-  
+  medName: string;
+  description: string;
+  country: string;
+  producer: string;
+  category: string[];
+  price: number;
+  tags: number[];
+  imageUrl?: string;
+}
+
+interface Tag {
+  id: number;
+  tagName: string;
+}
+
+interface Category {
+  id: number;
+  categoryName: string;
+}
+
+const testCategories: Category[] = [
+  { id: 1, categoryName: 'Antibiotic' },
+  { id: 2, categoryName: 'Analgesic' },
+  { id: 3, categoryName: 'Antipyretic' },
+  { id: 4, categoryName: 'Antiseptic' },
+  { id: 5, categoryName: 'Vaccine' },
+  { id: 6, categoryName: 'Antiviral' },
+  { id: 7, categoryName: 'Antifungal' },
+  { id: 8, categoryName: 'Anti-inflammatory' },
+  { id: 9, categoryName: 'Antihistamine' },
+  { id: 10, categoryName: 'Corticosteroid' }
+];
+
+// Example usage in your component's state initialization
+
+function SelectMultiple({ items, setSelectedItems, placeholder }: { items: Tag[] | Category[], setSelectedItems: (items: number[]) => void, placeholder: string }) {
+  const handleChange = (
+    event: React.SyntheticEvent | null,
+    newValue: number[] | null,
+  ) => {
+    console.log(`You have chosen "${newValue}"`);
+    setSelectedItems(newValue || []);
+  };
+
+  return (
+    <Select
+      multiple
+      placeholder={placeholder}
+      onChange={handleChange}
+      sx={{
+        minWidth: '13rem',
+      }}
+      slotProps={{
+        listbox: {
+          sx: {
+            width: '100%',
+          },
+        },
+      }}
+    >
+      {items.map((item) => (
+        <Option key={item.id} value={item.id}>
+          {item.tagName || item.categoryName}
+        </Option>
+      ))}
+    </Select>
+  );
+}
+
 export default function MedicationForm() {
   const [medication, setMedication] = React.useState<Medication>({
-    name: '',
-    dosage: 0,
-    frequency: '',
-    sideEffects: '',
+    medName: '',
+    description: '',
+    country: '',
+    producer: '',
     price: 0,
-    history: [],
+    category: [],
+    tags: []
   });
+  const [tags, setTags] = React.useState<Tag[]>([]);
+  const [categories, setCategories] = React.useState<Category[]>(testCategories);
+  const [selectedTags, setSelectedTags] = React.useState<number[]>([]);
+  const [selectedCategories, setSelectedCategories] = React.useState<number[]>([]);
+  const [imageFile, setImageFile] = React.useState<File | null>(null);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const tagsResponse = await axios.get(`${base_url}/tag/getAll`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setTags(tagsResponse.data);
+
+        // const categoriesResponse = await axios.get(`${base_url}/category/getAll`, {
+        //   headers: { Authorization: `Bearer ${token}` }
+        // });
+        // setCategories(categoriesResponse.data);
+
+        console.log(tagsResponse.data);
+        // console.log(categoriesResponse.data);
+      } catch (error) {
+        console.error('Error fetching tags and categories:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setMedication((prev) => ({
       ...prev,
-      [name]: name === 'dosage' || name === 'price' ? parseFloat(value) : value,
+      [name]: name === 'price' ? parseFloat(value) : value,
     }));
   };
 
-  const handleSubmit = () => {
-    console.log('New Medication:', medication);
-    // Add logic to save medication to the database
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImageFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+
+      // Upload the image if there is one
+      let imageUrl = '';
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append('image', imageFile);
+
+        const imageResponse = await axios.post(`${base_url}/image/uploadImage`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        imageUrl = imageResponse.data.url;
+      }
+
+      const response = await axios.post(`${base_url}/medicament/create`, {
+        ...medication,
+        imageUrl,
+        tags: selectedTags,
+        category: selectedCategories
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      console.log('New Medication:', response.data);
+    } catch (error) {
+      console.error('Error adding medication:', error);
+    }
   };
 
   return (
@@ -49,7 +180,6 @@ export default function MedicationForm() {
         maxHeight: 'max-content',
         maxWidth: '100%',
         mx: 'auto',
-        // to make the demo resizable
         overflow: 'auto',
         resize: 'horizontal',
       }}
@@ -67,41 +197,35 @@ export default function MedicationForm() {
       >
         <FormControl sx={{ gridColumn: '1/-1' }}>
           <FormLabel>Medication Name</FormLabel>
-          <Input name="name" value={medication.name} onChange={handleChange} />
+          <Input name="medName" value={medication.medName} onChange={handleChange} />
+        </FormControl>
+        <FormControl sx={{ gridColumn: '1/-1' }}>
+          <FormLabel>Description</FormLabel>
+          <Input name="description" value={medication.description} onChange={handleChange} />
         </FormControl>
         <FormControl>
-          <FormLabel>Dosage (mg)</FormLabel>
-          <Input
-            name="dosage"
-            type="number"
-            value={medication.dosage}
-            onChange={handleChange}
-          />
+          <FormLabel>Country</FormLabel>
+          <Input name="country" value={medication.country} onChange={handleChange} />
         </FormControl>
         <FormControl>
-          <FormLabel>Frequency</FormLabel>
-          <Input
-            name="frequency"
-            value={medication.frequency}
-            onChange={handleChange}
-          />
+          <FormLabel>Producer</FormLabel>
+          <Input name="producer" value={medication.producer} onChange={handleChange} />
         </FormControl>
-        <FormControl>
-          <FormLabel>Side Effects</FormLabel>
-          <Input
-            name="sideEffects"
-            value={medication.sideEffects}
-            onChange={handleChange}
-          />
+        <FormControl sx={{ gridColumn: '1/-1' }}>
+          <FormLabel>Select Tags</FormLabel>
+          <SelectMultiple items={tags} setSelectedItems={setSelectedTags} placeholder="Select tags" />
+        </FormControl>
+        <FormControl sx={{ gridColumn: '1/-1' }}>
+          <FormLabel>Select Categories</FormLabel>
+          <SelectMultiple items={categories} setSelectedItems={setSelectedCategories} placeholder="Select categories" />
         </FormControl>
         <FormControl>
           <FormLabel>Price ($)</FormLabel>
-          <Input
-            name="price"
-            type="number"
-            value={medication.price}
-            onChange={handleChange}
-          />
+          <Input name="price" type="number" value={medication.price} onChange={handleChange} />
+        </FormControl>
+        <FormControl sx={{ gridColumn: '1/-1' }}>
+          <FormLabel>Upload Image</FormLabel>
+          <Input type="file" onChange={handleImageChange} />
         </FormControl>
         <CardActions sx={{ gridColumn: '1/-1' }}>
           <Button variant="solid" color="primary" onClick={handleSubmit}>

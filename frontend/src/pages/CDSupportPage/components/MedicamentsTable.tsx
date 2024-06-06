@@ -4,54 +4,37 @@ import IconButton from '@mui/joy/IconButton';
 import Sheet from '@mui/joy/Sheet';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
+import axios from 'axios';
 import * as React from 'react';
-
-interface History {
-  date: string;
-  patientId: string;
-  dosage: number;
-}
+import { useEffect, useState } from 'react';
+import base_url from '../../../base-url';
 
 interface Medication {
-  name: string;
-  dosage: number;
-  frequency: string;
-  sideEffects: string;
+  medName: string;
+  description: string;
+  country: string;
+  producer: string;
+  category: string[];
   price: number;
-  history: History[];
+  tags: Tag[];
+  imageUrl?: string;
 }
 
-function createData(
-  name: string,
-  dosage: number,
-  frequency: string,
-  sideEffects: string,
-  price: number,
-): Medication {
-  return {
-    name,
-    dosage,
-    frequency,
-    sideEffects,
-    price,
-    history: [
-      {
-        date: '2023-05-01',
-        patientId: '12345',
-        dosage: 2,
-      },
-      {
-        date: '2023-05-02',
-        patientId: '67890',
-        dosage: 1,
-      },
-    ],
-  };
+interface Tag {
+  id: number;
+  tagName: string;
+}
+
+interface Category {
+  id: number;
+  categoryName: string;
 }
 
 function Row(props: { row: Medication; initialOpen?: boolean }) {
   const { row } = props;
-  const [open, setOpen] = React.useState(props.initialOpen || false);
+  const [open, setOpen] = useState(props.initialOpen || false);
+
+  const truncatedDescription = row.description.length > 40 ? row.description.slice(0, 37) + '...' : row.description;
 
   return (
     <React.Fragment>
@@ -67,52 +50,35 @@ function Row(props: { row: Medication; initialOpen?: boolean }) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </td>
-        <th scope="row">{row.name}</th>
-        <td>{row.dosage}</td>
-        <td>{row.frequency}</td>
-        <td>{row.sideEffects}</td>
+        <th scope="row">{row.medName}</th>
+        <td>{truncatedDescription}</td>
+        <td>{row.country}</td>
+        <td>{row.producer}</td>
+        <td>{row.price}</td>
       </tr>
       <tr>
-        <td style={{ height: 0, padding: 0 }} colSpan={5}>
+        <td style={{ height: 0, padding: 0 }} colSpan={6}>
           {open && (
             <Sheet
               variant="soft"
               sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
             >
               <Typography level="body-lg" component="div">
-                History
+                Categories
               </Typography>
-              <Table
-                borderAxis="bothBetween"
-                size="sm"
-                aria-label="medication history"
-                sx={{
-                  '& > thead > tr > th:nth-child(n + 3), & > tbody > tr > td:nth-child(n + 3)':
-                    { textAlign: 'right' },
-                  '--TableCell-paddingX': '0.5rem',
-                }}
-              >
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Patient</th>
-                    <th>Dosage</th>
-                    <th>Total price ($)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {row.history.map((historyRow) => (
-                    <tr key={historyRow.date}>
-                      <th scope="row">{historyRow.date}</th>
-                      <td>{historyRow.patientId}</td>
-                      <td>{historyRow.dosage}</td>
-                      <td>
-                        {Math.round(historyRow.dosage * row.price * 100) / 100}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+              <ul>
+                {row.category.map((category) => (
+                  <li key={category}>{category}</li>
+                ))}
+              </ul>
+              <Typography level="body-lg" component="div">
+                Tags
+              </Typography>
+              <ul>
+                {row.tags.map((tag) => (
+                  <li key={tag.id}>{tag.tagName}</li>
+                ))}
+              </ul>
             </Sheet>
           )}
         </td>
@@ -121,43 +87,52 @@ function Row(props: { row: Medication; initialOpen?: boolean }) {
   );
 }
 
-const rows = [
-  createData('Aspirin', 500, 'Twice daily', 'Nausea, Vomiting', 0.10),
-  createData('Paracetamol', 650, 'Thrice daily', 'Liver damage', 0.15),
-  createData('Ibuprofen', 200, 'Twice daily', 'Stomach ache', 0.20),
-  createData('Amoxicillin', 500, 'Once daily', 'Allergic reaction', 0.30),
-  createData('Metformin', 1000, 'Twice daily', 'Diarrhea', 0.25),
-];
-
 export default function MedicationTable() {
+  const [medicamentsArray, setMedicamentsArray] = useState<Medication[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const medicamentsResponse = await axios.get(`${base_url}/medicament/getAll`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setMedicamentsArray(medicamentsResponse.data);
+      } catch (error) {
+        console.error('Error fetching medicaments:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <Sheet sx={{padding: "17px",}}>
+    <Sheet sx={{ padding: '17px' }}>
       <Table
         aria-label="collapsible medication table"
         sx={{
-          '& > thead > tr > th:nth-child(n + 3), & > tbody > tr > td:nth-child(n + 3)':
-            { textAlign: 'right' },
-          '& > tbody > tr:nth-child(odd) > td, & > tbody > tr:nth-child(odd) > th[scope="row"]':
-            {
-              borderBottom: 0,
-            },
-            padding: "2px",
-            border: "1px #e2e2e9 solid",
-            borderRadius: "8px"
+          '& > thead > tr > th:nth-child(n + 3), & > tbody > tr > td:nth-child(n + 3)': { textAlign: 'right' },
+          '& > tbody > tr:nth-child(odd) > td, & > tbody > tr:nth-child(odd) > th[scope="row"]': {
+            borderBottom: 0,
+          },
+          padding: '2px',
+          border: '1px #e2e2e9 solid',
+          borderRadius: '8px',
         }}
       >
         <thead>
           <tr>
             <th style={{ width: 40 }} aria-label="empty" />
-            <th style={{ width: '40%' }}>Medication</th>
-            <th>Dosage (mg)</th>
-            <th>Frequency</th>
-            <th>Side Effects</th>
+            <th style={{ width: '20%' }}>Medication</th>
+            <th style={{ width: '25%' }}>Description</th>
+            <th style={{ width: '15%' }}>Country</th>
+            <th style={{ width: '20%' }}>Producer</th>
+            <th style={{ width: '10%' }}>Price ($)</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, index) => (
-            <Row key={row.name} row={row} initialOpen={index === 0} />
+          {medicamentsArray.map((row, index) => (
+            <Row key={row.medName} row={row} initialOpen={index === 0} />
           ))}
         </tbody>
       </Table>

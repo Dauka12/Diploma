@@ -2,8 +2,7 @@ import CssBaseline from '@mui/joy/CssBaseline';
 import Stack from '@mui/joy/Stack';
 import { CssVarsProvider } from '@mui/joy/styles';
 import * as React from 'react';
-import MedicamentsCreate from './components/MedicamentsCreate.tsx';
-import MedicamentsTable from './components/MedicamentsTable.tsx';
+import UsersTable from './components/UsersTable.tsx';
 
 
 import Header from './components/Header.tsx';
@@ -54,10 +53,10 @@ export default function TeamExample() {
             <Navigation />
         </Layout.SideNav>
         <Layout.SidePane>
-                    <MedicamentsTable />    
+                    <UsersTable />    
         </Layout.SidePane>
         <Layout.Main>
-                    <MedicamentsCreate />
+                    <UsersTable />
         </Layout.Main>
     </Layout.Root>
     </CssVarsProvider>

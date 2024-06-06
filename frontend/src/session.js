@@ -1,14 +1,21 @@
 export const startSession = (user) => {
-  localStorage.setItem("username", user.username);
+  localStorage.setItem("iin", user.iin);
   localStorage.setItem("accessToken", user.token);
-  localStorage.setItem("uid", user.id)
+  localStorage.setItem("uid", user.id);
+  localStorage.setItem("phone_number", user.phone_number);
+  localStorage.setItem("role", user.roles[0].name);
+  localStorage.setItem("username", user.username);
+  localStorage.setItem("userSecondName", user.userSecondName);
+  localStorage.setItem("userThirdName", user.userThirdName);
+
   console.log(user);
   }
   
   export const getSession = () => {
     return {
-      username: localStorage.getItem("username"),
+      iin: localStorage.getItem("iin"),
       accessToken: localStorage.getItem("accessToken"),
+      role: localStorage.getItem("role"),
     }
   }
   

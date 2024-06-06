@@ -9,6 +9,7 @@ import Select from '@mui/joy/Select';
 import Stack from '@mui/joy/Stack';
 import axios from 'axios';
 import * as React from 'react';
+import base_url from '../../../base-url';
 
 function SelectMultiple({ tags, setSelectedTags }) {
   const handleChange = (
@@ -86,7 +87,7 @@ export default function BasicModalDialog() {
         const token = localStorage.getItem('accessToken');
 
         // Fetch patients
-        const patientsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/user/getPatients`, {
+        const patientsResponse = await axios.get(`${base_url}/user/getPatients`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setPatients(patientsResponse.data);
@@ -94,7 +95,7 @@ export default function BasicModalDialog() {
         
 
         // Fetch tags
-        const tagsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/tag/getAll`, {
+        const tagsResponse = await axios.get(`${base_url}/tag/getAll`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTags(tagsResponse.data);
@@ -120,7 +121,7 @@ export default function BasicModalDialog() {
       };
     
       // Отправка данных на сервер в формате JSON
-      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/prescription/create`, data, {
+      const response = await axios.post(`${base_url}/prescription/create`, data, {
         headers: {
           'Authorization': `Bearer ${token}`,
         }

@@ -13,6 +13,7 @@ import Tooltip from '@mui/joy/Tooltip';
 import Typography from '@mui/joy/Typography';
 import { useColorScheme } from '@mui/joy/styles';
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
 
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
@@ -23,14 +24,17 @@ import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import AvatarImg from '../../../assets/images/logo.png';
+import { endSession } from "../../../session.js";
 
 import TeamNav from './Navigation.tsx';
 
 function ColorSchemeToggle() {
   const { mode, setMode } = useColorScheme();
   const [mounted, setMounted] = React.useState(false);
+
+
   React.useEffect(() => {
-    setMounted(true);
+    setMounted(true); 
   }, []);
   if (!mounted) {
     return <IconButton size="sm" variant="outlined" color="primary" />;
@@ -59,6 +63,11 @@ function ColorSchemeToggle() {
 
 export default function Header() {
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const onLogout = async () => {
+    await endSession();
+    navigate("/sign-in");
+  }
   return (
     <Box
       sx={{
@@ -173,10 +182,12 @@ export default function Header() {
               <OpenInNewRoundedIcon />
             </MenuItem>
             <ListDivider />
-            <MenuItem>
+            <div>
+            <MenuItem onClick={onLogout}>
               <LogoutRoundedIcon />
               Log out
             </MenuItem>
+            </div>
           </Menu>
         </Dropdown>
       </Box>
