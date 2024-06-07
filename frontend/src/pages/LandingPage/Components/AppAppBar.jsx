@@ -148,7 +148,7 @@ function AppAppBar  ({ mode, toggleColorMode }) {
               }}
             >
               <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-              {isLoggedIn ?
+              {isLoggedIn === true ?
                 <>
                   <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                   <Button sx={{ minWidth: 0, flex: 1 }} onClick={()=>{navigate("/profile")}}>
