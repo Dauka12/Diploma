@@ -1,6 +1,3 @@
-import PropTypes from 'prop-types';
-import * as React from 'react';
-
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
@@ -13,27 +10,32 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from "react-router-dom";
+import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { endSession, isLoggedIn } from '../../../session';
 import logo from './../../../assets/images/logo.png';
-import ToggleColorMode from './ToggleColorMode';
+import ToggleColorMode from './ToggleColorMode.tsx';
 
+type AppAppBarProps = {
+  mode: 'dark' | 'light';
+  toggleColorMode: () => void;
+};
 
-const logoStyle = {
+const logoStyle: React.CSSProperties = {
   width: '40px',
-  marginLeft:'10px',
+  marginLeft: '10px',
   height: '40px',
   cursor: 'pointer',
 };
 
-function AppAppBar  ({ mode, toggleColorMode }) {
-  const [open, setOpen] = React.useState(false);
-  const toggleDrawer = (newOpen) => () => {
+const AppAppBar: React.FC<AppAppBarProps> = ({ mode, toggleColorMode }) => {
+  const [open, setOpen] = React.useState<boolean>(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
-  const scrollToSection = (sectionId) => {
-    
+  const scrollToSection = (sectionId: string) => {
     const sectionElement = document.getElementById(sectionId);
     const offset = 128;
     if (sectionElement) {
@@ -46,14 +48,13 @@ function AppAppBar  ({ mode, toggleColorMode }) {
       setOpen(false);
     }
   };
+
   const navigate = useNavigate();
-  
-  
 
   const onLogout = async () => {
     await endSession();
-    navigate("/sign-in");
-  }
+    navigate('/sign-in');
+  };
 
   return (
     <div>
@@ -98,42 +99,24 @@ function AppAppBar  ({ mode, toggleColorMode }) {
                 px: 0,
               }}
             >
-              <img
-                src={
-                  logo
-                }
-                style={logoStyle}
-                alt="logo of ePrescription"
-              />
+              <img src={logo} style={logoStyle} alt="logo of ePrescription" />
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <MenuItem
-                  onClick={() => scrollToSection('features')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
+                <MenuItem onClick={() => scrollToSection('features')} sx={{ py: '6px', px: '12px' }}>
                   <Typography variant="body2" color="text.primary">
                     Features
                   </Typography>
                 </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection('testimonials')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
+                <MenuItem onClick={() => scrollToSection('testimonials')} sx={{ py: '6px', px: '12px' }}>
                   <Typography variant="body2" color="text.primary">
                     Testimonials
                   </Typography>
                 </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection('highlights')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
+                <MenuItem onClick={() => scrollToSection('highlights')} sx={{ py: '6px', px: '12px' }}>
                   <Typography variant="body2" color="text.primary">
                     Highlights
                   </Typography>
                 </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection('faq')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
+                <MenuItem onClick={() => scrollToSection('faq')} sx={{ py: '6px', px: '12px' }}>
                   <Typography variant="body2" color="text.primary">
                     FAQ
                   </Typography>
@@ -148,40 +131,29 @@ function AppAppBar  ({ mode, toggleColorMode }) {
               }}
             >
               <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-              {isLoggedIn === true ?
-                <>
-                  <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  <Button sx={{ minWidth: 0, flex: 1 }} onClick={()=>{navigate("/profile")}}>
-                    <Typography variant="body2" color="text.primary" fontWeight={600}>  { `${localStorage.firstName} ${localStorage.lastName}`}</Typography>
-                    {/* <Typography level="body-xs">{ localStorage.username }</Typography> */}
+              {isLoggedIn() ? (
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                  <Button sx={{ minWidth: 0, flex: 1 }} onClick={() => navigate('/profile')}>
+                    <Typography variant="body2" color="text.primary" fontWeight={600}>
+                      {`${localStorage.getItem('firstName')} ${localStorage.getItem('lastName')}`}
+                    </Typography>
                   </Button>
-                  <IconButton variant="contained" onClick={onLogout}>
+                  <div onClick={onLogout}>
+                  <IconButton>
                     <LogoutRoundedIcon />
                   </IconButton>
+                </div>
                 </Box>
-              </> :
+              ) : (
                 <>
-              <Button
-                color="primary"
-                variant="text"
-                size="small"
-                component="a"
-                href="/sign-in"
-                target="_blank"
-              >
-                Sign in
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                component="a"
-                href="/sign-up"
-                target="_blank"
-              >
-                Sign up
-              </Button>
-              </>}
+                  <Button color="primary" variant="text" size="small" component="a" href="/sign-in" target="_blank">
+                    Sign in
+                  </Button>
+                  <Button color="primary" variant="contained" size="small" component="a" href="/sign-up" target="_blank">
+                    Sign up
+                  </Button>
+                </>
+              )}
             </Box>
             <Box sx={{ display: { sm: '', md: 'none' } }}>
               <Button
@@ -202,25 +174,12 @@ function AppAppBar  ({ mode, toggleColorMode }) {
                     flexGrow: 1,
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'end',
-                      flexGrow: 1,
-                    }}
-                  >
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', flexGrow: 1 }}>
                     <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                   </Box>
-                  <MenuItem onClick={() => scrollToSection('features')}>
-                    Features
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('testimonials')}>
-                    Testimonials
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('highlights')}>
-                    Highlights
-                  </MenuItem>
+                  <MenuItem onClick={() => scrollToSection('features')}>Features</MenuItem>
+                  <MenuItem onClick={() => scrollToSection('testimonials')}>Testimonials</MenuItem>
+                  <MenuItem onClick={() => scrollToSection('highlights')}>Highlights</MenuItem>
                   <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
                   <Divider />
                   <MenuItem>
@@ -255,11 +214,6 @@ function AppAppBar  ({ mode, toggleColorMode }) {
       </AppBar>
     </div>
   );
-}
-
-AppAppBar.propTypes = {
-  mode: PropTypes.oneOf(['dark', 'light']).isRequired,
-  toggleColorMode: PropTypes.func.isRequired,
 };
 
 export default AppAppBar;
