@@ -16,7 +16,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/sign-in/:tag" element={<SignIn />}></Route>
+          <Route path="/sign-in" element={<SignIn />}></Route>
           <Route path="/sign-up" element={<SignUp />}></Route>
           <Route path="/prescription" element={<Dashboard />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
