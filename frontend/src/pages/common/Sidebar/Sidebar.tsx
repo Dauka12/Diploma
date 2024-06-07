@@ -26,8 +26,7 @@ import * as React from 'react';
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { endSession, isLoggedIn } from "../../../session.js";
-
+import { endSession, isLoggedIn } from "../../../session";
 
 import ColorSchemeToggle from './ColorSchemeToggle.tsx';
 import { closeSidebar } from './utils.tsx';
@@ -71,7 +70,7 @@ function Toggler({
   );
 }
 
-export default function Sidebar() {
+export default function Sidebar(): JSX.Element {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const dispatch = useDispatch();
@@ -84,16 +83,16 @@ export default function Sidebar() {
       if (uid) {
         const getUser = async () => {
           try {
-            
-            
+            // Fetch user data here and set the user state
           } catch (error) {
-            console.error("Ошибка при получении пользователя:", error.message);
+            console.error("Error fetching user:", error.message);
           }
         };
         getUser();
       }
     }
   }, [navigate, dispatch]);
+
   const onLogout = async () => {
     await endSession();
     navigate("/sign-in");
@@ -152,7 +151,7 @@ export default function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <IconButton variant="soft" color="primary" size="sm" onClick={()=>{navigate("/")}}>
+        <IconButton variant="soft" color="primary" size="sm" onClick={() => { navigate("/") }}>
           <HomeIcon />
         </IconButton>
         <Typography level="title-lg">ePrescription</Typography>
@@ -183,7 +182,7 @@ export default function Sidebar() {
             <ListItemButton
               role="menuitem"
               component="a"
-              onClick={()=>{navigate('/profile')}}
+              onClick={() => { navigate('/profile') }}
             >
               <HomeRoundedIcon />
               <ListItemContent>
@@ -191,12 +190,11 @@ export default function Sidebar() {
               </ListItemContent>
             </ListItemButton>
           </ListItem>
-
           <ListItem>
             <ListItemButton
-             role="menuitem"
+              role="menuitem"
               component="a"
-              onClick={() => {navigate("/prescription") }}
+              onClick={() => { navigate("/doctor-prescription") }}
             >
               <DashboardRoundedIcon />
               <ListItemContent>
@@ -238,11 +236,11 @@ export default function Sidebar() {
             <ListItemButton
               role="menuitem"
               component="a"
-              onClick={()=>{navigate("/messages")}}
-              >     
+              onClick={() => { navigate("/doctor-chat") }}
+            >
               <QuestionAnswerRoundedIcon />
               <ListItemContent>
-                  <Typography level="title-sm">Messages</Typography>
+                <Typography level="title-sm">Messages</Typography>
               </ListItemContent>
               <Chip size="sm" color="primary" variant="solid">
                 4
@@ -307,11 +305,11 @@ export default function Sidebar() {
           src="https://i.guim.co.uk/img/media/ce9c149506881191caa4b1f838575d0dbb07e520/734_381_6827_4098/master/6827.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=c38e5e77b9f3882e14b633932e18cea5"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">  {user ? `${user.firstName} ${user.lastName}` : ''}</Typography>
+          <Typography level="title-sm">{user ? `${user.firstName} ${user.lastName}` : ''}</Typography>
           {/* <Typography level="body-xs">{ localStorage.username }</Typography> */}
         </Box>
-        <IconButton size="sm" variant="plain" color="neutral">
-          <LogoutRoundedIcon onClick={onLogout} />
+        <IconButton size="sm" variant="plain" color="neutral" onClick={onLogout}>
+          <LogoutRoundedIcon />
         </IconButton>
       </Box>
     </Sheet>

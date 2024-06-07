@@ -27,42 +27,46 @@ function Copyright(props: any) {
   );
 }
 
-const defaultTheme = createTheme();
+const theme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
   const role = localStorage.getItem('role');
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
   React.useEffect(() => {
-    if (isLoggedIn() && role === 'ROLE_DOCTOR') {
-      navigate("/profile");
-    } else
-    if(isLoggedIn() && role === 'ROLE_ADMIN'){
-      navigate("/clinical-decision-support/prescriptions-management")
-    } else {
-      navigate('/sign-in')
+    if (isLoggedIn()) {
+      if (role === 'ROLE_DOCTOR') {
+        navigate("/doctor-profile");
+      } else if (role === 'ROLE_ADMIN') {
+        navigate("/clinical-decision-support/prescriptions-management");
+      }
     }
-  }, [navigate]);
+  }, [navigate, role]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
+    setError(null);
     const data = new FormData(event.currentTarget);
     const account = {
-      iin: data.get('iin'),
-      password: data.get('password')
+      iin: data.get('iin') as string,
+      password: data.get('password') as string
     };
+
     try {
-      console.log(typeof account.password);
       const response = await axios.post(`${base_url}/auth`, account);
-      console.log(response.data);
-      
       startSession(response.data);
       if (response.data.roles[0].name === "ROLE_ADMIN") {
         navigate("/clinical-decision-support/prescriptions-management");
       } else {
-        navigate("/profile");
+        navigate("/doctor-profile");
       }
-    } catch (error) {
-      console.error(error.message);
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,7 +77,7 @@ export default function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -133,13 +137,19 @@ export default function SignIn() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+              {error && (
+                <Typography color="error" variant="body2">
+                  {error}
+                </Typography>
+              )}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={loading}
               >
-                Sign In
+                {loading ? 'Signing In...' : 'Sign In'}
               </Button>
               <Grid container>
                 <Grid item xs>

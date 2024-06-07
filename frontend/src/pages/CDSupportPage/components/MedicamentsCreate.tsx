@@ -19,7 +19,7 @@ interface Medication {
   description: string;
   country: string;
   producer: string;
-  category: string[];
+  category: number[];
   price: number;
   tags: number[];
   imageUrl?: string;
@@ -48,14 +48,11 @@ const testCategories: Category[] = [
   { id: 10, categoryName: 'Corticosteroid' }
 ];
 
-// Example usage in your component's state initialization
-
 function SelectMultiple({ items, setSelectedItems, placeholder }: { items: Tag[] | Category[], setSelectedItems: (items: number[]) => void, placeholder: string }) {
   const handleChange = (
     event: React.SyntheticEvent | null,
     newValue: number[] | null,
   ) => {
-    console.log(`You have chosen "${newValue}"`);
     setSelectedItems(newValue || []);
   };
 
@@ -84,7 +81,7 @@ function SelectMultiple({ items, setSelectedItems, placeholder }: { items: Tag[]
   );
 }
 
-export default function MedicationForm() {
+const MedicationForm: React.FC = () => {
   const [medication, setMedication] = React.useState<Medication>({
     medName: '',
     description: '',
@@ -109,6 +106,7 @@ export default function MedicationForm() {
         });
         setTags(tagsResponse.data);
 
+        // Uncomment this part to fetch categories from the API
         // const categoriesResponse = await axios.get(`${base_url}/category/getAll`, {
         //   headers: { Authorization: `Bearer ${token}` }
         // });
@@ -158,6 +156,8 @@ export default function MedicationForm() {
         imageUrl = imageResponse.data.url;
       }
 
+      console.log('Submitting medication with categories:', selectedCategories);
+
       const response = await axios.post(`${base_url}/medicament/create`, {
         ...medication,
         imageUrl,
@@ -172,6 +172,14 @@ export default function MedicationForm() {
       console.error('Error adding medication:', error);
     }
   };
+
+  React.useEffect(() => {
+    setMedication((prev) => ({
+      ...prev,
+      category: selectedCategories,
+      tags: selectedTags,
+    }));
+  }, [selectedCategories, selectedTags]);
 
   return (
     <Card
@@ -236,3 +244,5 @@ export default function MedicationForm() {
     </Card>
   );
 }
+
+export default MedicationForm;

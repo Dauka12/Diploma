@@ -33,7 +33,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   React.useEffect(() => {
     if (isLoggedIn()) {
-      navigate("/profile");
+      navigate("/doctor-profile");
     }
   }, [navigate]);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +51,7 @@ export default function SignUp() {
 
       
       
-      navigate("/profile");
+      navigate("/doctor-profile");
     } catch (error) {
       console.error(error.message);
       alert(error)

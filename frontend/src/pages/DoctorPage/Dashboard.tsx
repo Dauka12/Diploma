@@ -9,8 +9,7 @@ import Typography from '@mui/joy/Typography';
 import { CssVarsProvider } from '@mui/joy/styles';
 import axios from "axios";
 import * as React from 'react';
-
-
+import { FormEvent } from 'react';
 
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
@@ -21,8 +20,8 @@ import OrderList from './components/OrderList.tsx';
 import OrderTable from './components/OrderTable.tsx';
 import PrescribingModal from './components/PrescribingModal.tsx';
 
-function InputFormProps() {
-  const handleSubmit = async (event) => {
+function InputFormProps(): JSX.Element {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
@@ -52,8 +51,7 @@ function InputFormProps() {
   );
 }
 
-export default function JoyOrderDashboardTemplate() {
-  
+export default function JoyOrderDashboardTemplate(): JSX.Element {
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
@@ -83,7 +81,7 @@ export default function JoyOrderDashboardTemplate() {
             <Breadcrumbs
               size="sm"
               aria-label="breadcrumbs"
-              separator={<ChevronRightRoundedIcon style={{fontSize:"sm"}} />}
+              separator={<ChevronRightRoundedIcon style={{ fontSize: "sm" }} />}
               sx={{ pl: 0 }}
             >
               <Link
@@ -122,7 +120,7 @@ export default function JoyOrderDashboardTemplate() {
             <Typography level="h2" component="h1">
               Prescriptions
             </Typography>
-            <InputFormProps/>
+            <InputFormProps />
             <PrescribingModal />
           </Box>
           <OrderTable />
