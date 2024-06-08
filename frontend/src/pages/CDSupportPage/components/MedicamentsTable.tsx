@@ -1,12 +1,12 @@
+import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import IconButton from '@mui/joy/IconButton';
+import { IconButton } from '@mui/joy';
 import Sheet from '@mui/joy/Sheet';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
 import axios from 'axios';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import base_url from '../../../base-url';
 
 interface Medication {
@@ -30,8 +30,8 @@ interface Category {
   categoryName: string;
 }
 
-function Row(props: { row: Medication; initialOpen?: boolean }) {
-  const { row } = props;
+function Row(props: { row: Medication; initialOpen?: boolean; onDelete: (medName: string) => void }) {
+  const { row, onDelete } = props;
   const [open, setOpen] = useState(props.initialOpen || false);
 
   const truncatedDescription = row.description.length > 40 ? row.description.slice(0, 37) + '...' : row.description;
@@ -48,6 +48,15 @@ function Row(props: { row: Medication; initialOpen?: boolean }) {
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+          <IconButton
+            aria-label="delete medication"
+            variant="plain"
+            color="danger"
+            size="sm"
+            onClick={() => onDelete(row.medName)}
+          >
+            <DeleteIcon />
           </IconButton>
         </td>
         <th scope="row">{row.medName}</th>
@@ -106,6 +115,18 @@ export default function MedicationTable() {
     fetchData();
   }, []);
 
+  const handleDelete = async (medName: string) => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      await axios.delete(`${base_url}/medicament/delete/${medName}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMedicamentsArray((prev) => prev.filter((med) => med.medName !== medName));
+    } catch (error) {
+      console.error('Error deleting medicament:', error);
+    }
+  };
+
   return (
     <Sheet sx={{ padding: '17px' }}>
       <Table
@@ -132,7 +153,7 @@ export default function MedicationTable() {
         </thead>
         <tbody>
           {medicamentsArray.map((row, index) => (
-            <Row key={row.medName} row={row} initialOpen={index === 0} />
+            <Row key={row.medName} row={row} initialOpen={index === 0} onDelete={handleDelete} />
           ))}
         </tbody>
       </Table>

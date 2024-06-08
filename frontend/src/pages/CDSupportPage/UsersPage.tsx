@@ -53,7 +53,9 @@ export default function TeamExample() {
             <Navigation />
         </Layout.SideNav>
         <Layout.SidePane>
-                    <UsersTable />    
+                    <div style={{padding:"17px"}}>
+                        <UsersTable />
+                    </div>
         </Layout.SidePane>
         <Layout.Main>
                     <UsersTable />

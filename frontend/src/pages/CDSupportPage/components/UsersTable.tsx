@@ -43,19 +43,19 @@ function createData(
 }
 
 const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
+  createData('1', 305, 3.7, 67, 4.3),
+  createData('2', 452, 25.0, 51, 4.9),
+  createData('3', 262, 16.0, 24, 6.0),
+  createData('4', 159, 6.0, 24, 4.0),
+  createData('5', 356, 16.0, 49, 3.9),
+  createData('6', 408, 3.2, 87, 6.5),
+  createData('7', 237, 9.0, 37, 4.3),
+  createData('8', 375, 0.0, 94, 0.0),
+  createData('9', 518, 26.0, 65, 7.0),
+  createData('10', 392, 0.2, 98, 0.0),
+  createData('11', 318, 0, 81, 2.0),
+  createData('12', 360, 19.0, 9, 37.0),
+  createData('13', 437, 18.0, 63, 4.0),
 ];
 
 function labelDisplayedRows({
@@ -94,10 +94,6 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
@@ -122,31 +118,31 @@ const headCells: readonly HeadCell[] = [
     id: 'name',
     numeric: false,
     disablePadding: true,
-    label: 'Dessert (100g serving)',
+    label: 'ID',
   },
   {
     id: 'calories',
     numeric: true,
     disablePadding: false,
-    label: 'Calories',
+    label: 'iin',
   },
   {
     id: 'fat',
     numeric: true,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'username',
   },
   {
     id: 'carbs',
     numeric: true,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'role',
   },
   {
     id: 'protein',
     numeric: true,
     disablePadding: false,
-    label: 'Protein (g)',
+    label: 'phone_number',
   },
 ];
 
@@ -194,7 +190,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                   : undefined
               }
             >
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <Link
                 underline="none"
                 color="neutral"
@@ -263,25 +258,44 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography
-          level="body-lg"
-          sx={{ flex: '1 1 100%' }}
-          id="tableTitle"
-          component="div"
-        >
-          Nutrition
-        </Typography>
+        <FormControl orientation="horizontal" sx={{ width: '100%' }}>
+          <FormLabel>Filter by role:</FormLabel>
+          <Select
+            placeholder="Choose role"
+            slotProps={{
+              button: {
+                'aria-label': 'Filter by role',
+              },
+            }}
+          >
+            <Option value="doctors">Doctors</Option>
+            <Option value="pharmacies">Pharmacies</Option>
+            <Option value="admins">Admins</Option>
+            <Option value="patients">Patients</Option>
+          </Select>
+        </FormControl>
       )}
-
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton size="sm" color="danger" variant="solid">
+          <IconButton
+            aria-label="delete"
+            size="sm"
+            variant="outlined"
+            color="danger"
+            sx={{ ml: 2 }}
+          >
             <DeleteIcon />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton size="sm" variant="outlined" color="neutral">
+          <IconButton
+            aria-label="filter list"
+            size="sm"
+            variant="outlined"
+            color="primary"
+            sx={{ ml: 'auto' }}
+          >
             <FilterListIcon />
           </IconButton>
         </Tooltip>
@@ -290,12 +304,34 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-export default function TableSortAndSelection() {
+export default function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [filter, setFilter] = React.useState<string | null>(null);
+  const [filteredRows, setFilteredRows] = React.useState<Data[]>(rows);
+
+  React.useEffect(() => {
+    if (filter) {
+      const filtered = rows.filter((row) => {
+        if (filter === 'doctors') {
+          return row.name.includes('D'); // Replace with actual condition
+        } else if (filter === 'pharmacies') {
+          return row.name.includes('P'); // Replace with actual condition
+        } else if (filter === 'admins') {
+          return row.name.includes('A'); // Replace with actual condition
+        } else if (filter === 'patients') {
+          return row.name.includes('P'); // Replace with actual condition
+        }
+        return true;
+      });
+      setFilteredRows(filtered);
+    } else {
+      setFilteredRows(rows);
+    }
+  }, [filter]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -335,50 +371,39 @@ export default function TableSortAndSelection() {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (newPage: number) => {
+  const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: any, newValue: number | null) => {
-    setRowsPerPage(parseInt(newValue!.toString(), 10));
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
-
-  const getLabelDisplayedRowsTo = () => {
-    if (rows.length === -1) {
-      return (page + 1) * rowsPerPage;
-    }
-    return rowsPerPage === -1
-      ? rows.length
-      : Math.min(rows.length, (page + 1) * rowsPerPage);
   };
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
     <Sheet
       variant="outlined"
-      sx={{ width: '100%', boxShadow: 'sm', borderRadius: 'sm' }}
+      sx={{
+        width: '100%',
+        boxShadow: 'sm',
+        borderRadius: 'sm',
+      }}
     >
       <EnhancedTableToolbar numSelected={selected.length} />
       <Table
         aria-labelledby="tableTitle"
         hoverRow
         sx={{
-          '--TableCell-headBackground': 'transparent',
-          '--TableCell-selectedBackground': (theme) =>
-            theme.vars.palette.success.softBg,
-          '& thead th:nth-child(1)': {
-            width: '40px',
-          },
-          '& thead th:nth-child(2)': {
-            width: '30%',
-          },
-          '& tr > *:nth-child(n+3)': { textAlign: 'right' },
+          '--TableCell-headBackground': (theme) =>
+            theme.vars.palette.background.level1,
+          '--Table-headerUnderlineThickness': '1px',
+          '--TableRow-hoverBackground': (theme) =>
+            theme.vars.palette.background.level1,
         }}
       >
         <EnhancedTableHead
@@ -390,7 +415,7 @@ export default function TableSortAndSelection() {
           rowCount={rows.length}
         />
         <tbody>
-          {stableSort(rows, getComparator(order, orderBy))
+          {stableSort(filteredRows, getComparator(order, orderBy))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row, index) => {
               const isItemSelected = isSelected(row.name);
@@ -398,37 +423,29 @@ export default function TableSortAndSelection() {
 
               return (
                 <tr
+                  hover
                   onClick={(event) => handleClick(event, row.name)}
                   role="checkbox"
                   aria-checked={isItemSelected}
                   tabIndex={-1}
                   key={row.name}
-                  // selected={isItemSelected}
-                  style={
-                    isItemSelected
-                      ? ({
-                          '--TableCell-dataBackground':
-                            'var(--TableCell-selectedBackground)',
-                          '--TableCell-headBackground':
-                            'var(--TableCell-selectedBackground)',
-                        } as React.CSSProperties)
-                      : {}
-                  }
+                  selected={isItemSelected}
                 >
-                  <th scope="row">
+                  <td>
                     <Checkbox
                       checked={isItemSelected}
-                      slotProps={{
-                        input: {
-                          'aria-labelledby': labelId,
-                        },
+                      inputProps={{
+                        'aria-labelledby': labelId,
                       }}
-                      sx={{ verticalAlign: 'top' }}
+                      slotProps={{
+                        input: { id: labelId },
+                      }}
+                      sx={{ verticalAlign: 'sub' }}
                     />
-                  </th>
-                  <th id={labelId} scope="row">
+                  </td>
+                  <td id={labelId} scope="row" padding="none">
                     {row.name}
-                  </th>
+                  </td>
                   <td>{row.calories}</td>
                   <td>{row.fat}</td>
                   <td>{row.carbs}</td>
@@ -438,74 +455,63 @@ export default function TableSortAndSelection() {
             })}
           {emptyRows > 0 && (
             <tr
-              style={
-                {
-                  height: `calc(${emptyRows} * 40px)`,
-                  '--TableRow-hoverBackground': 'transparent',
-                } as React.CSSProperties
-              }
+              sx={{
+                height: (theme) =>
+                  `calc(${theme.spacing(7)} * ${emptyRows})`,
+              }}
             >
-              <td colSpan={6} aria-hidden />
+              <td colSpan={6} />
             </tr>
           )}
         </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={6}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2,
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <FormControl orientation="horizontal" size="sm">
-                  <FormLabel>Rows per page:</FormLabel>
-                  <Select onChange={handleChangeRowsPerPage} value={rowsPerPage}>
-                    <Option value={5}>5</Option>
-                    <Option value={10}>10</Option>
-                    <Option value={25}>25</Option>
-                  </Select>
-                </FormControl>
-                <Typography textAlign="center" sx={{ minWidth: 80 }}>
-                  {labelDisplayedRows({
-                    from: rows.length === 0 ? 0 : page * rowsPerPage + 1,
-                    to: getLabelDisplayedRowsTo(),
-                    count: rows.length === -1 ? -1 : rows.length,
-                  })}
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <IconButton
-                    size="sm"
-                    color="neutral"
-                    variant="outlined"
-                    disabled={page === 0}
-                    onClick={() => handleChangePage(page - 1)}
-                    sx={{ bgcolor: 'background.surface' }}
-                  >
-                    <KeyboardArrowLeftIcon />
-                  </IconButton>
-                  <IconButton
-                    size="sm"
-                    color="neutral"
-                    variant="outlined"
-                    disabled={
-                      rows.length !== -1
-                        ? page >= Math.ceil(rows.length / rowsPerPage) - 1
-                        : false
-                    }
-                    onClick={() => handleChangePage(page + 1)}
-                    sx={{ bgcolor: 'background.surface' }}
-                  >
-                    <KeyboardArrowRightIcon />
-                  </IconButton>
-                </Box>
-              </Box>
-            </td>
-          </tr>
-        </tfoot>
       </Table>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: 2,
+          my: 2,
+          px: 2,
+          borderTop: '1px solid',
+          borderColor: 'divider',
+        }}
+      >
+        <Typography
+          fontSize="sm"
+          sx={{ mr: 2 }}
+          textColor="text.secondary"
+        >
+          {labelDisplayedRows({
+            from: page * rowsPerPage + 1,
+            to: (page + 1) * rowsPerPage,
+            count: rows.length,
+          })}
+        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton
+            size="sm"
+            color="neutral"
+            onClick={() => handleChangePage(null, page - 1)}
+            disabled={page === 0}
+            sx={{ mx: 1 }}
+          >
+            <KeyboardArrowLeftIcon />
+          </IconButton>
+          <Typography fontSize="sm" textColor="text.secondary">
+            {page + 1}
+          </Typography>
+          <IconButton
+            size="sm"
+            color="neutral"
+            onClick={() => handleChangePage(null, page + 1)}
+            disabled={page >= Math.ceil(rows.length / rowsPerPage) - 1}
+            sx={{ mx: 1 }}
+          >
+            <KeyboardArrowRightIcon />
+          </IconButton>
+        </Box>
+      </Box>
     </Sheet>
   );
 }

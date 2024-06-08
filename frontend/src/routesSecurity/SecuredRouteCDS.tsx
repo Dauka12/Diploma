@@ -1,16 +1,20 @@
-// SecuredRouteDoctor.tsx
 import React from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { getSession, isLoggedIn } from '../session';
 
-const SecuredRouteCDS = ({ element: Element, ...rest }: any) => {
-    const session = getSession();
-    const isAuthorized = isLoggedIn() && session.role === 'ROLE_DOCTOR';
-    if (!isAuthorized) {
-        return <Navigate to="/sign-in" />;
-    }
+interface SecuredRouteCDSProps {
+  element: React.ReactElement;
+}
 
-    return <Route {...rest} element={<Element />} />;
+const SecuredRouteCDS: React.FC<SecuredRouteCDSProps> = ({ element }) => {
+  const session = getSession();
+  const isAuthorized = isLoggedIn() && session.role === 'ROLE_ADMIN';
+
+  if (!isAuthorized) {
+    return <Navigate to="/sign-in" />;
+  }
+
+  return element;
 };
 
 export default SecuredRouteCDS;

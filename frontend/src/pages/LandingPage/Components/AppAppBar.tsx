@@ -30,6 +30,7 @@ const logoStyle: React.CSSProperties = {
 
 const AppAppBar: React.FC<AppAppBarProps> = ({ mode, toggleColorMode }) => {
   const [open, setOpen] = React.useState<boolean>(false);
+  const role = localStorage.getItem("role");
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -50,6 +51,14 @@ const AppAppBar: React.FC<AppAppBarProps> = ({ mode, toggleColorMode }) => {
   };
 
   const navigate = useNavigate();
+
+  function NavigateRole() {
+    if (role === "ROLE_ADMIN") {
+      navigate("/clinical-decision-support/prescriptions-management")
+    } else {
+      navigate('/profile')
+    }
+  } 
 
   const onLogout = async () => {
     await endSession();
@@ -133,7 +142,7 @@ const AppAppBar: React.FC<AppAppBarProps> = ({ mode, toggleColorMode }) => {
               <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
               {isLoggedIn() ? (
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  <Button sx={{ minWidth: 0, flex: 1 }} onClick={() => navigate('/profile')}>
+                  <Button sx={{ minWidth: 0, flex: 1 }} onClick={() => {NavigateRole()}}>
                     <Typography variant="body2" color="text.primary" fontWeight={600}>
                       {`${localStorage.getItem('firstName')} ${localStorage.getItem('lastName')}`}
                     </Typography>
