@@ -182,7 +182,7 @@ export default function Sidebar(): JSX.Element {
             <ListItemButton
               role="menuitem"
               component="a"
-              onClick={() => { navigate('/profile') }}
+              onClick={() => { navigate('/doctor-profile') }}
             >
               <HomeRoundedIcon />
               <ListItemContent>

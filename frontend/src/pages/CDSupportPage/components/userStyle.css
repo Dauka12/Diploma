@@ -1,0 +1,78 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .table-container {
+    position: relative;
+    overflow-x: auto;
+    margin-top: 20px;
+    padding-bottom: 20px; /* Для места под затемнение */
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto; /* Использование автоматического макета таблицы */
+  }
+  
+  .table th,
+  .table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap;
+  }
+  
+  .table th {
+    background-color: #f4f4f4;
+  }
+  
+  .button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #1976d2;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #155a9a;
+  }
+  
+  .scroll-shadow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+  }
+  

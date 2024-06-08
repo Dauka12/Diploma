@@ -2,8 +2,8 @@ import CssBaseline from '@mui/joy/CssBaseline';
 import Stack from '@mui/joy/Stack';
 import { CssVarsProvider } from '@mui/joy/styles';
 import * as React from 'react';
+import CreateUser from './components/CreateUserComponent.tsx';
 import UsersTable from './components/UsersTable.tsx';
-
 
 import Header from './components/Header.tsx';
 import Layout from './components/Layout.tsx';
@@ -53,12 +53,12 @@ export default function TeamExample() {
             <Navigation />
         </Layout.SideNav>
         <Layout.SidePane>
-                    <div style={{padding:"17px"}}>
+                    <div style={{padding:"17px", width:"100%"}}>
                         <UsersTable />
                     </div>
         </Layout.SidePane>
         <Layout.Main>
-                    <UsersTable />
+                    <CreateUser/>
         </Layout.Main>
     </Layout.Root>
     </CssVarsProvider>

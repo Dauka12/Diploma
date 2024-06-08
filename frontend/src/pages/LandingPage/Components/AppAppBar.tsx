@@ -56,7 +56,7 @@ const AppAppBar: React.FC<AppAppBarProps> = ({ mode, toggleColorMode }) => {
     if (role === "ROLE_ADMIN") {
       navigate("/clinical-decision-support/prescriptions-management")
     } else {
-      navigate('/profile')
+      navigate('/doctor-profile')
     }
   } 
 
