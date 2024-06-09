@@ -19,7 +19,7 @@ import ToggleColorMode from './ToggleColorMode.tsx';
 type AppAppBarProps = {
   mode: 'dark' | 'light';
   toggleColorMode: () => void;
-};
+}; 
 
 const logoStyle: React.CSSProperties = {
   width: '40px',

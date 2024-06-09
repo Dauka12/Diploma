@@ -50,7 +50,7 @@ export default function SignIn() {
     setLoading(true);
     setError(null);
     const data = new FormData(event.currentTarget);
-    const account = {
+    const account = { 
       iin: data.get('iin') as string,
       password: data.get('password') as string
     };

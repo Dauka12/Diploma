@@ -28,9 +28,16 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
 import { useSelector } from 'react-redux';
 import CountrySelector from './CountrySelector.tsx';
+type User = {
+  state: string;
+  user: User1;
+}
+type User1 = {
+  user: string;
+}
 
 export default function MyProfile() {
-  const user = useSelector(state => state.user.user);
+  const user = useSelector<User>(state => state.user.user);
   const imageUrl = localStorage.getItem("userImageUrl");
   const firstName = localStorage.getItem("username");
   const secondName = localStorage.getItem("userSecondName");
@@ -137,8 +144,8 @@ export default function MyProfile() {
                 sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
               >
                 <img
-                  src={imageUrl}
-                  srcSet={imageUrl}
+                  src={`${imageUrl}`}
+                  srcSet={`${imageUrl}`}
                   loading="lazy"
                   alt=""
                 />
@@ -182,7 +189,7 @@ export default function MyProfile() {
                     size="sm"
                     type="username"
                     startDecorator={<EmailRoundedIcon />}
-                    placeholder={user?.username || "username"}
+                    placeholder={ firstName || "username"}
                     defaultValue={localStorage.username}
                     sx={{ flexGrow: 1 }}
                   />
@@ -229,8 +236,8 @@ export default function MyProfile() {
                   sx={{ flex: 1, minWidth: 108, borderRadius: '100%' }}
                 >
                   <img
-                    src={imageUrl}
-                    srcSet={imageUrl}
+                    src={`${imageUrl}`}
+                    srcSet={`${imageUrl}`}
                     loading="lazy"
                     alt=""
                   />

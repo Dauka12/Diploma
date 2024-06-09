@@ -15,10 +15,13 @@ type PharmacyInfo = {
   address: string;
   latitude: number;
   longitude: number;
-  pharmacyId: number;
+  pharmacyId: PharmacyId;
   city: string;
   medicamentEntities: MedicamentEntity[];
 };
+type PharmacyId = {
+  id: number;
+}
 
 const PharmacyTable: React.FC = () => {
   const [pharmacies, setPharmacies] = useState<PharmacyInfo[]>([]);

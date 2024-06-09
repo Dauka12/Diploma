@@ -257,7 +257,7 @@ export default function Sidebar(): JSX.Element {
         <Avatar
           variant="outlined"
           size="sm"
-          src={imageUrl}
+          src={`${imageUrl}`}
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography level="title-sm">{ `${firstName} ${secondName}` }</Typography>
