@@ -1,14 +1,17 @@
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
+import Alert from '@mui/joy/Alert';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
 import CardContent from '@mui/joy/CardContent';
+import CircularProgress from '@mui/joy/CircularProgress';
 import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Option from '@mui/joy/Option';
 import Select from '@mui/joy/Select';
+import Snackbar from '@mui/joy/Snackbar';
 import Typography from '@mui/joy/Typography';
 import axios from "axios";
 import * as React from 'react';
@@ -96,6 +99,8 @@ const MedicationForm: React.FC = () => {
   const [selectedTags, setSelectedTags] = React.useState<number[]>([]);
   const [selectedCategories, setSelectedCategories] = React.useState<number[]>([]);
   const [imageFile, setImageFile] = React.useState<File | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [success, setSuccess] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -105,15 +110,6 @@ const MedicationForm: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTags(tagsResponse.data);
-
-        // Uncomment this part to fetch categories from the API
-        // const categoriesResponse = await axios.get(`${base_url}/category/getAll`, {
-        //   headers: { Authorization: `Bearer ${token}` }
-        // });
-        // setCategories(categoriesResponse.data);
-
-        console.log(tagsResponse.data);
-        // console.log(categoriesResponse.data);
       } catch (error) {
         console.error('Error fetching tags and categories:', error);
       }
@@ -137,10 +133,9 @@ const MedicationForm: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem('accessToken');
-
-      // Upload the image if there is one
       let imageUrl = '';
       if (imageFile) {
         const formData = new FormData();
@@ -156,8 +151,6 @@ const MedicationForm: React.FC = () => {
         imageUrl = imageResponse.data.url;
       }
 
-      console.log('Submitting medication with categories:', selectedCategories);
-
       const response = await axios.post(`${base_url}/medicament/create`, {
         ...medication,
         imageUrl,
@@ -167,9 +160,23 @@ const MedicationForm: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      console.log('New Medication:', response.data);
+      setSuccess(true);
+      setMedication({
+        medName: '',
+        description: '',
+        country: '',
+        producer: '',
+        price: 0,
+        category: [],
+        tags: []
+      });
+      setSelectedTags([]);
+      setSelectedCategories([]);
+      setImageFile(null);
     } catch (error) {
       console.error('Error adding medication:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -182,66 +189,71 @@ const MedicationForm: React.FC = () => {
   }, [selectedCategories, selectedTags]);
 
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        maxHeight: 'max-content',
-        maxWidth: '100%',
-        mx: 'auto',
-        overflow: 'auto',
-        resize: 'horizontal',
-      }}
-    >
-      <Typography level="title-lg" startDecorator={<InfoOutlined />}>
-        Add New Medication
-      </Typography>
-      <Divider inset="none" />
-      <CardContent
+    <>
+      <Card
+        variant="outlined"
         sx={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, minmax(80px, 1fr))',
-          gap: 1.5,
+          maxHeight: 'max-content',
+          maxWidth: '100%',
+          mx: 'auto',
+          overflow: 'auto',
+          resize: 'horizontal',
         }}
       >
-        <FormControl sx={{ gridColumn: '1/-1' }}>
-          <FormLabel>Medication Name</FormLabel>
-          <Input name="medName" value={medication.medName} onChange={handleChange} />
-        </FormControl>
-        <FormControl sx={{ gridColumn: '1/-1' }}>
-          <FormLabel>Description</FormLabel>
-          <Input name="description" value={medication.description} onChange={handleChange} />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Country</FormLabel>
-          <Input name="country" value={medication.country} onChange={handleChange} />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Producer</FormLabel>
-          <Input name="producer" value={medication.producer} onChange={handleChange} />
-        </FormControl>
-        <FormControl sx={{ gridColumn: '1/-1' }}>
-          <FormLabel>Select Tags</FormLabel>
-          <SelectMultiple items={tags} setSelectedItems={setSelectedTags} placeholder="Select tags" />
-        </FormControl>
-        <FormControl sx={{ gridColumn: '1/-1' }}>
-          <FormLabel>Select Categories</FormLabel>
-          <SelectMultiple items={categories} setSelectedItems={setSelectedCategories} placeholder="Select categories" />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Price ($)</FormLabel>
-          <Input name="price" type="number" value={medication.price} onChange={handleChange} />
-        </FormControl>
-        <FormControl sx={{ gridColumn: '1/-1' }}>
-          <FormLabel>Upload Image</FormLabel>
-          <Input type="file" onChange={handleImageChange} />
-        </FormControl>
-        <CardActions sx={{ gridColumn: '1/-1' }}>
-          <Button variant="solid" color="primary" onClick={handleSubmit}>
-            Add Medication
-          </Button>
-        </CardActions>
-      </CardContent>
-    </Card>
+        <Typography level="title-lg" startDecorator={<InfoOutlined />}>
+          Add New Medication
+        </Typography>
+        <Divider inset="none" />
+        <CardContent
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, minmax(80px, 1fr))',
+            gap: 1.5,
+          }}
+        >
+          <FormControl sx={{ gridColumn: '1/-1' }}>
+            <FormLabel>Medication Name</FormLabel>
+            <Input name="medName" value={medication.medName} onChange={handleChange} />
+          </FormControl>
+          <FormControl sx={{ gridColumn: '1/-1' }}>
+            <FormLabel>Description</FormLabel>
+            <Input name="description" value={medication.description} onChange={handleChange} />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Country</FormLabel>
+            <Input name="country" value={medication.country} onChange={handleChange} />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Producer</FormLabel>
+            <Input name="producer" value={medication.producer} onChange={handleChange} />
+          </FormControl>
+          <FormControl sx={{ gridColumn: '1/-1' }}>
+            <FormLabel>Select Tags</FormLabel>
+            <SelectMultiple items={tags} setSelectedItems={setSelectedTags} placeholder="Select tags" />
+          </FormControl>
+          <FormControl sx={{ gridColumn: '1/-1' }}>
+            <FormLabel>Select Categories</FormLabel>
+            <SelectMultiple items={categories} setSelectedItems={setSelectedCategories} placeholder="Select categories" />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Price ($)</FormLabel>
+            <Input name="price" type="number" value={medication.price} onChange={handleChange} />
+          </FormControl>
+          <FormControl sx={{ gridColumn: '1/-1' }}>
+            <FormLabel>Upload Image</FormLabel>
+            <Input type="file" onChange={handleImageChange} />
+          </FormControl>
+          <CardActions sx={{ gridColumn: '1/-1' }}>
+            <Button variant="solid" color="primary" onClick={handleSubmit} disabled={loading}>
+              {loading ? <CircularProgress size="sm" /> : 'Add Medication'}
+            </Button>
+          </CardActions>
+        </CardContent>
+      </Card>
+      <Snackbar open={success} autoHideDuration={6000} onClose={() => setSuccess(false)}>
+        <Alert severity="success">Medication successfully created!</Alert>
+      </Snackbar>
+    </>
   );
 }
 

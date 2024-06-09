@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import base_url from '../../../base-url';
 
 interface Medication {
+  id: number;
   medName: string;
   description: string;
   country: string;
@@ -30,7 +31,7 @@ interface Category {
   categoryName: string;
 }
 
-function Row(props: { row: Medication; initialOpen?: boolean; onDelete: (medName: string) => void }) {
+function Row(props: { row: Medication; initialOpen?: boolean; onDelete: (id: number) => void }) {
   const { row, onDelete } = props;
   const [open, setOpen] = useState(props.initialOpen || false);
 
@@ -54,7 +55,7 @@ function Row(props: { row: Medication; initialOpen?: boolean; onDelete: (medName
             variant="plain"
             color="danger"
             size="sm"
-            onClick={() => onDelete(row.medName)}
+            onClick={() => onDelete(row.id)}
           >
             <DeleteIcon />
           </IconButton>
@@ -115,13 +116,13 @@ export default function MedicationTable() {
     fetchData();
   }, []);
 
-  const handleDelete = async (medName: string) => {
+  const handleDelete = async (id: number) => {
     try {
       const token = localStorage.getItem('accessToken');
-      await axios.delete(`${base_url}/medicament/delete/${medName}`, {
+      await axios.delete(`${base_url}/medicament/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setMedicamentsArray((prev) => prev.filter((med) => med.medName !== medName));
+      setMedicamentsArray((prev) => prev.filter((med) => med.id !== id));
     } catch (error) {
       console.error('Error deleting medicament:', error);
     }
@@ -153,10 +154,11 @@ export default function MedicationTable() {
         </thead>
         <tbody>
           {medicamentsArray.map((row, index) => (
-            <Row key={row.medName} row={row} initialOpen={index === 0} onDelete={handleDelete} />
+            <Row key={row.id} row={row} initialOpen={index === 0} onDelete={handleDelete} />
           ))}
         </tbody>
       </Table>
     </Sheet>
   );
 }
+  

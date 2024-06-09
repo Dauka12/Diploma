@@ -45,7 +45,7 @@ const UserTable: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`http://94.131.2.222:8080/user/deleteUser/${id}`);
+      await axios.delete(`${base_url}/user/deleteById/${id}`);
       setUsers(users.filter((user) => user.id !== id));
     } catch (error) {
       console.error('Error deleting user:', error);

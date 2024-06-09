@@ -1,8 +1,11 @@
+import Alert from '@mui/joy/Alert';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
+import CircularProgress from '@mui/joy/CircularProgress';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Sheet from '@mui/joy/Sheet';
+import Snackbar from '@mui/joy/Snackbar';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
 import axios from 'axios';
@@ -13,6 +16,13 @@ const TableColumnPinning: React.FC = () => {
   const [prescriptions, setPrescriptions] = useState<any[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [confirmAlert, setConfirmAlert] = useState(false);
+  const [cancelAlert, setCancelAlert] = useState(false);
+  const [filter, setFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [sortField, setSortField] = useState<'time' | 'id'>('time');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -35,31 +45,86 @@ const TableColumnPinning: React.FC = () => {
   };
 
   const handleConfirm = async (id: number) => {
+    setLoading(true);
     try {
       const token = localStorage.getItem('accessToken');
       await axios.put(`${base_url}/prescription/activatePrescription/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      // Optionally, update the UI or give feedback to the user
+      setConfirmAlert(true);
     } catch (error) {
       console.error('Error activating prescription:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleCancel = async (id: number) => {
+    setLoading(true);
     try {
       const token = localStorage.getItem('accessToken');
       await axios.put(`${base_url}/prescription/blockPrescription/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      // Optionally, update the UI or give feedback to the user
+      setCancelAlert(true);
     } catch (error) {
       console.error('Error blocking prescription:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleStatusFilterChange = (status: string | null) => {
+    setStatusFilter(status);
+  };
+
+  const handleSortChange = (field: 'time' | 'id') => {
+    setSortField(field);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const filteredPrescriptions = prescriptions
+    .filter(prescription =>
+      (!statusFilter || prescription.status === statusFilter) &&
+      prescription.status.toLowerCase().includes(filter.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortField === 'time') {
+        return sortOrder === 'asc' ? a.timestamp - b.timestamp : b.timestamp - a.timestamp;
+      }
+      return sortOrder === 'asc' ? a.id - b.id : b.id - a.id;
+    });
+
   return (
     <Box sx={{ width: '100%', paddingLeft: '20px', paddingRight: '20px' }}>
+      <Box sx={{ marginBottom: 2, display: 'flex', gap: 2 }}>
+        <Button variant={statusFilter === 'ACTIVE' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('ACTIVE')}>
+          ACTIVE
+        </Button>
+        <Button variant={statusFilter === 'INACTIVE' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('INACTIVE')}>
+          INACTIVE
+        </Button>
+        <Button variant={statusFilter === 'EXPIRED' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('EXPIRED')}>
+          EXPIRED
+        </Button>
+        <Button variant={statusFilter === 'BLOCKED' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('BLOCKED')}>
+          BLOCKED
+        </Button>
+        <Button variant={statusFilter === 'HANDED' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('HANDED')}>
+          HANDED
+        </Button>
+        <Button variant="outlined" onClick={() => handleStatusFilterChange(null)}>
+          Clear
+        </Button>
+      </Box>
+      <Box sx={{ marginBottom: 2, display: 'flex', gap: 2 }}>
+        <Button onClick={() => handleSortChange('time')}>
+          Sort by Time {sortField === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}
+        </Button>
+        <Button onClick={() => handleSortChange('id')}>
+          Sort by ID {sortField === 'id' && (sortOrder === 'asc' ? '▲' : '▼')}
+        </Button>
+      </Box>
       <Sheet
         variant="outlined"
         sx={{
@@ -105,28 +170,29 @@ const TableColumnPinning: React.FC = () => {
               <th style={{ width: 100 }}>Doctor Name</th>
               <th style={{ width: 100 }}>Patient Name</th>
               <th style={{ width: 100 }}>Drug List</th>
+              <th style={{ width: 100 }}>Status</th>
               <th aria-label="last" style={{ width: 'var(--Table-lastColumnWidth)' }} />
             </tr>
           </thead>
           <tbody>
-            {prescriptions.map((prescription) => (
+            {filteredPrescriptions.map((prescription) => (
               <tr key={prescription.id}>
                 <td>{prescription.id}</td>
                 <td>{prescription.doctorId.username}</td>
                 <td>{prescription.patientId.username}</td>
-                <td>{prescription.status}</td>
                 <td>
                   <Button size="sm" variant="soft" color="primary" onClick={() => handleOpen(prescription.tags)}>
                     Open
                   </Button>
                 </td>
+                <td>{prescription.status}</td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button size="sm" variant="plain" color="success" onClick={() => handleConfirm(prescription.id)}>
-                      Confirm
+                    <Button size="sm" variant="plain" color="success" onClick={() => handleConfirm(prescription.id)} disabled={loading}>
+                      {loading ? <CircularProgress size="sm" /> : 'Confirm'}
                     </Button>
-                    <Button size="sm" variant="soft" color="danger" onClick={() => handleCancel(prescription.id)}>
-                      Cancel
+                    <Button size="sm" variant="soft" color="danger" onClick={() => handleCancel(prescription.id)} disabled={loading}>
+                      {loading ? <CircularProgress size="sm" /> : 'Cancel'}
                     </Button>
                   </Box>
                 </td>
@@ -147,6 +213,13 @@ const TableColumnPinning: React.FC = () => {
           </Box>
         </ModalDialog>
       </Modal>
+
+      <Snackbar open={confirmAlert} autoHideDuration={6000} onClose={() => setConfirmAlert(false)}>
+        <Alert severity="success">Prescription successfully confirmed!</Alert>
+      </Snackbar>
+      <Snackbar open={cancelAlert} autoHideDuration={6000} onClose={() => setCancelAlert(false)}>
+        <Alert severity="warning">Prescription successfully canceled!</Alert>
+      </Snackbar>
     </Box>
   );
 };
