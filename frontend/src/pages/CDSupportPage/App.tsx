@@ -178,7 +178,7 @@ export default function TeamExample() {
             </Button>
             </Box>
 
-            <Table />
+            <Table /> {/*TableColumnPinning*/}
         </Layout.SidePane>
         <Layout.Main>
         <List

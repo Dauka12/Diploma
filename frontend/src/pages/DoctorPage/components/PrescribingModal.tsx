@@ -1,5 +1,5 @@
 import Add from '@mui/icons-material/Add';
-import { Box, Chip } from '@mui/joy';
+import { Autocomplete, Chip, TextField } from '@mui/joy';
 import Button from '@mui/joy/Button';
 import DialogTitle from '@mui/joy/DialogTitle';
 import Modal from '@mui/joy/Modal';
@@ -11,96 +11,101 @@ import axios from 'axios';
 import * as React from 'react';
 import base_url from '../../../base-url';
 
-function SelectMultiple({ tags, setSelectedTags }) {
+interface Tag {
+  id: number;
+  tagName: string;
+}
+
+interface Patient {
+  id: string;
+  username: string;
+}
+
+interface SelectMultipleProps {
+  tags: Tag[];
+  setSelectedTags: React.Dispatch<React.SetStateAction<number[]>>;
+  selectedTags: Tag[];
+}
+
+interface SelectBasicProps {
+  patients: Patient[];
+  setSelectedPatientId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function SelectMultiple({ tags, setSelectedTags, selectedTags }: SelectMultipleProps) {
+  const selectedTagObjects = tags.filter(tag => selectedTags.includes(tag.id));
+
+  return (
+    <Autocomplete
+      multiple
+      options={tags}
+      value={selectedTagObjects}
+      placeholder="Select drugs"
+      getOptionLabel={(option: Tag) => option.tagName}
+      filterSelectedOptions
+      onChange={(event, newValue: Tag[]) => {
+        setSelectedTags(newValue.map(tag => tag.id));
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+        />
+      )}
+      renderTags={(value, getTagProps) =>
+        value.map((option: Tag, index: number) => (
+          <Chip
+            variant="soft"
+            color="primary"
+            label={option.tagName} // Fix: access tagName from option
+            {...getTagProps({ index })}
+          />
+        ))
+      }
+    />
+  );
+}
+
+function SelectBasic({ patients, setSelectedPatientId }: SelectBasicProps) {
   const handleChange = (
     event: React.SyntheticEvent | null,
-    newValue: Array<string> | null,
+    newValue: string | null,
   ) => {
-    console.log(`You have choosen "${newValue}"`);
-    setSelectedTags(newValue)
+    setSelectedPatientId(newValue || '');
   };
+
   return (
-    <Select
-      defaultValue={['0']}
-      multiple
-      placeholder="Select a drugs"
-      renderValue={(selected) => (
-        <Box sx={{ display: 'flex', gap: '0.25rem' }}>
-          {selected.map((selectedOption) => (
-            <Chip variant="soft" color="primary">
-              {selectedOption.label}
-            </Chip>
-          ))}
-        </Box>
-      )}
-      onChange={handleChange}
-      sx={{
-        minWidth: '13rem',
-      }}
-      slotProps={{
-        listbox: {
-          sx: {
-            width: '100%',
-          },
-        },
-      }}
-    >
-     {tags.map((tag) => (
-        <Option key={tag.id} value={tag.id}>
-          {tag.tagName}
+    <Select defaultValue="0" placeholder="Select a patient" onChange={handleChange}>
+      {patients.map((patient) => (
+        <Option key={patient.id} value={patient.id}>
+          {patient.username}
         </Option>
       ))}
     </Select>
   );
 }
 
-
-function SelectBasic({ patients, setSelectedPatientId }) {
-  const handleChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null,
-  ) => {
-    setSelectedPatientId(newValue)
-  };
-  return (
-    <Select defaultValue="0" placeholder="Select a patient"  onChange={handleChange}>
-      {patients.map((patient) => (
-                <Option key={patient.id} value={patient.id} >
-                  {patient.username}
-                </Option>
-              ))}
-    </Select>
-  );
-}
-
-
-
 export default function BasicModalDialog() {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [patients, setPatients] = React.useState<any[]>([]);
-  const [tags, setTags] = React.useState<any[]>([]);
+  const [patients, setPatients] = React.useState<Patient[]>([]);
+  const [tags, setTags] = React.useState<Tag[]>([]);
   const [selectedTags, setSelectedTags] = React.useState<number[]>([]);
-  const [selectPatientId, setSelectedPatientID] = React.useState<string[]>([]);
+  const [selectPatientId, setSelectedPatientID] = React.useState<string>('');
+  
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('accessToken');
 
-        // Fetch patients
         const patientsResponse = await axios.get(`${base_url}/user/getPatients`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setPatients(patientsResponse.data);
-        console.log(patientsResponse.data);
-        
 
-        // Fetch tags
         const tagsResponse = await axios.get(`${base_url}/tag/getAll`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTags(tagsResponse.data);
-        console.log(tagsResponse.data);
-        
+
       } catch (error) {
         console.error('Error fetching patients or tags:', error);
       }
@@ -113,31 +118,25 @@ export default function BasicModalDialog() {
     event.preventDefault();
     try {
       const token = localStorage.getItem('accessToken');
-  
-      // Создание объекта с данными для отправки
+
       const data = {
         patientId: selectPatientId,
         tags: selectedTags
       };
-    
-      // Отправка данных на сервер в формате JSON
-      const response = await axios.post(`${base_url}/prescription/create`, data, {
+
+      await axios.post(`${base_url}/prescription/create`, data, {
         headers: {
           'Authorization': `Bearer ${token}`,
         }
       });
-      console.log(response.data);
-      
-      
-      // Очистка состояния формы
+
       setOpen(false);
       setSelectedTags([]);
+      setSelectedPatientID('');
     } catch (error) {
       console.error('Error saving prescription:', error);
     }
-};
-
-  
+  };
 
   return (
     <React.Fragment>
@@ -155,7 +154,7 @@ export default function BasicModalDialog() {
           <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <SelectBasic patients={patients} setSelectedPatientId={setSelectedPatientID} />
-              <SelectMultiple tags = {tags} setSelectedTags={setSelectedTags}/>
+              <SelectMultiple tags={tags} setSelectedTags={setSelectedTags} selectedTags={selectedTags} />
               <Button type="submit">Submit</Button>
             </Stack>
           </form>

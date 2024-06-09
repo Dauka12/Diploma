@@ -2,6 +2,9 @@ import Alert from '@mui/joy/Alert';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import CircularProgress from '@mui/joy/CircularProgress';
+import Input from '@mui/joy/Input';
+import Menu from '@mui/joy/Menu';
+import MenuItem from '@mui/joy/MenuItem';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Sheet from '@mui/joy/Sheet';
@@ -19,10 +22,30 @@ const TableColumnPinning: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [confirmAlert, setConfirmAlert] = useState(false);
   const [cancelAlert, setCancelAlert] = useState(false);
-  const [filter, setFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [sortField, setSortField] = useState<'time' | 'id'>('time');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [doctorNameFilter, setDoctorNameFilter] = useState('');
+  const [patientNameFilter, setPatientNameFilter] = useState('');
+
+  const [anchorElStatus, setAnchorElStatus] = useState<null | HTMLElement>(null);
+  const [anchorElSort, setAnchorElSort] = useState<null | HTMLElement>(null);
+
+  const handleStatusClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElStatus(event.currentTarget);
+  };
+
+  const handleStatusClose = () => {
+    setAnchorElStatus(null);
+  };
+
+  const handleSortClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElSort(event.currentTarget);
+  };
+
+  const handleSortClose = () => {
+    setAnchorElSort(null);
+  };
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -74,19 +97,30 @@ const TableColumnPinning: React.FC = () => {
     }
   };
 
+  const handleDoctorNameFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDoctorNameFilter(e.target.value);
+  };
+
+  const handlePatientNameFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPatientNameFilter(e.target.value);
+  };
+
   const handleStatusFilterChange = (status: string | null) => {
     setStatusFilter(status);
+    handleStatusClose();
   };
 
   const handleSortChange = (field: 'time' | 'id') => {
     setSortField(field);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    handleSortClose();
   };
 
   const filteredPrescriptions = prescriptions
     .filter(prescription =>
       (!statusFilter || prescription.status === statusFilter) &&
-      prescription.status.toLowerCase().includes(filter.toLowerCase())
+      prescription.doctorId.username.toLowerCase().includes(doctorNameFilter.toLowerCase()) &&
+      prescription.patientId.username.toLowerCase().includes(patientNameFilter.toLowerCase())
     )
     .sort((a, b) => {
       if (sortField === 'time') {
@@ -98,32 +132,56 @@ const TableColumnPinning: React.FC = () => {
   return (
     <Box sx={{ width: '100%', paddingLeft: '20px', paddingRight: '20px' }}>
       <Box sx={{ marginBottom: 2, display: 'flex', gap: 2 }}>
-        <Button variant={statusFilter === 'ACTIVE' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('ACTIVE')}>
-          ACTIVE
+        <Input
+          placeholder="Search by doctor name"
+          value={doctorNameFilter}
+          onChange={handleDoctorNameFilterChange}
+        />
+        <Input
+          placeholder="Search by patient name"
+          value={patientNameFilter}
+          onChange={handlePatientNameFilterChange}
+        />
+        <Button
+          aria-controls="status-menu"
+          aria-haspopup="true"
+          onClick={handleStatusClick}
+        >
+          Filter by Status
         </Button>
-        <Button variant={statusFilter === 'INACTIVE' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('INACTIVE')}>
-          INACTIVE
+        <Menu
+          id="status-menu"
+          anchorEl={anchorElStatus}
+          open={Boolean(anchorElStatus)}
+          onClose={handleStatusClose}
+        >
+          <MenuItem onClick={() => handleStatusFilterChange('ACTIVE')}>ACTIVE</MenuItem>
+          <MenuItem onClick={() => handleStatusFilterChange('INACTIVE')}>INACTIVE</MenuItem>
+          <MenuItem onClick={() => handleStatusFilterChange('EXPIRED')}>EXPIRED</MenuItem>
+          <MenuItem onClick={() => handleStatusFilterChange('BLOCKED')}>BLOCKED</MenuItem>
+          <MenuItem onClick={() => handleStatusFilterChange('HANDED')}>HANDED</MenuItem>
+          <MenuItem onClick={() => handleStatusFilterChange(null)}>Clear</MenuItem>
+        </Menu>
+        <Button
+          aria-controls="sort-menu"
+          aria-haspopup="true"
+          onClick={handleSortClick}
+        >
+          Sort
         </Button>
-        <Button variant={statusFilter === 'EXPIRED' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('EXPIRED')}>
-          EXPIRED
-        </Button>
-        <Button variant={statusFilter === 'BLOCKED' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('BLOCKED')}>
-          BLOCKED
-        </Button>
-        <Button variant={statusFilter === 'HANDED' ? 'solid' : 'outlined'} onClick={() => handleStatusFilterChange('HANDED')}>
-          HANDED
-        </Button>
-        <Button variant="outlined" onClick={() => handleStatusFilterChange(null)}>
-          Clear
-        </Button>
-      </Box>
-      <Box sx={{ marginBottom: 2, display: 'flex', gap: 2 }}>
-        <Button onClick={() => handleSortChange('time')}>
-          Sort by Time {sortField === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}
-        </Button>
-        <Button onClick={() => handleSortChange('id')}>
-          Sort by ID {sortField === 'id' && (sortOrder === 'asc' ? '▲' : '▼')}
-        </Button>
+        <Menu
+          id="sort-menu"
+          anchorEl={anchorElSort}
+          open={Boolean(anchorElSort)}
+          onClose={handleSortClose}
+        >
+          <MenuItem onClick={() => handleSortChange('time')}>
+            Sort by Time {sortField === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}
+          </MenuItem>
+          <MenuItem onClick={() => handleSortChange('id')}>
+            Sort by ID {sortField === 'id' && (sortOrder === 'asc' ? '▲' : '▼')}
+          </MenuItem>
+        </Menu>
       </Box>
       <Sheet
         variant="outlined"
