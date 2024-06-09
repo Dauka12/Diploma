@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import base_url from '../../../base-url';
 import MapPicker from './GoogleMap.tsx';
+import MedicamentsModal from './MedicamentModal.tsx';
 import './pharmacyStyle.css';
 
 type MedicamentEntity = {
@@ -19,9 +20,10 @@ type PharmacyInfo = {
   city: string;
   medicamentEntities: MedicamentEntity[];
 };
+
 type PharmacyId = {
   id: number;
-}
+};
 
 const PharmacyTable: React.FC = () => {
   const [pharmacies, setPharmacies] = useState<PharmacyInfo[]>([]);
@@ -33,6 +35,8 @@ const PharmacyTable: React.FC = () => {
   const [pharmacyId, setPharmacyId] = useState('');
   const [loading, setLoading] = useState(false);
   const [addedPharmacyId, setAddedPharmacyId] = useState<number | null>(null);
+  const [selectedPharmacyId, setSelectedPharmacyId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     axios.get<PharmacyInfo[]>(`${base_url}/pharmacyInfo/getAll`)
@@ -71,6 +75,16 @@ const PharmacyTable: React.FC = () => {
     setLatitude(lat);
     setLongitude(lng);
   }, []);
+
+  const openModal = (pharmacyId: number) => {
+    setSelectedPharmacyId(pharmacyId);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedPharmacyId(null);
+  };
 
   return (
     <div className="container">
@@ -116,6 +130,7 @@ const PharmacyTable: React.FC = () => {
               <th>Pharmacy ID</th>
               <th>Name</th>
               <th>Pharmacy User ID</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -124,11 +139,20 @@ const PharmacyTable: React.FC = () => {
                 <td>{pharmacy.id}</td>
                 <td>{pharmacy.name}</td>
                 <td>{pharmacy.pharmacyId.id}</td>
+                <td>
+                  <button onClick={() => openModal(pharmacy.id)}>Add Medicaments</button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {isModalOpen && selectedPharmacyId && (
+        <MedicamentsModal
+          pharmacyId={selectedPharmacyId}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };
