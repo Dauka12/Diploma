@@ -9,13 +9,12 @@ import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
-import Option from '@mui/joy/Option';
-import Select from '@mui/joy/Select';
 import Snackbar from '@mui/joy/Snackbar';
 import Typography from '@mui/joy/Typography';
-import axios from "axios";
+import axios from 'axios';
 import * as React from 'react';
 import base_url from '../../../base-url';
+import SelectMultiple from './SelectMultiple.tsx';
 
 interface Medication {
   medName: string;
@@ -35,53 +34,7 @@ interface Tag {
 
 interface Category {
   id: number;
-  categoryName: string;
-}
-
-const testCategories: Category[] = [
-  { id: 1, categoryName: 'Antibiotic' },
-  { id: 2, categoryName: 'Analgesic' },
-  { id: 3, categoryName: 'Antipyretic' },
-  { id: 4, categoryName: 'Antiseptic' },
-  { id: 5, categoryName: 'Vaccine' },
-  { id: 6, categoryName: 'Antiviral' },
-  { id: 7, categoryName: 'Antifungal' },
-  { id: 8, categoryName: 'Anti-inflammatory' },
-  { id: 9, categoryName: 'Antihistamine' },
-  { id: 10, categoryName: 'Corticosteroid' }
-];
-
-function SelectMultiple({ items, setSelectedItems, placeholder }: { items: Tag[] | Category[], setSelectedItems: (items: number[]) => void, placeholder: string }) {
-  const handleChange = (
-    event: React.SyntheticEvent | null,
-    newValue: number[] | null,
-  ) => {
-    setSelectedItems(newValue || []);
-  };
-
-  return (
-    <Select
-      multiple
-      placeholder={placeholder}
-      onChange={handleChange}
-      sx={{
-        minWidth: '13rem',
-      }}
-      slotProps={{
-        listbox: {
-          sx: {
-            width: '100%',
-          },
-        },
-      }}
-    >
-      {items.map((item) => (
-        <Option key={item.id} value={item.id}>
-          {item.tagName || item.categoryName}
-        </Option>
-      ))}
-    </Select>
-  );
+  name: string;
 }
 
 const MedicationForm: React.FC = () => {
@@ -95,7 +48,7 @@ const MedicationForm: React.FC = () => {
     tags: []
   });
   const [tags, setTags] = React.useState<Tag[]>([]);
-  const [categories, setCategories] = React.useState<Category[]>(testCategories);
+  const [categories, setCategories] = React.useState<Category[]>([]);
   const [selectedTags, setSelectedTags] = React.useState<number[]>([]);
   const [selectedCategories, setSelectedCategories] = React.useState<number[]>([]);
   const [imageFile, setImageFile] = React.useState<File | null>(null);
@@ -106,10 +59,16 @@ const MedicationForm: React.FC = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('accessToken');
-        const tagsResponse = await axios.get(`${base_url}/tag/getAll`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const [tagsResponse, categoriesResponse] = await Promise.all([
+          axios.get(`${base_url}/tag/getAll`, {
+            headers: { Authorization: `Bearer ${token}` }
+          }),
+          axios.get(`${base_url}/category/getAll`, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+        ]);
         setTags(tagsResponse.data);
+        setCategories(categoriesResponse.data);
       } catch (error) {
         console.error('Error fetching tags and categories:', error);
       }
@@ -151,7 +110,7 @@ const MedicationForm: React.FC = () => {
         imageUrl = imageResponse.data.url;
       }
 
-      const response = await axios.post(`${base_url}/medicament/create`, {
+      await axios.post(`${base_url}/medicament/create`, {
         ...medication,
         imageUrl,
         tags: selectedTags,
@@ -229,11 +188,11 @@ const MedicationForm: React.FC = () => {
           </FormControl>
           <FormControl sx={{ gridColumn: '1/-1' }}>
             <FormLabel>Select Tags</FormLabel>
-            <SelectMultiple items={tags} setSelectedItems={setSelectedTags} placeholder="Select tags" />
+            <SelectMultiple items={tags} setSelectedItems={setSelectedTags} placeholder="Select tags" selectedItems={selectedTags} />
           </FormControl>
           <FormControl sx={{ gridColumn: '1/-1' }}>
             <FormLabel>Select Categories</FormLabel>
-            <SelectMultiple items={categories} setSelectedItems={setSelectedCategories} placeholder="Select categories" />
+            <SelectMultiple items={categories} setSelectedItems={setSelectedCategories} placeholder="Select categories" selectedItems={selectedCategories} />
           </FormControl>
           <FormControl>
             <FormLabel>Price ($)</FormLabel>

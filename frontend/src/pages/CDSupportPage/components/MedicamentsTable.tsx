@@ -17,7 +17,7 @@ interface Medication {
   description: string;
   country: string;
   producer: string;
-  category: string[];
+  category: Category[];
   price: number;
   tags: Tag[];
   imageUrl?: string;
@@ -30,7 +30,7 @@ interface Tag {
 
 interface Category {
   id: number;
-  categoryName: string;
+  name: string;
 }
 
 function Row(props: { row: Medication; initialOpen?: boolean; onDelete: (id: number) => void }) {
@@ -79,8 +79,8 @@ function Row(props: { row: Medication; initialOpen?: boolean; onDelete: (id: num
                 Categories
               </Typography>
               <ul>
-                {row.category.map((category) => (
-                  <li key={category}>{category}</li>
+                {row.category.map((item) => (
+                  <li key={item.id}>{item.name}</li>
                 ))}
               </ul>
               <Typography level="body-lg" component="div">
@@ -111,6 +111,8 @@ export default function MedicationTable() {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMedicamentsArray(medicamentsResponse.data);
+        console.log(medicamentsResponse.data);
+        
       } catch (error) {
         console.error('Error fetching medicaments:', error);
       }

@@ -11,25 +11,27 @@ import axios from 'axios';
 import * as React from 'react';
 import base_url from '../../../base-url';
 
-interface Tag {
-  id: number;
-  tagName: string;
-}
+
 
 interface Patient {
   id: string;
   username: string;
 }
 
-interface SelectMultipleProps {
-  tags: Tag[];
-  setSelectedTags: React.Dispatch<React.SetStateAction<number[]>>;
-  selectedTags: Tag[];
-}
-
 interface SelectBasicProps {
   patients: Patient[];
   setSelectedPatientId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface Tag {
+  id: number;
+  tagName: string;
+}
+
+interface SelectMultipleProps {
+  tags: Tag[];
+  setSelectedTags: React.Dispatch<React.SetStateAction<number[]>>;
+  selectedTags: number[];
 }
 
 function SelectMultiple({ tags, setSelectedTags, selectedTags }: SelectMultipleProps) {
@@ -49,6 +51,7 @@ function SelectMultiple({ tags, setSelectedTags, selectedTags }: SelectMultipleP
       renderInput={(params) => (
         <TextField
           {...params}
+          placeholder="Select drugs"
         />
       )}
       renderTags={(value, getTagProps) =>
@@ -56,7 +59,7 @@ function SelectMultiple({ tags, setSelectedTags, selectedTags }: SelectMultipleP
           <Chip
             variant="soft"
             color="primary"
-            label={option.tagName} // Fix: access tagName from option
+            label={option.tagName}
             {...getTagProps({ index })}
           />
         ))
@@ -64,7 +67,6 @@ function SelectMultiple({ tags, setSelectedTags, selectedTags }: SelectMultipleP
     />
   );
 }
-
 function SelectBasic({ patients, setSelectedPatientId }: SelectBasicProps) {
   const handleChange = (
     event: React.SyntheticEvent | null,
@@ -105,6 +107,8 @@ export default function BasicModalDialog() {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTags(tagsResponse.data);
+        console.log(tagsResponse.data);
+        
 
       } catch (error) {
         console.error('Error fetching patients or tags:', error);
