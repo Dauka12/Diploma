@@ -31,6 +31,8 @@ const logoStyle: React.CSSProperties = {
 const AppAppBar: React.FC<AppAppBarProps> = ({ mode, toggleColorMode }) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const role = localStorage.getItem("role");
+  const firstName = localStorage.getItem("username");
+  const secondName = localStorage.getItem("userSecondName");
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -144,7 +146,7 @@ const AppAppBar: React.FC<AppAppBarProps> = ({ mode, toggleColorMode }) => {
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                   <Button sx={{ minWidth: 0, flex: 1 }} onClick={() => {NavigateRole()}}>
                     <Typography variant="body2" color="text.primary" fontWeight={600}>
-                      {`${localStorage.getItem('firstName')} ${localStorage.getItem('lastName')}`}
+                      {`${firstName} ${secondName}`}
                     </Typography>
                   </Button>
                   <div onClick={onLogout}>
