@@ -20,7 +20,6 @@ import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import AvatarImg from '../../../assets/images/logo.png';
@@ -174,13 +173,6 @@ export default function Header() {
               Settings
             </MenuItem>
             <ListDivider />
-            <MenuItem
-              component="a"
-              href="https://github.com/mui/material-ui/tree/master/docs/data/joy/getting-started/templates/email"
-            >
-              Sourcecode
-              <OpenInNewRoundedIcon />
-            </MenuItem>
             <ListDivider />
             <div>
             <MenuItem onClick={onLogout}>
