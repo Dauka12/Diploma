@@ -5,8 +5,8 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import { CssVarsProvider } from '@mui/joy/styles';
 import * as React from 'react';
+import Table from './components/ConfirmationTable.tsx';
 import PharmacyTable from './components/PharmacyTable.tsx';
-import Table from './components/Table.tsx';
 
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';

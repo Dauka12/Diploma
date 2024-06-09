@@ -58,6 +58,8 @@ export default function SignIn() {
     try {
       const response = await axios.post(`${base_url}/auth`, account);
       startSession(response.data);
+      console.log(response.data);
+      
       if (response.data.roles[0].name === "ROLE_ADMIN") {
         navigate("/clinical-decision-support/prescriptions-management");
       } else {

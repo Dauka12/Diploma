@@ -7,7 +7,6 @@ import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
-import FormHelperText from '@mui/joy/FormHelperText';
 import FormLabel from '@mui/joy/FormLabel';
 import IconButton from '@mui/joy/IconButton';
 import Input from '@mui/joy/Input';
@@ -18,7 +17,6 @@ import Stack from '@mui/joy/Stack';
 import Tab, { tabClasses } from '@mui/joy/Tab';
 import TabList from '@mui/joy/TabList';
 import Tabs from '@mui/joy/Tabs';
-import Textarea from '@mui/joy/Textarea';
 import Typography from '@mui/joy/Typography';
 import * as React from 'react';
 
@@ -30,10 +28,12 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
 import { useSelector } from 'react-redux';
 import CountrySelector from './CountrySelector.tsx';
-import EditorToolbar from './EditorToolbar.tsx';
 
 export default function MyProfile() {
   const user = useSelector(state => state.user.user);
+  const imageUrl = localStorage.getItem("userImageUrl");
+  const firstName = localStorage.getItem("username");
+  const secondName = localStorage.getItem("userSecondName");
   
   return (
     <Box sx={{ flex: 1, width: '100%' }}>
@@ -137,8 +137,8 @@ export default function MyProfile() {
                 sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
               >
                 <img
-                  src="https://i.guim.co.uk/img/media/ce9c149506881191caa4b1f838575d0dbb07e520/734_381_6827_4098/master/6827.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=c38e5e77b9f3882e14b633932e18cea5"
-                  srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr 2x"
+                  src={imageUrl}
+                  srcSet={imageUrl}
                   loading="lazy"
                   alt=""
                 />
@@ -167,8 +167,8 @@ export default function MyProfile() {
                 <FormControl
                   sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
                 >
-                  <Input size="sm" placeholder={user?.firstName || "First Name"} />
-                  <Input size="sm" placeholder={user?.lastName  || "Last Name"} sx={{ flexGrow: 1 }} />
+                  <Input size="sm" placeholder={firstName || "First Name"} />
+                  <Input size="sm" placeholder={secondName  || "Last Name"} sx={{ flexGrow: 1 }} />
                 </FormControl>
               </Stack>
               <Stack direction="row" spacing={2}>
@@ -229,8 +229,8 @@ export default function MyProfile() {
                   sx={{ flex: 1, minWidth: 108, borderRadius: '100%' }}
                 >
                   <img
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                    srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                    src={imageUrl}
+                    srcSet={imageUrl}
                     loading="lazy"
                     alt=""
                   />
@@ -318,37 +318,6 @@ export default function MyProfile() {
               </Button>
               <Button size="sm" variant="solid">
                 Сохранить
-              </Button>
-            </CardActions>
-          </CardOverflow>
-        </Card>
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Bio</Typography>
-            <Typography level="body-sm">
-              Write a short introduction to be displayed on your profile
-            </Typography>
-          </Box>
-          <Divider />
-          <Stack spacing={2} sx={{ my: 1 }}>
-            <EditorToolbar />
-            <Textarea
-              size="sm"
-              minRows={4}
-              sx={{ mt: 1.5 }}
-              defaultValue="I'm a medical professional specializing in surgery, based in Astana, Kazakhstan. My objective is to address surgical challenges with precise techniques while minimizing reliance on extensive pharmaceutical interventions."
-            />
-            <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
-              275 characters left
-            </FormHelperText>
-          </Stack>
-          <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-            <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-              <Button size="sm" variant="outlined" color="neutral">
-                Cancel
-              </Button>
-              <Button size="sm" variant="solid">
-                Save
               </Button>
             </CardActions>
           </CardOverflow>

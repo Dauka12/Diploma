@@ -2,7 +2,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { IconButton } from '@mui/joy';
+import Alert from '@mui/joy/Alert';
 import Sheet from '@mui/joy/Sheet';
+import Snackbar from '@mui/joy/Snackbar';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
 import axios from 'axios';
@@ -99,6 +101,7 @@ function Row(props: { row: Medication; initialOpen?: boolean; onDelete: (id: num
 
 export default function MedicationTable() {
   const [medicamentsArray, setMedicamentsArray] = useState<Medication[]>([]);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,8 +111,6 @@ export default function MedicationTable() {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMedicamentsArray(medicamentsResponse.data);
-        console.log(medicamentsResponse.data);
-        
       } catch (error) {
         console.error('Error fetching medicaments:', error);
       }
@@ -125,6 +126,7 @@ export default function MedicationTable() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMedicamentsArray((prev) => prev.filter((med) => med.id !== id));
+      setOpenSnackbar(true);
     } catch (error) {
       console.error('Error deleting medicament:', error);
     }
@@ -160,7 +162,9 @@ export default function MedicationTable() {
           ))}
         </tbody>
       </Table>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}>
+        <Alert severity="success">Medication successfully deleted!</Alert>
+      </Snackbar>
     </Sheet>
   );
 }
-  

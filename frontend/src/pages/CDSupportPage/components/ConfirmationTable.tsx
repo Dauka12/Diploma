@@ -15,7 +15,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import base_url from '../../../base-url';
 
-const TableColumnPinning: React.FC = () => {
+const ConfirmationTable: React.FC = () => {
   const [prescriptions, setPrescriptions] = useState<any[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
@@ -128,6 +128,28 @@ const TableColumnPinning: React.FC = () => {
       }
       return sortOrder === 'asc' ? a.id - b.id : b.id - a.id;
     });
+
+  const getButtonStyles = (status: string) => {
+    switch (status) {
+      case 'BLOCKED':
+        return {
+          cursor: 'not-allowed',
+          opacity: 0.5,
+          pointerEvents: 'none' as 'none'
+        };
+      case 'ACTIVE':
+        return {
+          confirm: {
+            cursor: 'not-allowed',
+            opacity: 0.5,
+            pointerEvents: 'none' as 'none'
+          },
+          cancel: {}
+        };
+      default:
+        return {};
+    }
+  };
 
   return (
     <Box sx={{ width: '100%', paddingLeft: '20px', paddingRight: '20px' }}>
@@ -246,10 +268,24 @@ const TableColumnPinning: React.FC = () => {
                 <td>{prescription.status}</td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button size="sm" variant="plain" color="success" onClick={() => handleConfirm(prescription.id)} disabled={loading}>
+                    <Button
+                      size="sm"
+                      variant="plain"
+                      color="success"
+                      onClick={() => handleConfirm(prescription.id)}
+                      disabled={loading || prescription.status === 'BLOCKED' || prescription.status === 'ACTIVE'}
+                      sx={getButtonStyles(prescription.status)}
+                    >
                       {loading ? <CircularProgress size="sm" /> : 'Confirm'}
                     </Button>
-                    <Button size="sm" variant="soft" color="danger" onClick={() => handleCancel(prescription.id)} disabled={loading}>
+                    <Button
+                      size="sm"
+                      variant="soft"
+                      color="danger"
+                      onClick={() => handleCancel(prescription.id)}
+                      disabled={loading || prescription.status === 'BLOCKED'}
+                      sx={getButtonStyles(prescription.status)}
+                    >
                       {loading ? <CircularProgress size="sm" /> : 'Cancel'}
                     </Button>
                   </Box>
@@ -282,4 +318,4 @@ const TableColumnPinning: React.FC = () => {
   );
 };
 
-export default TableColumnPinning;
+export default ConfirmationTable;

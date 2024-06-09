@@ -5,12 +5,12 @@ export const startSession = (user) => {
   localStorage.setItem("phone_number", user.phone_number);
   localStorage.setItem("role", user.roles[0].name);
   localStorage.setItem("username", user.username);
-  localStorage.setItem("userSecondName", user.userSecondName);
-  localStorage.setItem("userThirdName", user.userThirdName);
-
+  localStorage.setItem("userSecondName", user.userSecondname);
+  localStorage.setItem("userThirdName", user.userThirdname);
+  localStorage.setItem("userImageUrl", user.imageUrl);
   console.log(user);
   }
-  
+   
   export const getSession = () => {
     return {
       iin: localStorage.getItem("iin"),

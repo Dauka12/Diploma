@@ -1,17 +1,14 @@
-import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
 import HomeIcon from '@mui/icons-material/Home';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import SupportRoundedIcon from '@mui/icons-material/SupportRounded';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
-import Chip from '@mui/joy/Chip';
 import Divider from '@mui/joy/Divider';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import IconButton from '@mui/joy/IconButton';
@@ -23,7 +20,7 @@ import ListItemContent from '@mui/joy/ListItemContent';
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { endSession, isLoggedIn } from "../../../session";
@@ -74,8 +71,11 @@ export default function Sidebar(): JSX.Element {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const dispatch = useDispatch();
+  const imageUrl = localStorage.getItem("userImageUrl");
+  const firstName = localStorage.getItem("username");
+  const secondName = localStorage.getItem("userSecondName");
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!isLoggedIn()) {
       navigate("/sign-in");
     } else {
@@ -204,51 +204,6 @@ export default function Sidebar(): JSX.Element {
           </ListItem>
           <ListItem nested>
             <Toggler
-              renderToggle={({ open, setOpen }) => (
-                <ListItemButton onClick={() => setOpen(!open)}>
-                  <AssignmentRoundedIcon />
-                  <ListItemContent>
-                    <Typography level="title-sm">Tasks</Typography>
-                  </ListItemContent>
-                  <KeyboardArrowDownIcon
-                    sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
-                  />
-                </ListItemButton>
-              )}
-            >
-              <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton>All tasks</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Backlog</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>In progress</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Done</ListItemButton>
-                </ListItem>
-              </List>
-            </Toggler>
-          </ListItem>
-          <ListItem>
-            <ListItemButton
-              role="menuitem"
-              component="a"
-              onClick={() => { navigate("/doctor-chat") }}
-            >
-              <QuestionAnswerRoundedIcon />
-              <ListItemContent>
-                <Typography level="title-sm">Messages</Typography>
-              </ListItemContent>
-              <Chip size="sm" color="primary" variant="solid">
-                4
-              </Chip>
-            </ListItemButton>
-          </ListItem>
-          <ListItem nested>
-            <Toggler
               defaultExpanded
               renderToggle={({ open, setOpen }) => (
                 <ListItemButton onClick={() => setOpen(!open)}>
@@ -302,10 +257,10 @@ export default function Sidebar(): JSX.Element {
         <Avatar
           variant="outlined"
           size="sm"
-          src="https://i.guim.co.uk/img/media/ce9c149506881191caa4b1f838575d0dbb07e520/734_381_6827_4098/master/6827.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=c38e5e77b9f3882e14b633932e18cea5"
+          src={imageUrl}
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">{user ? `${user.firstName} ${user.lastName}` : ''}</Typography>
+          <Typography level="title-sm">{ `${firstName} ${secondName}` }</Typography>
           {/* <Typography level="body-xs">{ localStorage.username }</Typography> */}
         </Box>
         <IconButton size="sm" variant="plain" color="neutral" onClick={onLogout}>

@@ -239,9 +239,9 @@ const MedicationForm: React.FC = () => {
             <FormLabel>Price ($)</FormLabel>
             <Input name="price" type="number" value={medication.price} onChange={handleChange} />
           </FormControl>
-          <FormControl sx={{ gridColumn: '1/-1' }}>
+          <FormControl sx={{ gridColumn: '1/-1', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <FormLabel>Upload Image</FormLabel>
-            <Input type="file" onChange={handleImageChange} />
+            <Input type="file" onChange={handleImageChange} sx={{ border: '4px solid #e2e2e9', padding: '8px', borderRadius: '12px', width: '100%' }} />
           </FormControl>
           <CardActions sx={{ gridColumn: '1/-1' }}>
             <Button variant="solid" color="primary" onClick={handleSubmit} disabled={loading}>
