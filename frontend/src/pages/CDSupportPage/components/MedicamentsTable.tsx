@@ -108,6 +108,8 @@ export default function MedicationTable() {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMedicamentsArray(medicamentsResponse.data);
+        console.log(medicamentsResponse.data);
+        
       } catch (error) {
         console.error('Error fetching medicaments:', error);
       }
